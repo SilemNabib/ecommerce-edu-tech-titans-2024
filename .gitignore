@@ -1,3 +1,5 @@
+### spring ###
+
 # Miscellaneous
 *.java.hsp
 *.sonarj
@@ -53,3 +55,19 @@ atlassian-ide-plugin.xml
 cached-antora-playbook.yml
 
 node_modules
+
+### react ###
+.DS_*
+*.log
+logs
+**/*.backup.*
+**/*.back.*
+
+node_modules
+bower_components
+
+*.sublime*
+
+psd
+thumb
+sketch
