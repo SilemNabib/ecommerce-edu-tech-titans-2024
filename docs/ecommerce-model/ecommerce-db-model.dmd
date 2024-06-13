@@ -1,0 +1,8 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<OSDM_Design class="oracle.dbtools.crest.model.design.Design" name="ecommerce-db-model" id="E9DCCDBD-D5A5-4E70-EE4B-1B05EBF66843" version="3.5">
+<createdBy>silem</createdBy>
+<createdTime>2024-06-12 18:19:13 UTC</createdTime>
+<ownerDesignName>ecommerce</ownerDesignName>
+<capitalNames>false</capitalNames>
+<designId>E9DCCDBD-D5A5-4E70-EE4B-1B05EBF66843</designId>
+</OSDM_Design>

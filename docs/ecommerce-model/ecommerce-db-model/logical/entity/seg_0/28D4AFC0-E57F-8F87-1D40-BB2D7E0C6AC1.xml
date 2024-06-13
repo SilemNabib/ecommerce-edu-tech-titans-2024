@@ -1,0 +1,91 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Entity class="oracle.dbtools.crest.model.design.logical.Entity" directorySegmentName="seg_0" id="28D4AFC0-E57F-8F87-1D40-BB2D7E0C6AC1" name="order_detail">
+<createdBy>silem</createdBy>
+<createdTime>2024-06-12 22:21:46 UTC</createdTime>
+<ownerDesignName>ecommerce-db-model</ownerDesignName>
+<engineerTo>
+<item key="EEEDED2D-02DD-DF73-451F-3CE255A60EBF" value="true"/>
+</engineerTo>
+<adequatelyNormalized>NO</adequatelyNormalized>
+<expectedVolumes>0</expectedVolumes>
+<fwdEngineeringStrategyName>Single Table</fwdEngineeringStrategyName>
+<growthPercent>0</growthPercent>
+<growthType>Year</growthType>
+<maxVolumes>9999999</maxVolumes>
+<minVolumes>0</minVolumes>
+<normalForm>Third</normalForm>
+<synonymToDisplay>ORDER_DETAIL</synonymToDisplay>
+<attributes itemClass="oracle.dbtools.crest.model.design.logical.Attribute">
+<Attribute name="order_id" id="D1D0332D-2A17-D4C8-971B-89B6167691C9">
+<createdBy>silem</createdBy>
+<createdTime>2024-06-12 22:22:11 UTC</createdTime>
+<generatorID>28BE1B5A-AF7B-6FFF-7AAA-7C91A1CED390</generatorID>
+<ownerDesignName>ecommerce-db-model</ownerDesignName>
+<engineerTo>
+<item key="EEEDED2D-02DD-DF73-451F-3CE255A60EBF" value="true"/>
+</engineerTo>
+<referedAttribute>B22E2678-462B-2C7A-DD8B-AA7903572D61</referedAttribute>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>36 CHAR</dataTypeSize>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="product_id" id="9B402007-0569-2035-BF89-364FADA08468">
+<createdBy>silem</createdBy>
+<createdTime>2024-06-12 22:25:52 UTC</createdTime>
+<generatorID>ED8FAEE6-AD7B-C6DE-BF78-B954B4ACFADF</generatorID>
+<ownerDesignName>ecommerce-db-model</ownerDesignName>
+<engineerTo>
+<item key="EEEDED2D-02DD-DF73-451F-3CE255A60EBF" value="true"/>
+</engineerTo>
+<referedAttribute>8F35B7D1-14DE-7E37-235F-C1B58DD3B44B</referedAttribute>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>36 CHAR</dataTypeSize>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="amount" id="06ED830D-48D0-0FEC-30F9-03A3BDD4817D">
+<createdBy>silem</createdBy>
+<createdTime>2024-06-12 22:24:13 UTC</createdTime>
+<ownerDesignName>ecommerce-db-model</ownerDesignName>
+<engineerTo>
+<item key="EEEDED2D-02DD-DF73-451F-3CE255A60EBF" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="unit_price" id="7DFF38B1-3D89-3894-631D-1631EE2CDF22">
+<createdBy>silem</createdBy>
+<createdTime>2024-06-12 22:25:06 UTC</createdTime>
+<ownerDesignName>ecommerce-db-model</ownerDesignName>
+<engineerTo>
+<item key="EEEDED2D-02DD-DF73-451F-3CE255A60EBF" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT026</logicalDatatype>
+<dataTypePrecision>10</dataTypePrecision>
+<dataTypeScale>2</dataTypeScale>
+<ownDataTypeParameters>,10,2</ownDataTypeParameters>
+</Attribute>
+</attributes>
+<identifiers itemClass="oracle.dbtools.crest.model.design.logical.CandidateKey">
+<identifier id="92F892E7-14F8-0B6B-64F1-3A5563FF7E33" name="ORDER_DETAIL PK">
+<createdBy>silem</createdBy>
+<createdTime>2024-06-12 22:22:52 UTC</createdTime>
+<ownerDesignName>ecommerce-db-model</ownerDesignName>
+<engineerTo>
+<item key="EEEDED2D-02DD-DF73-451F-3CE255A60EBF" value="true"/>
+</engineerTo>
+<pk>true</pk>
+<usedAttributes>
+<attributeRef>D1D0332D-2A17-D4C8-971B-89B6167691C9</attributeRef>
+<attributeRef>9B402007-0569-2035-BF89-364FADA08468</attributeRef>
+</usedAttributes>
+</identifier>
+</identifiers>
+</Entity>
