@@ -52,6 +52,10 @@ public class AuthService {
         return String.valueOf(code);
     }
 
+    private boolean validatePassword(String password) {
+        return password.matches("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!(){}\\[\\]:;,.?/|<>\\-*])(?=\\S+$).{8,}$");
+    }
+
     /**
      * Authenticates a user and generates a JWT token.
      *
@@ -140,6 +144,10 @@ public class AuthService {
 
         if (!unverifiedUser.isVerified()) {
             throw new RuntimeException("User not verified");
+        }
+
+        if (!validatePassword(registerRequest.getPassword())) {
+            throw new RuntimeException("Invalid password");
         }
 
         User user = User.builder()
