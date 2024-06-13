@@ -2,7 +2,7 @@ import { createContext, useState, useEffect } from "react";
 
 export const GlobalContext = createContext();
 
-export const GlobalProvider = ({ children }) => {
+export const GlobalProvider = ( { children } ) => {
 
   // Products
   const [items, setItems] = useState(null)
@@ -10,17 +10,19 @@ export const GlobalProvider = ({ children }) => {
   // Products - Filter
   const [filteredItems, setFilteredItems] = useState(null)
 
-  // Product Detail - Open/Close
-  const [openProductDetail, setOpenProductDetail] = useState(false)
+  // Product Detail - MustBeOpen
+  const isProductDetailOpen = () => productToShow !== null 
 
   // Product Detail - Show Product
   const [productToShow, setProductToShow] = useState(null)
 
-  // Shopping Cart - Quantity
-  const [count, setCount] = useState([])
-
+  const cartCount = () => cartProducts.length
+  
   // Shopping Cart - Add products to cart
-  const [cartProducts, setCartProducts] = useState([])
+  const [cartProducts, setCartProducts] = useState(null);
+
+  // Estado para saber si el carrito está abierto o cerrado
+  const [isCartOpen, setIsCartOpen] = useState(false);
 
   // Get products by title
   const [searchByTitle, setSearchByTitle] = useState(null)
@@ -29,10 +31,18 @@ export const GlobalProvider = ({ children }) => {
   const [searchByCategory, setSearchByCategory] = useState(null)
 
   useEffect(() => { 
-    fetch('https://fakestoreapi.com/products')
+    fetch('https://fakestoreapi.com/products') // Reemplazar por la URL de la API 
       .then((response) => response.json())
       .then((data) => setItems(data))
   }, [])
+
+  // Para obtener los productos del carrito cada vez que abra o cierre el carrito
+  useEffect(() => {
+    setCartProducts(null)
+    fetch('https://fakestoreapi.com/cart') // Reemplazar por la URL de la API y agregar credenciales de autenticación
+      .then((response) => response.json())
+      .then((data) => setCartProducts(data))
+  }, [isCartOpen])
 
   const filterBy = (type,items,search) => {
     if(type === "TITLE") return items?.filter(item => item.title.toLowerCase().includes(search.toLowerCase()));
@@ -46,21 +56,21 @@ export const GlobalProvider = ({ children }) => {
 
     setFilteredItems(tempItems)
   }, [items, searchByTitle, searchByCategory]);
-  
+
   return (
     <GlobalContext.Provider value={{
       items,
       setItems,
-      count,
-      setCount,
+      cartCount,
       filteredItems,
       setFilteredItems,
-      openProductDetail,
-      setOpenProductDetail,
+      isProductDetailOpen,
       productToShow,
       setProductToShow,
       cartProducts,
       setCartProducts,
+      isCartOpen,
+      setIsCartOpen,
       searchByTitle,
       setSearchByTitle,
       searchByCategory,

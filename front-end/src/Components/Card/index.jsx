@@ -4,7 +4,9 @@ import { PlusIcon, CheckIcon } from '@heroicons/react/24/solid'
 import { GlobalContext } from '../../Context'
 
 const Card = ({ data }) => {
-  const { openProductDetail, setProductToShow, count, setCount, cartProducts, setCartProducts, openCheckoutSideMenu, closeProductDetail } = useContext(GlobalContext)
+  const context = useContext(GlobalContext)
+
+  const { openProductDetail, setProductToShow, cartProducts, closeProductDetail } = useContext(GlobalContext)
 
   const [selectedSize, setSelectedSize] = useState('')
   const [selectedColor, setSelectedColor] = useState('')
@@ -16,13 +18,11 @@ const Card = ({ data }) => {
 
   const addProductsToCart = (event) => {
     event.stopPropagation()
-    setCount(count + 1)
-    setCartProducts([...cartProducts, data])
-    openCheckoutSideMenu()
+    // Agregar: envio de petición POST a la API para agregar el producto al carrito y recibimiento de la información para actualizar el estado de cartProducts
     closeProductDetail()
   }
 
-  const isInCart = cartProducts.some(product => product.id === data.id)
+  const isInCart = cartProducts?.some(product => product.id === data.id)
 
   // Colores temporales
   const colors = [

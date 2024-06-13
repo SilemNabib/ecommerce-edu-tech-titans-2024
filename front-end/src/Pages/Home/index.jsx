@@ -6,7 +6,7 @@ import { GlobalContext } from '../../Context'
 function Home() {
   const context = useContext(GlobalContext)
 
-  const renderView = () => {
+  const renderProducts = () => {
     const items = context.items || [];
     return items.length > 0 
       ? items.map((item, index) => <Card key={index} data={item} />)
@@ -21,7 +21,7 @@ function Home() {
         placeholder = 'Search a product...'>
       </input>
       <div className="grid grid-cols-4 gap-4">
-        {renderView()}
+        {renderProducts()}
       </div>
     </Layout>
   )
