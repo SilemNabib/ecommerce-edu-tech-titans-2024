@@ -1,22 +1,24 @@
 package com.sunflowers.ecommerce.request;
 
 import com.sunflowers.ecommerce.entity.User.Role;
-import com.sunflowers.ecommerce.entity.User.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.sql.Date;
 import java.sql.Timestamp;
 
 /**
- * Request class for user initial registration (only email is provided until verified).
+ * Request class for user registration final form.
  */
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class RegisterRequest {
-    private String email;
+public class CompleteRegistrationRequest {
+    private String token;
+    private String firstName;
+    private String lastName;
+    private String password;
+    private String phone;
 }

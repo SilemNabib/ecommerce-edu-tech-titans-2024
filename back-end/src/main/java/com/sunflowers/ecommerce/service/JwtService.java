@@ -2,16 +2,12 @@ package com.sunflowers.ecommerce.service;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
-import io.jsonwebtoken.security.SecureDigestAlgorithm;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import javax.crypto.SecretKey;
-import java.security.Key;
-import java.util.Base64;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.function.Function;
@@ -24,28 +20,40 @@ public class JwtService {
     private static final String SECRET_KEY = "218347589736298752039487602734981264523184751092651079456101123641";
 
     /**
-     * Generates a JWT token for the given user.
+     * Generates a JWT token for the given user with a default expiration date of 24 hours.
      *
-     * @param user the user details
+     * @param username the username to be included in the token
      * @return the generated JWT token
      */
-    public String generateToken(UserDetails user) {
-        return getToken(new HashMap<>(), user);
+    public String generateToken(String username) {
+        return getToken(new HashMap<>(), username, new java.util.Date(System.currentTimeMillis() + 1000 * 60 * 24));
+    }
+
+    /**
+     * Generates a JWT token for the given user with the given expiration date.
+     *
+     * @param username the username to be included in the token
+     * @param expirationDate the expiration date of the token
+     * @return the generated JWT token
+     */
+    public String generateToken(String username, Date expirationDate) {
+        return getToken(new HashMap<>(), username, expirationDate);
     }
 
     /**
      * Generates a JWT token with the given claims and user details.
      *
      * @param claims       the claims to be included in the token
-     * @param userDetails  the user details
+     * @param username  the user details to be included in the token
+     * @param expirationDate the expiration date of the token
      * @return the generated JWT token
      */
-    private String getToken(HashMap<String, Object> claims, UserDetails userDetails) {
+    private String getToken(HashMap<String, Object> claims, String username, Date expirationDate) {
         return Jwts.builder()
                 .claims(claims)
-                .subject(userDetails.getUsername())
+                .subject(username)
                 .issuedAt(new java.util.Date(System.currentTimeMillis()))
-                .expiration(new java.util.Date(System.currentTimeMillis() + 1000 * 60 * 24))
+                .expiration(expirationDate)
                 .signWith(getKey())
                 .compact();
     }
@@ -126,7 +134,7 @@ public class JwtService {
      * @param token the JWT token
      * @return true if the token is expired, false otherwise
      */
-    private boolean isTokenExpired(String token) {
+    public boolean isTokenExpired(String token) {
         final Date expiration = getExpirationDateFromToken(token);
         return expiration.before(new Date());
     }

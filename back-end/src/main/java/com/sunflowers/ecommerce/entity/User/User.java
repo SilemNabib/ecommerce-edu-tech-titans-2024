@@ -6,13 +6,16 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.GenericGenerator;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Entity class representing a user in the system.
@@ -26,8 +29,8 @@ import java.util.List;
 public class User implements UserDetails {
 
     @Id
-    @GeneratedValue
-    private Integer id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID id;
 
     @Column(name = "first_name", nullable = false)
     private String firstName;
@@ -39,10 +42,12 @@ public class User implements UserDetails {
     @Column(nullable = false)
     private String email;
 
-
     private String password;
+
     private String phone;
-    private Date registrationDate;
+
+    private Timestamp registrationDate;
+
     @Enumerated(EnumType.STRING)
     private Role role;
 
@@ -75,4 +80,5 @@ public class User implements UserDetails {
     public String getUsername() {
         return this.email;
     }
+
 }
