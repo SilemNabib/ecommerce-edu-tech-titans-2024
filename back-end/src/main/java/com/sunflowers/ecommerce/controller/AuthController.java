@@ -7,8 +7,11 @@ import com.sunflowers.ecommerce.request.LoginRequest;
 import com.sunflowers.ecommerce.request.RegisterRequest;
 import com.sunflowers.ecommerce.service.AuthService;
 import lombok.RequiredArgsConstructor;
+import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.*;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -36,7 +39,16 @@ public class AuthController {
     @Transactional(readOnly = true)
     @PostMapping("/login")
     public ResponseEntity<AuthResponse> login(@RequestBody LoginRequest loginRequest) {
-        return ResponseEntity.ok(authService.login(loginRequest));
+        try {
+            return ResponseEntity.ok(authService.login(loginRequest));
+        } catch (ConstraintViolationException | IllegalArgumentException e) {
+            return ResponseEntity.badRequest().build();
+        }catch (AuthenticationServiceException | DisabledException | LockedException | AccountExpiredException |
+                CredentialsExpiredException e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        } catch (Exception e){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     }
 
     /**
@@ -49,7 +61,13 @@ public class AuthController {
      */
     @PostMapping("/register")
     public ResponseEntity<AuthResponse> register(@RequestBody RegisterRequest registerRequest) {
-        return ResponseEntity.ok(authService.register(registerRequest));
+        try {
+            return ResponseEntity.ok(authService.register(registerRequest));
+        } catch (ConstraintViolationException | IllegalArgumentException e) {
+            return ResponseEntity.badRequest().build();
+        }  catch (Exception e){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     }
 
     /**
@@ -62,13 +80,19 @@ public class AuthController {
      */
     @PostMapping("/verify")
     public ResponseEntity<AuthResponse> verify(@RequestBody VerificationRequest verifyRequest) {
-        return ResponseEntity.ok(authService.verify(verifyRequest));
+        try {
+            return ResponseEntity.ok(authService.verify(verifyRequest));
+        } catch (ConstraintViolationException e) {
+            return ResponseEntity.badRequest().build();
+        } catch (Exception e){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     }
 
     /**
      * Handles completion of registration requests.
      * This method will take a CompleteRegistrationRequest object and return a JWT token wrapped in an AuthResponse object.
-     * This method is transactional, meaning it will rollback the transaction if any exception occurs.
+     * This method is transactional, meaning it will roll back the transaction if any exception occurs.
      *
      * @param request the complete registration request containing the user's credentials and additional information
      * @return the authentication response containing the JWT token
@@ -76,6 +100,12 @@ public class AuthController {
     @Transactional(rollbackFor = Exception.class)
     @PostMapping("/complete")
     public ResponseEntity<AuthResponse> completeRegistration(@RequestBody CompleteRegistrationRequest request) {
-        return ResponseEntity.ok(authService.completeRegistration(request));
+        try {
+            return ResponseEntity.ok(authService.completeRegistration(request));
+        } catch (ConstraintViolationException e) {
+            return ResponseEntity.badRequest().build();
+        } catch (Exception e){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     }
 }
