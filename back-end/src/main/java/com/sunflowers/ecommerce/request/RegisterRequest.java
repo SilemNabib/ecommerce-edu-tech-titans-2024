@@ -9,6 +9,9 @@ import lombok.NoArgsConstructor;
 
 import java.sql.Date;
 
+/**
+ * Request class for user registration.
+ */
 @Data
 @Builder
 @NoArgsConstructor
@@ -22,16 +25,3 @@ public class RegisterRequest {
     private String phone;
     private Role role;
 }
-
-/*
-
-example request:
-{
-    "email": "andres@ajaja.com",
-    "password": "123456",
-    "firstName": "Andres",
-    "lastName": "Gomez",
-    "phone": "1234567890"
-}
-
-* */

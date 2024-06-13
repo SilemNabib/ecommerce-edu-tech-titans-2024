@@ -7,6 +7,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+/**
+ * Controller for handling user-related HTTP requests.
+ */
 @RestController
 @RequestMapping("/api/v1/user")
 public class UserController {
@@ -14,6 +17,11 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    /**
+     * Retrieves all users from the system. JUST FOR TESTING PURPOSES.
+     *
+     * @return an iterable collection of all users
+     */
     @GetMapping("/all")
     public Iterable<User> getAllUsers() {
         return userService.getAllUsers();

@@ -14,6 +14,9 @@ import java.sql.Date;
 import java.util.Collection;
 import java.util.List;
 
+/**
+ * Entity class representing a user in the system.
+ */
 @Data
 @Builder
 @NoArgsConstructor
@@ -43,16 +46,31 @@ public class User implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Role role;
 
+    /**
+     * Returns the authorities granted to the user.
+     *
+     * @return a collection of granted authorities
+     */
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority(role.name()));
     }
 
+    /**
+     * Returns the password used to authenticate the user.
+     *
+     * @return the password
+     */
     @Override
     public String getPassword() {
         return this.password;
     }
 
+    /**
+     * Returns the username used to authenticate the user.
+     *
+     * @return the username
+     */
     @Override
     public String getUsername() {
         return this.email;

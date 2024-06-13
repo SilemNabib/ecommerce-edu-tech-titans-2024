@@ -16,6 +16,9 @@ import org.springframework.stereotype.Service;
 
 import java.sql.Date;
 
+/**
+ * Service class for handling authentication and user registration.
+ */
 @Service
 @RequiredArgsConstructor
 public class AuthService {
@@ -29,7 +32,12 @@ public class AuthService {
     @Autowired
     AuthenticationManager authenticationManager;
 
-
+    /**
+     * Authenticates a user and generates a JWT token.
+     *
+     * @param loginRequest the login request containing email and password
+     * @return the authentication response containing the JWT token
+     */
     public AuthResponse login(LoginRequest loginRequest) {
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
         UserDetails user = userRepository.findByEmail(loginRequest.getEmail())
@@ -40,6 +48,12 @@ public class AuthService {
                 .build();
     }
 
+    /**
+     * Registers a new user and generates a JWT token.
+     *
+     * @param registerRequest the registration request containing user details
+     * @return the authentication response containing the JWT token
+     */
     public AuthResponse register(RegisterRequest registerRequest) {
         User user = User.builder()
                 .firstName(registerRequest.getFirstName())
