@@ -1,7 +1,7 @@
-import './styles.css';
 import LocalShippingIcon from '@mui/icons-material/LocalShipping';
+import { NavigationCategories } from '../../config/NavigationCategories.js';
+import './styles.css';
 
-import { Fragment, useState } from 'react'
 import {
   Dialog,
   DialogPanel,
@@ -16,113 +16,9 @@ import {
   TabPanels,
   Transition,
   TransitionChild,
-} from '@headlessui/react'
-import { Bars3Icon, MagnifyingGlassIcon, ShoppingBagIcon, XMarkIcon } from '@heroicons/react/24/outline'
-
-// Las categorias por ahora se simulan - Se debe reemplazar por la llamada a la API
-const navigation = {
-  categories: [
-    {
-      id: 'female',
-      name: 'Female',
-      featured: [
-        { name: 'New Arrivals', href: '#' },
-        { name: 'Trending', href: '#' },
-        { name: 'Sale', href: '#' },
-        { name: 'Premium', href: '#' },
-      ],
-      sections: [
-        {
-          id: 'clothing',
-          name: 'Clothing',
-          items: [
-            { name: 'Outfits', href: '#' },
-            { name: 'Tops', href: '#' },
-            { name: 'Dresses', href: '#' },
-            { name: 'Pants', href: '#' },
-            { name: 'Denim', href: '#' },
-            { name: 'Sweaters', href: '#' },
-            { name: 'T-Shirts', href: '#' },
-            { name: 'Jackets', href: '#' },
-          ],
-        },
-        {
-          id: 'accessories',
-          name: 'Accessories',
-          items: [
-            { name: 'Watches', href: '#' },
-            { name: 'Wallets', href: '#' },
-            { name: 'Bags', href: '#' },
-            { name: 'Sunglasses', href: '#' },
-            { name: 'Hats', href: '#' },
-            { name: 'Belts', href: '#' },
-          ],
-        },
-        {
-          id: 'shoes',
-          name: 'Shoes',
-          items: [
-            { name: 'Sandals', href: '#' },
-            { name: 'Boots', href: '#' },
-            { name: 'Sports Shoes', href: '#' },
-            { name: 'Heels', href: '#' },
-            { name: 'Flats', href: '#' },
-          ],
-        },
-      ],
-    },
-    {
-      id: 'male',
-      name: 'Male',
-      featured: [
-        { name: 'New Arrivals', href: '#' },
-        { name: 'Trending', href: '#' },
-        { name: 'Sale', href: '#' },
-        { name: 'Premium', href: '#' },
-      ],
-      sections: [
-        {
-          id: 'clothing',
-          name: 'Clothing',
-          items: [
-            { name: 'Outfits', href: '#' },
-            { name: 'Tops', href: '#' },
-            { name: 'Pants', href: '#' },
-            { name: 'Sweaters', href: '#' },
-            { name: 'T-Shirts', href: '#' },
-            { name: 'Jackets', href: '#' },
-          ],
-        },
-        {
-          id: 'accessories',
-          name: 'Accessories',
-          items: [
-            { name: 'Watches', href: '#' },
-            { name: 'Wallets', href: '#' },
-            { name: 'Bags', href: '#' },
-            { name: 'Sunglasses', href: '#' },
-            { name: 'Hats', href: '#' },
-            { name: 'Belts', href: '#' },
-          ],
-        },
-        {
-          id: 'shoes',
-          name: 'Shoes',
-          items: [
-            { name: 'Sandals', href: '#' },
-            { name: 'Boots', href: '#' },
-            { name: 'Sports Shoes', href: '#' },
-            { name: 'Formal Shoes', href: '#' },
-            { name: 'Casual Shoes', href: '#' },
-          ],
-        },
-      ],
-    },
-  ],
-  pages: [
-    { name: 'Company', href: '#' },
-  ],
-}
+} from '@headlessui/react';
+import { Bars3Icon, MagnifyingGlassIcon, ShoppingBagIcon, XMarkIcon } from '@heroicons/react/24/outline';
+import { Fragment, useState } from 'react';
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
@@ -173,7 +69,7 @@ export default function Navigation() {
                 <TabGroup className="mt-2">
                   <div className="border-b border-gray-200">
                     <TabList className="-mb-px flex space-x-8 px-4">                
-                      {navigation.categories.map((category) => (
+                      {NavigationCategories.categories.map((category) => (
                         <Tab
                           key={category.name}
                           className={({ selected }) =>
@@ -189,24 +85,8 @@ export default function Navigation() {
                     </TabList>
                   </div>
                   <TabPanels as={Fragment}>
-                    {navigation.categories.map((category) => (
+                    {NavigationCategories.categories.map((category) => (
                       <TabPanel key={category.name} className="space-y-10 px-4 pb-8 pt-10">
-                        <div className="grid grid-cols-2 gap-x-4">
-                          {category.featured.map((item) => (
-                            <div key={item.name} className="group relative text-sm">
-                              <div className="aspect-h-1 aspect-w-1 overflow-hidden rounded-lg bg-gray-100 group-hover:opacity-75">
-                                <img src={item.imageSrc} alt={item.imageAlt} className="object-cover object-center" />
-                              </div>
-                              <a href={item.href} className="mt-6 block font-medium text-gray-900">
-                                <span className="absolute inset-0 z-10" aria-hidden="true" />
-                                {item.name}
-                              </a>
-                              <p aria-hidden="true" className="mt-1">
-                                Shop now
-                              </p>
-                            </div>
-                          ))}
-                        </div>
                         {category.sections.map((section) => (
                           <div key={section.name}>
                             <p id={`${category.id}-${section.id}-heading-mobile`} className="font-medium text-gray-900">
@@ -233,7 +113,7 @@ export default function Navigation() {
                 </TabGroup>
 
                 <div className="space-y-6 border-t border-gray-200 px-4 py-6">
-                  {navigation.pages.map((page) => (
+                  {NavigationCategories.pages.map((page) => (
                     <div key={page.name} className="flow-root">
                       <a href={page.href} className="-m-2 block p-2 font-medium text-gray-900">
                         {page.name}
@@ -293,7 +173,7 @@ export default function Navigation() {
               {/* Flyout menus */}
               <PopoverGroup className="navigation hidden lg:ml-8 lg:block lg:self-stretch" style={{ zIndex: 1000 }}>
                 <div className="flex h-full space-x-8">
-                  {navigation.categories.map((category) => (
+                  {NavigationCategories.categories.map((category) => (
                     <Popover key={category.name} className="flex">
                       {({ open }) => (
                         <>
@@ -356,7 +236,7 @@ export default function Navigation() {
                     </Popover>
                   ))}
 
-                  {navigation.pages.map((page) => (
+                  {NavigationCategories.pages.map((page) => (
                     <a
                       key={page.name}
                       href={page.href}
@@ -370,11 +250,11 @@ export default function Navigation() {
 
               <div className="ml-auto flex items-center">
                 <div className="hidden lg:flex lg:flex-1 lg:items-center lg:justify-end lg:space-x-6">
-                  <a href="#" className="text-sm font-medium text-gray-700 hover:text-gray-800">
+                  <a href="#" className="text-lg font-normal text-gray-700 hover:text-gray-800">
                     Sign in
                   </a>
                   <span className="h-6 w-px bg-gray-200" aria-hidden="true" />
-                  <a href="#" className="text-sm font-medium text-gray-700 hover:text-gray-800">
+                  <a href="#" className="text-lg font-normal text-gray-700 hover:text-gray-800">
                     Create account
                   </a>
                 </div>
