@@ -1,44 +1,30 @@
 package com.sunflowers.ecommerce.model;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import java.util.Set;
 
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "category")
 public class Category {
 
     @Id
-    @Column(name = "name", nullable = false, length = 255)
+    @Column(name = "name", nullable = false)
     private String name;
 
     @Column(name = "description")
     private String description;
 
-    @OneToMany(mappedBy = "category")
-    private Set<ProductCategory> productCategories;
+    @ManyToMany(mappedBy = "categories")
+    private Set<Product> products;
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public Set<ProductCategory> getProductCategories() {
-        return productCategories;
-    }
-
-    public void setProductCategories(Set<ProductCategory> productCategories) {
-        this.productCategories = productCategories;
-    }
 }
 

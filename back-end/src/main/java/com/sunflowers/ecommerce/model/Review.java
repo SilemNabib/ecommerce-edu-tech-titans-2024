@@ -1,36 +1,41 @@
 package com.sunflowers.ecommerce.model;
 
+import com.sunflowers.ecommerce.entity.User.User;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-import java.util.Date;
+import java.sql.Timestamp;
 
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "review")
 public class Review {
 
-    @EmbeddedId
-    private ReviewId id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private int id;
 
     @ManyToOne
-    @MapsId("userId")
     @JoinColumn(name = "user_id")
     private User user;
 
     @ManyToOne
-    @MapsId("productId")
-    @JoinColumn(name = "product_id")
-    private Product Product;
+    @JoinColumn(name = "product_id", nullable = false)
+    private Product product;
 
     @Column(name = "rating", nullable = false)
     private int rating;
 
-    @Column(name = "comment", nullable = true)
+    @Column(name = "comment")
     private String comment;
 
     @Column(name = "creation_date", nullable = false)
-    @Temporal(TemporalType.DATE)
-    private Date creationDate;
-
-
+    private Timestamp creationDate;
 
 }

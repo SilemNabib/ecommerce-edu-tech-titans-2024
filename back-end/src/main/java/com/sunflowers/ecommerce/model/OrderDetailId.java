@@ -1,40 +1,21 @@
 package com.sunflowers.ecommerce.model;
 
 import jakarta.persistence.Embeddable;
+import lombok.*;
+
 import java.io.Serializable;
 import java.util.Objects;
+import java.util.UUID;
 
+@Setter
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
 @Embeddable
 public class OrderDetailId implements Serializable {
 
-    private String orderId;
-    private String productId;
-
-    public OrderDetailId() {}
-
-    public OrderDetailId(String orderId, String productId) {
-        this.orderId = orderId;
-        this.productId = productId;
-    }
-
-    // Getters and setters
-
-    public String getOrderId() {
-        return orderId;
-    }
-
-    public void setOrderId(String orderId) {
-        this.orderId = orderId;
-    }
-
-    public String getProductId() {
-        return productId;
-    }
-
-    public void setProductId(String productId) {
-        this.productId = productId;
-    }
-
+    private UUID orderId;
+    private Long productId;
 
     @Override
     public boolean equals(Object o) {

@@ -1,7 +1,15 @@
 package com.sunflowers.ecommerce.model;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "inventory")
 public class Inventory {
@@ -15,43 +23,11 @@ public class Inventory {
     private Product product;
 
     @ManyToOne
-    @MapsId("colorName")
-    @JoinColumn(name = "color_name")
+    @MapsId("colorId")
+    @JoinColumn(name = "color_id")
     private Color color;
 
     @Column(name = "stock", nullable = false)
     private int stock;
 
-    public InventoryId getId() {
-        return id;
-    }
-
-    public void setId(InventoryId id) {
-        this.id = id;
-    }
-
-    public Product getProduct() {
-        return product;
-    }
-
-    public void setProduct(Product product) {
-        this.product = product;
-    }
-
-    public Color getColor() {
-        return color;
-    }
-
-    public void setColor(Color color) {
-        this.color = color;
-    }
-
-    public int getStock() {
-        return stock;
-    }
-
-    public void setStock(int stock) {
-        this.stock = stock;
-    }
 }
-

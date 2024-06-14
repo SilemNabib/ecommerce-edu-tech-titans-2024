@@ -1,17 +1,28 @@
 package com.sunflowers.ecommerce.model;
 
+import com.sunflowers.ecommerce.entity.User.User;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-import java.util.Date;
+import java.math.BigDecimal;
+import java.sql.Timestamp;
 import java.util.Set;
+import java.util.UUID;
 
+@Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
-@Table(name = "order")
+@Table(name = "orders")
 public class Order {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID id;
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
@@ -21,95 +32,22 @@ public class Order {
     private String address;
 
     @Column(name = "payment_method", nullable = false)
-    private String paymentmethod;
+    private String paymentMethod;
 
     @Column(name = "creation_date", nullable = false)
-    @Temporal(TemporalType.DATE)
-    private Date creationDate;
+    private Timestamp creationDate;
 
     @Column(name = "shipping_price", nullable = false, precision = 10, scale = 2)
-    private double shippingPrice;
+    private BigDecimal shippingPrice;
 
     @Column(name = "total_price", nullable = false, precision = 10, scale = 2)
-    private double totalPrice;
+    private BigDecimal totalPrice;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "order_status_name", nullable = false)
     private OrderStatus orderStatusName;
 
-    @OneToMany(mappedBy = "order")
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<OrderDetail> orderDetails;
 
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public String getPaymentmethod() {
-        return paymentmethod;
-    }
-
-    public void setPaymentmethod(String paymentmethod) {
-        this.paymentmethod = paymentmethod;
-    }
-
-    public Date getCreationDate() {
-        return creationDate;
-    }
-
-    public void setCreationDate(Date creationDate) {
-        this.creationDate = creationDate;
-    }
-
-    public double getShippingPrice() {
-        return shippingPrice;
-    }
-
-    public void setShippingPrice(double shippingPrice) {
-        this.shippingPrice = shippingPrice;
-    }
-
-    public double getTotalPrice() {
-        return totalPrice;
-    }
-
-    public void setTotalPrice(double totalPrice) {
-        this.totalPrice = totalPrice;
-    }
-
-    public OrderStatus getOrderStatusName() {
-        return orderStatusName;
-    }
-
-    public void setOrderStatusName(OrderStatus orderStatusName) {
-        this.orderStatusName = orderStatusName;
-    }
-
-    public Set<OrderDetail> getOrderDetails() {
-        return orderDetails;
-    }
-
-    public void setOrderDetails(Set<OrderDetail> orderDetails) {
-        this.orderDetails = orderDetails;
-    }
 }

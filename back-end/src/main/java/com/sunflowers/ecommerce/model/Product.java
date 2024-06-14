@@ -1,64 +1,63 @@
 package com.sunflowers.ecommerce.model;
 
 import jakarta.persistence.*;
-import java.util.Date;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.math.BigDecimal;
+import java.sql.Timestamp;
 import java.util.Set;
 
+@Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "product")
 public class Product {
 
     @Id
-    @Column(name = "id", nullable = false, length = 36)
-    private String id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
 
     @Column(name = "creation_date", nullable = false)
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date creationDate;
+    private Timestamp creationDate;
 
     @Column(name = "last_update", nullable = false)
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date lastUpdate;
+    private Timestamp lastUpdate;
 
     @Column(name = "deleted")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date deleted;
+    private Timestamp deleted;
 
-    @Column(name = "name", nullable = false, length = 255)
+    @Column(name = "name", nullable = false)
     private String name;
 
     @Column(name = "description")
     private String description;
 
     @Column(name = "price", nullable = false, precision = 10, scale = 2)
-    private double price;
+    private BigDecimal price;
 
-    @Column(name = "color_name", nullable = false, length = 32)
-    private String colorName;
-
-    @OneToMany(mappedBy = "product")
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Review> reviews;
 
-    @OneToMany(mappedBy = "product")
-    private Set<CartDetail> cartDetails;
-
-    @OneToMany(mappedBy = "product")
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Inventory> inventories;
 
-    @OneToMany(mappedBy = "product")
-    private Set<ProductCategory> productCategories;
+    @ManyToMany
+    @JoinTable(
+            name = "product_category",
+            joinColumns = @JoinColumn(name = "product_id"),
+            inverseJoinColumns = @JoinColumn(name = "category_id")
+    )
+    private Set<Category> categories;
 
-    @OneToMany(mappedBy = "product")
-    private Set<OrderDetail> orderDetails;
-
-    @OneToMany(mappedBy = "product")
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<ClothingSetProduct> clothingSetProducts;
 
-    @OneToMany(mappedBy = "product")
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Image> images;
-
-
-
-
 
 }

@@ -1,37 +1,23 @@
 package com.sunflowers.ecommerce.model;
 
 import jakarta.persistence.Embeddable;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import java.io.Serializable;
 import java.util.Objects;
 
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 @Embeddable
 public class ClothingSetProductId implements Serializable {
 
     private String clothingSetId;
-    private String productId;
-
-    public ClothingSetProductId(String clothingSetId, String productId) {
-        this.clothingSetId = clothingSetId;
-        this.productId = productId;
-    }
-
-    public ClothingSetProductId() {}
-
-    public String getClothingSetId() {
-        return clothingSetId;
-    }
-
-    public void setClothingSetId(String clothingSetId) {
-        this.clothingSetId = clothingSetId;
-    }
-
-    public String getProductId() {
-        return productId;
-    }
-
-    public void setProductId(String productId) {
-        this.productId = productId;
-    }
+    private Long productId;
 
     @Override
     public boolean equals(Object o) {

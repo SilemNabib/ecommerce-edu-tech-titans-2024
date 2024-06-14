@@ -1,9 +1,15 @@
 package com.sunflowers.ecommerce.model;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-import java.util.Set;
-
+@Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "country")
 public class Country {
@@ -14,9 +20,5 @@ public class Country {
 
     @Column(name = "name", nullable = false, length = 60)
     private String name;
-
-    @OneToMany(mappedBy = "country")
-    private Set<Address> addresses;
-
 
 }
