@@ -1,5 +1,6 @@
 import { useContext } from 'react'
 import Card from '../../Components/Card'
+import HomeCarousel from '../../Components/HomeCarousel'
 import Layout from '../../Components/Layout'
 import { GlobalContext } from '../../Context'
 
@@ -15,6 +16,7 @@ function Home() {
 
   return (
     <Layout>
+      <HomeCarousel />
       <input
         className ='rounded-lg border border-black w-80 p-4 mb-4 focus:outline-none'
         type = 'text'
