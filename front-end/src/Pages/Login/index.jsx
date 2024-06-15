@@ -43,7 +43,7 @@ const Login = () => {
               <label>
                 <input type="checkbox" {...register('rememberMe')} /> Remind me
               </label>
-              <a href="#" className="text-gray-400 underline">
+              <a href="/recover-password" className="text-gray-400 underline">
                 Have you forgotten your password?
               </a>
             </div>

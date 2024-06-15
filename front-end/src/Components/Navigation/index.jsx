@@ -1,4 +1,5 @@
-import {LocalShippingIcon, Person2Outlined} from '@mui/icons-material/LocalShipping';
+import LocalShippingIcon from '@mui/icons-material/LocalShipping';
+import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
 import { NavLink } from 'react-router-dom';
 import { NavigationCategories } from '../../config/NavigationCategories.js';
 import './styles.css';
@@ -254,8 +255,8 @@ export default function Navigation() {
               <div className='ml-auto flex items-center'>
                 
                 <div className='hidden lg:flex lg:flex-1 lg:items-center lg:justify-end lg:space-x-6'>
-                  <NavLink to='/login' className='text-gray-400 hover:text-gray-800'>
-                    <Person2Outlined className='h-8 w-8' />
+                  <NavLink to='/login' className='text-gray-400 hover:text-gray-500'>
+                    <PersonOutlineOutlinedIcon className='h-6 w-6' />
                   </NavLink>
                 </div>
 
