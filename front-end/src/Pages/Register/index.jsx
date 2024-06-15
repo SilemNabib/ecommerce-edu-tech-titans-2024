@@ -25,7 +25,7 @@ const Register = () => {
           <input
             type="text"
             {...register('name', { required: true })}
-            className="mb-4 p-2 border border-black rounded-lg focus:outline-none"
+            className="mb-* p-2 border border-black rounded-lg focus:outline-none"
           />
           {errors.name && <span className="text-red-500 mb-4">This field is mandatory</span>}
 
@@ -33,7 +33,7 @@ const Register = () => {
           <input
             type="text"
             {...register('surname', { required: true })}
-            className="mb-4 p-2 border border-black rounded-lg focus:outline-none"
+            className="mb-* p-2 border border-black rounded-lg focus:outline-none"
           />
           {errors.surname && <span className="text-red-500 mb-4">This field is mandatory</span>}
 
@@ -41,7 +41,7 @@ const Register = () => {
           <input
             type="email"
             {...register('email', { required: true })}
-            className="mb-4 p-2 border border-black rounded-lg focus:outline-none"
+            className="mb-* p-2 border border-black rounded-lg focus:outline-none"
           />
           {errors.email && <span className="text-red-500 mb-4">This field is mandatory</span>}
 
