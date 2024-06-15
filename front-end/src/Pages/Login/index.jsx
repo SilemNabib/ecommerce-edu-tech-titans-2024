@@ -5,10 +5,13 @@ import 'react-toastify/dist/ReactToastify.css';
 import { ComputerDesktopIcon, ShoppingBagIcon } from "@heroicons/react/24/solid";
 import LocalShippingIcon from "@mui/icons-material/LocalShipping";
 import TogglePassword from '../../Components/TogglePassword';
+import { useNavigate } from 'react-router-dom';
+
 
 
 const Login = () => {
   const { register, handleSubmit, formState: { errors } } = useForm();
+  const navigate = useNavigate();
 
   const onSubmit = (data) => {
     console.log(data);
@@ -70,9 +73,10 @@ const Login = () => {
               View your order cart
             </li>
           </ul>
-          <button className="mb-6 bg-gray-300 text-black py-2 px-4 rounded hover:font-bold">
-            CREATE ACCOUNT
-          </button>
+          
+          <button onClick={() => navigate('/register')} className="mb-6 bg-gray-300 text-black py-2 px-4 rounded hover:font-bold">CREATE ACCOUNT</button>
+
+          
         </div>
 
           

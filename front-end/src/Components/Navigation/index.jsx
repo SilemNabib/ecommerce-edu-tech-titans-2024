@@ -1,4 +1,4 @@
-import LocalShippingIcon from '@mui/icons-material/LocalShipping';
+import {LocalShippingIcon, Person2Outlined} from '@mui/icons-material/LocalShipping';
 import { NavLink } from 'react-router-dom';
 import { NavigationCategories } from '../../config/NavigationCategories.js';
 import './styles.css';
@@ -252,13 +252,10 @@ export default function Navigation() {
               </PopoverGroup>
 
               <div className='ml-auto flex items-center'>
+                
                 <div className='hidden lg:flex lg:flex-1 lg:items-center lg:justify-end lg:space-x-6'>
-                  <NavLink to='/login' className='text-lg font-normal text-gray-700 hover:text-gray-800'>
-                    Sign in
-                  </NavLink>
-                  <span className='h-6 w-px bg-gray-200' aria-hidden='true' />
-                  <NavLink to='/register' className='text-lg font-normal text-gray-700 hover:text-gray-800'>
-                    Create account
+                  <NavLink to='/login' className='text-gray-400 hover:text-gray-800'>
+                    <Person2Outlined className='h-8 w-8' />
                   </NavLink>
                 </div>
 
