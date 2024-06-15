@@ -20,11 +20,11 @@ public class ProductImage {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @Column(name = "url", nullable = false)
+    @Column(name = "url")
     private String url;
 
     @ManyToOne
-    @JoinColumn(name = "product_id", nullable = false)
+    @JoinColumn(name = "product_id")
     private Product product;
 
 }
