@@ -3,6 +3,7 @@ package com.sunflowers.ecommerce.product.entity;
 import com.sunflowers.ecommerce.inventory.entity.Inventory;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.Formula;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
@@ -62,5 +63,8 @@ public class Product {
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<ProductImage> productImages;
+
+    @Formula("(select avg(r.rating) from Review r where r.product_id = id)")
+    private Double rating;
 
 }

@@ -10,6 +10,8 @@ import org.springframework.data.domain.*;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import java.sql.Timestamp;
+
 /**
  * Service class for performing operations on Product entities.
  */
@@ -22,7 +24,7 @@ public class ProductService {
     public Page<Product> getProducts(ProductRequest request) {
         Pageable pageable = PageRequest.of(request.getPage(), request.getPageSize(), Sort.by(request.getSortBy()));
 
-        Specification<Product> spec = Specification.<Product>where(null)
+        Specification<Product> spec = Specification.where(EntitySpecs.<Timestamp, Product>hasAttribute("deleted", null))
                 .and(EntitySpecs.hasAttributeGraterThan("price", request.getMinPrice()))
                 .and(EntitySpecs.hasAttributeLessThan("price",request.getMaxPrice()))
                 .and(EntitySpecs.<String, Product, Category>hasAllElements("categories", "name", request.getCategories()))
@@ -30,6 +32,16 @@ public class ProductService {
                 .and(EntitySpecs.hasAnyElement("inventories", "color_id", request.getColors()));
 
         return productRepository.findAll(spec, pageable);
+    }
+
+    public Product getProductById(Long id) {
+        Product product = productRepository.findById(id).orElse(null);
+
+        if (product == null || product.getDeleted() != null) {
+            return null;
+        }
+
+        return product;
     }
 
 }

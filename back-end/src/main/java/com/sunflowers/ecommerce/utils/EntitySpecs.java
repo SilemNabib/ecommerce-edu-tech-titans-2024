@@ -8,6 +8,13 @@ import java.util.List;
 
 public class EntitySpecs {
 
+    public static <T, Y> Specification<Y> hasAttribute(String attribute, T element) {
+        if (element == null) {
+            return (root, query, cb) -> cb.conjunction();
+        }
+        return (root, query, cb) -> cb.equal(root.get(attribute), element);
+    }
+
     public static <T, Y> Specification<Y> hasAnyElement(String joinAttribute, String attribute, List<T> list) {
         if (list == null || list.isEmpty()) {
             return (root, query, cb) -> cb.conjunction();
