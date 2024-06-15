@@ -39,6 +39,11 @@ public class JwtAuthenticationFilter  extends OncePerRequestFilter {
      */
     @Override
     protected void doFilterInternal(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull FilterChain filterChain) throws ServletException, IOException {
+        if (isExcludedPath(request)) {
+            filterChain.doFilter(request, response);
+            return;
+        }
+
         final String token = getTokenFromRequest(request);
         final String username;
 
@@ -65,6 +70,23 @@ public class JwtAuthenticationFilter  extends OncePerRequestFilter {
 
         filterChain.doFilter(request, response);
     }
+
+    /**
+     * Extracts the JWT token from the HTTP request.
+     *
+     * @param request the HTTP request
+     * @return the extracted JWT token, or null if not found
+     */
+    private boolean isExcludedPath(HttpServletRequest request) {
+        String path = request.getRequestURI();
+        for (String excludedPath : SecurityConfig.PUBLIC_PATHS) {
+            if (path.startsWith(excludedPath.replace("/**", ""))) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 
     /**
      * Extracts the JWT token from the HTTP request.

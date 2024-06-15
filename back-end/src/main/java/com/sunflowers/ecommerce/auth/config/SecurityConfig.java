@@ -22,6 +22,8 @@ public class SecurityConfig {
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
     private final AuthenticationProvider authProvider;
 
+    public static final String[] PUBLIC_PATHS = new String[] {"/api/v1/auth/**", "/api/v1/product/**"};
+
     /**
      * Configures the security filter chain for HTTP security.
      *
@@ -33,8 +35,7 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/api/v1/auth/**").permitAll()
-                        .requestMatchers("/api/v1/product/**").permitAll()
+                        .requestMatchers(PUBLIC_PATHS).permitAll()
                         .anyRequest().authenticated()
                 ).sessionManagement(sessionManagement ->
                         sessionManagement

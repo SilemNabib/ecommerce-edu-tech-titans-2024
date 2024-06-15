@@ -19,5 +19,13 @@ public interface UserRepository extends CrudRepository<User, Integer> {
      * @return an optional containing the user if found, or empty if not found
      */
     Optional<User> findByEmail(String email);
+
+    /**
+     * Checks if a user with the given email exists.
+     *
+     * @param email the email to check
+     * @return true if a user with the given email exists, false otherwise
+     */
+    boolean existsByEmail(String email);
 }
 
