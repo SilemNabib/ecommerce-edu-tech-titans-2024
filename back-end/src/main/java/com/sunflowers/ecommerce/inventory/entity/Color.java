@@ -6,7 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Set;
+import java.util.HashSet;
 
 @Data
 @Builder
@@ -24,7 +24,7 @@ public class Color {
     private String code;
 
     @OneToMany(mappedBy = "color", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<Inventory> inventories;
+    private HashSet<Inventory> inventories;
 
 }
 

@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-import java.util.Set;
+import java.util.HashSet;
 
 @Data
 @Builder
@@ -42,10 +42,10 @@ public class Product {
     private BigDecimal price;
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<Review> reviews;
+    private HashSet<Review> reviews;
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<Inventory> inventories;
+    private HashSet<Inventory> inventories;
 
     @ManyToMany
     @JoinTable(
@@ -53,12 +53,12 @@ public class Product {
             joinColumns = @JoinColumn(name = "product_id"),
             inverseJoinColumns = @JoinColumn(name = "category_id")
     )
-    private Set<Category> categories;
+    private HashSet<Category> categories;
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<ClothingSetProduct> clothingSetProducts;
+    private HashSet<ClothingSetProduct> clothingSetProducts;
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<ProductImage> productImages;
+    private HashSet<ProductImage> productImages;
 
 }

@@ -34,6 +34,7 @@ public class SecurityConfig {
         http
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/api/v1/auth/**").permitAll()
+                        .requestMatchers("/api/v1/product/**").permitAll()
                         .anyRequest().authenticated()
                 ).sessionManagement(sessionManagement ->
                         sessionManagement

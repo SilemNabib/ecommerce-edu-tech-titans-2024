@@ -16,7 +16,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.List;
-import java.util.Set;
+import java.util.HashSet;
 import java.util.UUID;
 
 /**
@@ -61,16 +61,16 @@ public class User implements UserDetails {
     private Timestamp deleted;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<Address> addresses;
+    private HashSet<Address> addresses;
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private Cart cart;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<Order> orders;
+    private HashSet<Order> orders;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<Review> reviews;
+    private HashSet<Review> reviews;
 
     /**
      * Returns the authorities granted to the user.

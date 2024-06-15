@@ -6,7 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Set;
+import java.util.HashSet;
 
 @Data
 @Builder
@@ -24,7 +24,7 @@ public class Category {
     private String description;
 
     @ManyToMany(mappedBy = "categories")
-    private Set<Product> products;
+    private HashSet<Product> products;
 
 }
 
