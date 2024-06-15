@@ -1,4 +1,5 @@
 import { BrowserRouter, useParams, useRoutes } from "react-router-dom";
+import Footer from '../../Components/Footer';
 import Navigation from '../../Components/Navigation';
 import { GlobalProvider } from "../../Context";
 import { NavigationCategories } from '../../config/NavigationCategories';
@@ -48,6 +49,7 @@ const App = () => {
       <BrowserRouter>
       <Navigation/>
         <AppRoutes />
+        <Footer />
       </BrowserRouter>
     </GlobalProvider>
   );

@@ -144,9 +144,9 @@ export default function Navigation() {
       </Transition>
 
       <header className='relative bg-white'>
-        <p className='flex h-10 items-center justify-center bg-black px-4 text-lg font-medium text-white sm:px-6 lg:px-8'>
-          <LocalShippingIcon className='mr-2'/> Shop now and enjoy free shipping on all your orders!
-        </p>
+      <p className='flex h-10 items-center justify-center bg-black px-4 text-sm sm:text-base md:text-lg font-medium text-white sm:px-6 lg:px-8'>
+  <     LocalShippingIcon className='mr-2'/> Shop now and enjoy free shipping on all your orders!
+      </p>
 
         <nav aria-label='Top' className='mx-auto max-w-7xl px-4 sm:px-6 lg:px-8'>
           <div className='border-b border-gray-200'>
