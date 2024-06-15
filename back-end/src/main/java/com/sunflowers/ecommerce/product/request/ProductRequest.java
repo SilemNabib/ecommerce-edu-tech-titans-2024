@@ -13,9 +13,11 @@ import java.util.List;
 @NoArgsConstructor
 public class ProductRequest {
     private int page = 0;
-    private int size = 10;
+    private int pageSize = 10;
     private String sortBy = "name";
     private List<String> categories;
     private BigDecimal minPrice;
     private BigDecimal maxPrice;
+    private List<String> sizes;
+    private List<String> colors;
 }

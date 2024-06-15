@@ -4,8 +4,7 @@ import com.sunflowers.ecommerce.product.entity.Product;
 import com.sunflowers.ecommerce.product.entity.Category;
 import com.sunflowers.ecommerce.product.repository.ProductRepository;
 import com.sunflowers.ecommerce.product.request.ProductRequest;
-import jakarta.persistence.criteria.Join;
-import jakarta.persistence.criteria.JoinType;
+import com.sunflowers.ecommerce.utils.EntitySpecs;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.data.jpa.domain.Specification;
@@ -21,26 +20,16 @@ public class ProductService {
     private ProductRepository productRepository;
 
     public Page<Product> getProducts(ProductRequest request) {
-        Pageable pageable = PageRequest.of(request.getPage(), request.getSize(), Sort.by(request.getSortBy()));
-        Specification<Product> spec = Specification.where(null);
+        Pageable pageable = PageRequest.of(request.getPage(), request.getPageSize(), Sort.by(request.getSortBy()));
 
-        if (request.getMinPrice() != null) {
-            spec = spec.and((root, query, criteriaBuilder) -> criteriaBuilder.greaterThanOrEqualTo(root.get("price"), request.getMinPrice()));
-        }
-
-        if (request.getMaxPrice() != null) {
-            spec = spec.and((root, query, criteriaBuilder) -> criteriaBuilder.lessThanOrEqualTo(root.get("price"), request.getMaxPrice()));
-        }
-
-        if (request.getCategories() != null && !request.getCategories().isEmpty()) {
-            for (String category : request.getCategories()) {
-                spec = spec.and((root, query, criteriaBuilder) -> {
-                    Join<Product, Category> join = root.join("categories", JoinType.INNER);
-                    return criteriaBuilder.equal(join.get("name"), category);
-                });
-            }
-        }
+        Specification<Product> spec = Specification.<Product>where(null)
+                .and(EntitySpecs.hasAttributeGraterThan("price", request.getMinPrice()))
+                .and(EntitySpecs.hasAttributeLessThan("price",request.getMaxPrice()))
+                .and(EntitySpecs.<String, Product, Category>hasAllElements("categories", "name", request.getCategories()))
+                .and(EntitySpecs.hasAnyElement("inventories", "size", request.getSizes()))
+                .and(EntitySpecs.hasAnyElement("inventories", "color_id", request.getColors()));
 
         return productRepository.findAll(spec, pageable);
     }
+
 }
