@@ -7,6 +7,7 @@ import Home from "../Home";
 import Login from "../Login";
 import NotFound from "../NotFound";
 import Register from "../Register";
+import RecoverPassword from "../RecoverPassword";
 
 import "./App.css";
 
@@ -20,6 +21,7 @@ const AppRoutes = () => {
     ]),
     { path: '/login', element: <Login />},
     { path: '/register', element: <Register />},
+    { path: '/recover-password', element: <RecoverPassword />	}
   ]);
 
   return routes;
