@@ -50,6 +50,8 @@ const Register = () => {
           className="mb-* p-2 border border-black rounded-lg focus:outline-none"
         />
         {errors.password && <span className="text-red-500 mb-4">Password requirements not met</span>}
+        
+        
 
         <label className="font-bold mb-1">Phone number*</label>
         <input
@@ -65,7 +67,7 @@ const Register = () => {
           
           {errors.acceptTerms && <span className="text-red-500 ">Please accept the Privacy Policy</span>}
         </div>
-
+        
         <div className="mb-4">
           <label>
             <input type="checkbox" {...register('remindMe')} /> Remind me
@@ -74,7 +76,7 @@ const Register = () => {
 
         <button
           type="submit"
-          className="bg-black text-white py-2 px-4 rounded hover:bg-gray-700"
+          className="bg-black text-white py-2 px-4 rounded hover:font-bold"
         >
           CREATE ACCOUNT
         </button>
