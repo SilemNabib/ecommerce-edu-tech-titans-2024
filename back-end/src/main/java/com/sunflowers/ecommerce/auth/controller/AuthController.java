@@ -104,7 +104,8 @@ public class AuthController {
             DisabledException.class,
             LockedException.class,
             AccountExpiredException.class,
-            CredentialsExpiredException.class
+            CredentialsExpiredException.class,
+            BadCredentialsException.class
     })
     public ResponseEntity<ErrorResponse> handleAuthenticationExceptions(Exception e) {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
