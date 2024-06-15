@@ -3,7 +3,9 @@ import Navigation from '../../Components/Navigation';
 import { GlobalProvider } from "../../Context";
 import { NavigationCategories } from '../../config/NavigationCategories';
 import Home from "../Home";
+import Login from "../Login";
 import NotFound from "../NotFound";
+import Register from "../Register";
 
 import "./App.css";
 
@@ -15,6 +17,8 @@ const AppRoutes = () => {
       ...category.featured.map(feature => ({ path: feature.href, element: <Category /> })),
       ...category.sections.flatMap(section => section.items.map(item => ({ path: item.href, element: <Category /> })))
     ]),
+    { path: '/login', element: <Login />},
+    { path: '/register', element: <Register />},
   ]);
 
   return routes;
