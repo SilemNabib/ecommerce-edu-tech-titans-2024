@@ -17,12 +17,7 @@ function Home() {
   return (
     <Layout>
       <HomeCarousel />
-      <input
-        className ='rounded-lg border border-black w-80 p-4 mb-4 focus:outline-none'
-        type = 'text'
-        placeholder = 'Search a product...'>
-      </input>
-      <div className="grid grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 m-4 md:m-0">
         {renderProducts()}
       </div>
     </Layout>

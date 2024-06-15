@@ -1,28 +1,28 @@
-import { useContext, useState } from 'react'
+import { CheckIcon, PlusIcon } from '@heroicons/react/24/solid';
 import PropTypes from 'prop-types';
-import { PlusIcon, CheckIcon } from '@heroicons/react/24/solid'
-import { GlobalContext } from '../../Context'
+import { useContext, useState } from 'react';
+import { GlobalContext } from '../../Context';
 
 const Card = ({ data }) => {
-  const context = useContext(GlobalContext)
+  const context = useContext(GlobalContext);
 
-  const { openProductDetail, setProductToShow, cartProducts, closeProductDetail } = useContext(GlobalContext)
+  const { openProductDetail, setProductToShow, cartProducts, closeProductDetail } = useContext(GlobalContext);
 
-  const [selectedSize, setSelectedSize] = useState('')
-  const [selectedColor, setSelectedColor] = useState('')
+  const [selectedSize, setSelectedSize] = useState('');
+  const [selectedColor, setSelectedColor] = useState('');
 
   const showProduct = () => {
-    openProductDetail()
-    setProductToShow(data)
-  }
+    openProductDetail();
+    setProductToShow(data);
+  };
 
   const addProductsToCart = (event) => {
-    event.stopPropagation()
+    event.stopPropagation();
     // Agregar: envio de petición POST a la API para agregar el producto al carrito y recibimiento de la información para actualizar el estado de cartProducts
-    closeProductDetail()
-  }
+    closeProductDetail();
+  };
 
-  const isInCart = cartProducts?.some(product => product.id === data.id)
+  const isInCart = cartProducts?.some(product => product.id === data.id);
 
   // Colores temporales
   const colors = [
@@ -32,10 +32,10 @@ const Card = ({ data }) => {
   ];
 
   // Tallas temporales
-  const sizes = ['S', 'M', 'L', 'XL']
+  const sizes = ['S', 'M', 'L', 'XL'];
 
   return (
-    <div className='bg-white cursor-pointer w-64 h-100 shadow-lg rounded-lg overflow-hidden' onClick={showProduct}>
+    <div className='bg-white cursor-pointer w-full sm:w-64 h-100 shadow-lg rounded-lg overflow-hidden mb-4 flex flex-col' onClick={showProduct}>
       <figure className='relative w-full h-2/3'>
         <img className='w-full h-full object-cover' src={data.image} alt={data.title} />
         <div
@@ -44,10 +44,10 @@ const Card = ({ data }) => {
           {isInCart ? <CheckIcon className="size-8 text-white" /> : <PlusIcon className="size-8 text-black" />}
         </div>
       </figure>
-      <div className='p-4'>
+      <div className='p-4 flex-grow'>
         <span className='block text-gray-900 font-semibold text-lg mb-2 overflow-ellipsis overflow-hidden whitespace-nowrap'>{data.title}</span>
         <span className='block text-gray-900 font-bold text-sm mt-2 mb-2'>${data.price}</span>
-        <div className='flex mt-2 mb-4 justify-center'>
+        <div className='flex justify-center mt-2 mb-4'>
           {colors.map((color, index) => (
             <span 
               key={index} 
@@ -83,4 +83,4 @@ Card.propTypes = {
     }).isRequired,
   };
 
-export default Card
+export default Card;
