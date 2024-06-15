@@ -2,6 +2,7 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import TogglePassword from '../../Components/TogglePassword';
 
 const Register = () => {
   const { register, handleSubmit, formState: { errors } } = useForm();
@@ -40,18 +41,8 @@ const Register = () => {
         {errors.email && <span className="text-red-500 mb-4">This field is mandatory</span>}
 
         <label className="font-bold mb-1">Password</label>
-        <input
-          type="password"
-          {...register('password', {
-            required: true,
-            pattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/,
-          })}
-          placeholder="8 characters minimum, 1 lower case, 1 upper case, 1 number"
-          className="mb-* p-2 border border-black rounded-lg focus:outline-none"
-        />
-        {errors.password && <span className="text-red-500 mb-4">Password requirements not met</span>}
-        
-        
+        <TogglePassword register={register} name="password" />
+        {errors.password && <span className="text-red-500 mb-4">This field is mandatory</span>}        
 
         <label className="font-bold mb-1">Phone number*</label>
         <input

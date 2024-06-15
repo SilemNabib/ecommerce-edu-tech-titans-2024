@@ -2,6 +2,10 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { ComputerDesktopIcon, ShoppingBagIcon } from "@heroicons/react/24/solid";
+import LocalShippingIcon from "@mui/icons-material/LocalShipping";
+import TogglePassword from '../../Components/TogglePassword';
+
 
 const Login = () => {
   const { register, handleSubmit, formState: { errors } } = useForm();
@@ -27,14 +31,9 @@ const Login = () => {
               className="p-2 border border-black rounded-lg focus:outline-none"
             />
             {errors.email && <span className="text-red-500 mb-4">This field is mandatory</span>}
-
+            
             <label className="font-bold mb-1">Password</label>
-            <input
-              type="password"
-              {...register('password', { required: true })}
-              placeholder="Password"
-              className="p-2 border border-black rounded-lg focus:outline-none"
-            />
+            <TogglePassword register={register} name="password" />
             {errors.password && <span className="text-red-500 mb-4">This field is mandatory</span>}
 
             <div className="mb-4 flex items-center justify-between">
@@ -49,7 +48,6 @@ const Login = () => {
             <button
               type="submit"
               className="w-full md:w-auto bg-black text-white py-2 px-4 rounded hover:font-bold"
-
             >
               SIGN IN
             </button>
@@ -57,21 +55,28 @@ const Login = () => {
         </div>
 
         <div className="w-full md:w-1/2 flex flex-col justify-center items-center p-6">
-          <p className="mb-6 font-bold">DON'T HAVE AN ACCOUNT YET?</p>
-          <ul className="mb-6 list-disc pl-10">
-            <li>Track your orders</li>
-            <li>Save your shipping and payment details and save time next time you shop with us</li>
-            <li>You will be able to make returns online</li>
+          <p className="mb-4 font-bold">DON'T HAVE AN ACCOUNT YET?</p>
+          <ul className="mb-4 list-disc pl-10">
+            <li className="mb-2 flex items-center">
+              <LocalShippingIcon className="w-5 h-5 mr-2 text-gray-500" />
+              Enjoy fast and efficient delivery to your door
+            </li>
+            <li className="mb-2 flex items-center">
+              <ComputerDesktopIcon className="w-8 h-8 mr-2 text-gray-500" />
+              Shop from the comfort of your home and have your products delivered to you
+            </li>
+            <li className="mb-2 flex items-center">
+              <ShoppingBagIcon className="w-6 h-6 mr-2 text-gray-500" />
+              View your order cart
+            </li>
           </ul>
-          
           <button className="mb-6 bg-gray-300 text-black py-2 px-4 rounded hover:font-bold">
-            
             CREATE ACCOUNT
           </button>
-
-
-
         </div>
+
+          
+
       </div>
     </div>
   );
