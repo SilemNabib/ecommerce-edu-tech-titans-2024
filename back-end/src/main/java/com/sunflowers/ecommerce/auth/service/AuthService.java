@@ -29,6 +29,7 @@ import java.time.Instant;
 @RequiredArgsConstructor
 public class AuthService {
 
+    private final EmailService emailService;
     @Autowired
     private UserRepository userRepository;
     @Autowired
@@ -88,14 +89,20 @@ public class AuthService {
 
         String token = jwtService.generateToken(registerRequest.getEmail(), Timestamp.from(new Date(System.currentTimeMillis() + 1000 * 60 * 15).toInstant()));
 
+        String verificationCode = generateVerificationCode();
+
         UnverifiedUser user = UnverifiedUser.builder()
                 .authToken(token)
                 .email(registerRequest.getEmail())
-                .verificationCode(generateVerificationCode())
+                .verificationCode(verificationCode)
                 .expiration(Timestamp.from(new Date(System.currentTimeMillis() + 1000 * 60 * 60).toInstant()))
                 .build();
 
         unverifiedUserRepository.save(user);
+
+        emailService.setMail(emailService.getMailBuilder()
+                .emailVerification(registerRequest.getEmail(), verificationCode));
+        emailService.sendEmail();
 
         //TODO: Send verification email with code
 
