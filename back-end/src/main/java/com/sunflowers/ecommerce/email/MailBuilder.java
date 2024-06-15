@@ -20,4 +20,15 @@ public class MailBuilder {
                 .text(mailText)
                 .build();
     }
+
+    public MailBody emailVerification(String email, String verificationCode) {
+        subject = "Email Verification";
+        mailText = "Please use the following code to verify your email: " + verificationCode;
+
+        return MailBody.builder()
+                .to(email)
+                .subject(subject)
+                .text(mailText)
+                .build();
+    }
 }

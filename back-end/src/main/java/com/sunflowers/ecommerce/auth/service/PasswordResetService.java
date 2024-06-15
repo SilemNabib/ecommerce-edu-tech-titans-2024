@@ -36,10 +36,10 @@ public class PasswordResetService {
                 .user(user)
                 .build();
 
-        MailBody mailBody = emailService.getMailBuilder()
-                .passwordResetToken(emailRequest.getEmail(), otp);
+        emailService.setMail(emailService.getMailBuilder()
+                .passwordResetToken(emailRequest.getEmail(), otp));
+        emailService.sendEmail();
 
-        emailService.sendEmail(mailBody);
         passwordResetRepository.save(prt);
 
         return GeneralResponse.<Void>builder()
