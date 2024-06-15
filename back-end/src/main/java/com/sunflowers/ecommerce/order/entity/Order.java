@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 @Data
@@ -48,6 +48,6 @@ public class Order {
     private OrderStatus orderStatusName;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
-    private HashSet<OrderDetail> orderDetails;
+    private Set<OrderDetail> orderDetails;
 
 }

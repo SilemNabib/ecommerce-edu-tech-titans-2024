@@ -6,7 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.HashSet;
+import java.util.Set;
 
 @Data
 @Builder
@@ -27,9 +27,9 @@ public class ClothingSet {
     private String description;
 
     @OneToMany(mappedBy = "clothingSet", cascade = CascadeType.ALL, orphanRemoval = true)
-    private HashSet<ClothingSetProduct> clothingSetProducts;
+    private Set<ClothingSetProduct> clothingSetProducts;
 
     @OneToMany(mappedBy = "clothingSet", cascade = CascadeType.ALL, orphanRemoval = true)
-    private HashSet<ClothingSetImage> clothingSetImages;
+    private Set<ClothingSetImage> clothingSetImages;
 }
 

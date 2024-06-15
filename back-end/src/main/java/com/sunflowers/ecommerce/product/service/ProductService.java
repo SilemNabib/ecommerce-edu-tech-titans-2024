@@ -8,6 +8,7 @@ import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
+import java.util.Set;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -27,7 +28,7 @@ public class ProductService {
             Page<Product> productsPage = productRepository.findDistinctByCategoriesNameInAndCategoriesNameIsNotNull(categoryNames, pageable);
             List<Product> filteredProducts = productsPage.stream()
                     .map(product -> {
-                        HashSet<String> productCategoryNames = new HashSet<>(product.getCategories().stream()
+                        Set<String> productCategoryNames = new HashSet<>(product.getCategories().stream()
                                 .map(Category::getName)
                                 .toList());
                         if (productCategoryNames.containsAll(categoryNames)) {

@@ -8,7 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.sql.Timestamp;
-import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 @Data
@@ -35,7 +35,7 @@ public class Cart {
     private User user;
 
     @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL, orphanRemoval = true)
-    private HashSet<CartDetail> cartDetails;
+    private Set<CartDetail> cartDetails;
 
 }
 

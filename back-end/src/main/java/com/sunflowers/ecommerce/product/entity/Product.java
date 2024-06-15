@@ -2,15 +2,14 @@ package com.sunflowers.ecommerce.product.entity;
 
 import com.sunflowers.ecommerce.inventory.entity.Inventory;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-import java.util.HashSet;
+import java.util.Set;
 
+@Getter
+@Setter
 @Data
 @Builder
 @AllArgsConstructor
@@ -38,14 +37,17 @@ public class Product {
     @Column(name = "description")
     private String description;
 
+    @Column(name = "discount", precision = 5, scale = 2)
+    private BigDecimal discount;
+
     @Column(name = "price", nullable = false, precision = 10, scale = 2)
     private BigDecimal price;
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
-    private HashSet<Review> reviews;
+    private Set<Review> reviews;
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
-    private HashSet<Inventory> inventories;
+    private Set<Inventory> inventories;
 
     @ManyToMany
     @JoinTable(
@@ -53,12 +55,12 @@ public class Product {
             joinColumns = @JoinColumn(name = "product_id"),
             inverseJoinColumns = @JoinColumn(name = "category_id")
     )
-    private HashSet<Category> categories;
+    private Set<Category> categories;
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
-    private HashSet<ClothingSetProduct> clothingSetProducts;
+    private Set<ClothingSetProduct> clothingSetProducts;
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
-    private HashSet<ProductImage> productImages;
+    private Set<ProductImage> productImages;
 
 }
