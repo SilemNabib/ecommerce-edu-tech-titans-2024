@@ -82,8 +82,11 @@ public class AuthService {
      * @return the authentication response containing the JWT token
      */
     public AuthResponse register(RegisterRequest registerRequest) {
-        Date expiration = new java.util.Date(System.currentTimeMillis() + 1000 * 60 * 15); // Expiration date of only 15 minutes
-        String token = jwtService.generateToken(registerRequest.getEmail(), expiration);
+        if (userRepository.existsByEmail(registerRequest.getEmail()))  {
+            throw new RuntimeException("Email already registered");
+        }
+
+        String token = jwtService.generateToken(registerRequest.getEmail(), Timestamp.from(new Date(System.currentTimeMillis() + 1000 * 60 * 15).toInstant()));
 
         UnverifiedUser user = UnverifiedUser.builder()
                 .authToken(token)

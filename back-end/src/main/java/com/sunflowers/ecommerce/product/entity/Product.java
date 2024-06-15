@@ -2,15 +2,15 @@ package com.sunflowers.ecommerce.product.entity;
 
 import com.sunflowers.ecommerce.inventory.entity.Inventory;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.hibernate.annotations.Formula;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.Set;
 
+@Getter
+@Setter
 @Data
 @Builder
 @AllArgsConstructor
@@ -38,6 +38,9 @@ public class Product {
     @Column(name = "description")
     private String description;
 
+    @Column(name = "discount", precision = 5, scale = 2)
+    private BigDecimal discount;
+
     @Column(name = "price", nullable = false, precision = 10, scale = 2)
     private BigDecimal price;
 
@@ -60,5 +63,8 @@ public class Product {
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<ProductImage> productImages;
+
+    @Formula("(select avg(r.rating) from Review r where r.product_id = id)")
+    private Double rating;
 
 }
