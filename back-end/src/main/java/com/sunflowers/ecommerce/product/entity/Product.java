@@ -59,6 +59,6 @@ public class Product {
     private Set<ClothingSetProduct> clothingSetProducts;
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<Image> images;
+    private Set<ProductImage> productImages;
 
 }

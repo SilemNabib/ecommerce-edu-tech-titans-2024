@@ -11,8 +11,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "image")
-public class Image {
+@Table(name = "clothing_set_image")
+public class ClothingSetImage {
 
     @Id
     @Column(name = "id", nullable = false, length = 36)
@@ -22,8 +22,8 @@ public class Image {
     private String url;
 
     @ManyToOne
-    @JoinColumn(name = "product_id", nullable = false)
-    private Product product;
+    @JoinColumn(name = "clothing_set", nullable = false)
+    private ClothingSet clothingSet;
 
 }
 

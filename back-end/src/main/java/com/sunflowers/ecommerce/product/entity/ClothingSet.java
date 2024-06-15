@@ -29,5 +29,7 @@ public class ClothingSet {
     @OneToMany(mappedBy = "clothingSet", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<ClothingSetProduct> clothingSetProducts;
 
+    @OneToMany(mappedBy = "clothingSet", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<ClothingSetImage> clothingSetImages;
 }
 

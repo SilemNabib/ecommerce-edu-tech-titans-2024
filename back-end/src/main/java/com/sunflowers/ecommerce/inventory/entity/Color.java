@@ -1,6 +1,5 @@
-package com.sunflowers.ecommerce.product.entity;
+package com.sunflowers.ecommerce.inventory.entity;
 
-import com.sunflowers.ecommerce.inventory.entity.Inventory;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

@@ -1,6 +1,5 @@
 package com.sunflowers.ecommerce.inventory.entity;
 
-import com.sunflowers.ecommerce.product.entity.Color;
 import com.sunflowers.ecommerce.product.entity.Product;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
