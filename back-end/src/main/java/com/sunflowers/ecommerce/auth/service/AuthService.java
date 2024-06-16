@@ -10,6 +10,7 @@ import com.sunflowers.ecommerce.auth.request.VerificationRequest;
 import com.sunflowers.ecommerce.auth.response.AuthResponse;
 import com.sunflowers.ecommerce.auth.request.LoginRequest;
 import com.sunflowers.ecommerce.auth.request.RegisterRequest;
+import com.sunflowers.ecommerce.email.MailBody;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -100,11 +101,13 @@ public class AuthService {
 
         unverifiedUserRepository.save(user);
 
-        emailService.setMail(emailService.getMailBuilder()
-                .emailVerification(registerRequest.getEmail(), verificationCode));
-        emailService.sendEmail();
-
-        //TODO: Send verification email with code
+        emailService.sendEmail(
+                MailBody.builder()
+                .to(registerRequest.getEmail())
+                .subject("Email Verification")
+                .text("Please use the following code to verify your email: " + verificationCode)
+                .build()
+        );
 
         return AuthResponse.builder()
                 .token(token)

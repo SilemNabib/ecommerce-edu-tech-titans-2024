@@ -36,10 +36,15 @@ public class PasswordResetService {
                 .user(user)
                 .build();
 
-        emailService.setMail(emailService.getMailBuilder()
-                .passwordResetToken(emailRequest.getEmail(), otp));
-        emailService.sendEmail();
+        emailService.sendEmail(
+                MailBody.builder()
+                .to(emailRequest.getEmail())
+                .subject("OTP for Forgot Password request")
+                .text("This is the OTP for your Forgot Password request: " + otp)
+                .build()
+        );
 
+        //TODO: si ya existe un codigo de recuperacion, eliminarlo y actualizarlo
         passwordResetRepository.save(prt);
 
         return GeneralResponse.<Void>builder()
