@@ -30,7 +30,7 @@ jobs:
           build-scan-terms-of-use-agree: "yes"
 
       - name: Run build
-        run: gradle build
+        run: gradle -p back-end build
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v3
