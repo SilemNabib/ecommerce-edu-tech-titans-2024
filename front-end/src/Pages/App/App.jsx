@@ -11,6 +11,7 @@ import RecoverPassword from "../RecoverPassword";
 import Register from "../Register";
 import UpdatePassword from "../UpdatePassword";
 import VerificationCode from "../VerificationCode";
+import Cart from  "../Cart";
 
 import "./App.css";
 
@@ -28,6 +29,7 @@ const AppRoutes = () => {
     { path: '/update-password', element: <UpdatePassword />	},
     { path: '/verification-code', element: <VerificationCode />},
     { path: '/product-detail/:id', element: <ProductDetail />},
+    { path: '/cart', element: <Cart />}
   ]);
 
   return routes;
