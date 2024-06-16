@@ -6,6 +6,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.sql.Timestamp;
+import java.util.UUID;
+
 @Data
 @Builder
 @AllArgsConstructor
@@ -15,12 +18,15 @@ import lombok.NoArgsConstructor;
 public class Banner {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID id;
 
-    @Column(name = "url", nullable = false)
+    @Column(name = "url")
     private String url;
 
     @Column(name = "image_url")
     private String imageUrl;
+
+    @Column(name = "deleted")
+    private Timestamp deleted;
 }
