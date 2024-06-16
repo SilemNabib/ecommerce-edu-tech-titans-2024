@@ -1,19 +1,15 @@
-import { createContext, useState, useEffect } from "react";
+import { createContext, useEffect, useState } from "react";
+import { AuthProvider, useAuth } from "./AuthContext";
+import { ApiConfig } from "../config/ApiConfig";
 
 export const GlobalContext = createContext();
 
 export const GlobalProvider = ( { children } ) => {
 
-  // Products
-  const [items, setItems] = useState(null)
-
-  // Products - Filter
-  const [filteredItems, setFilteredItems] = useState(null)
-
   // Product Detail - MustBeOpen
-  const isProductDetailOpen = () => productToShow !== null 
+  const isProductDetailOpen = () => productToShow !== null
 
-  // Product Detail - Show Product
+  // Product Detail - Show product
   const [productToShow, setProductToShow] = useState(null)
 
   const cartCount = () => cartProducts.length
@@ -24,67 +20,33 @@ export const GlobalProvider = ( { children } ) => {
   // Estado para saber si el carrito está abierto o cerrado
   const [isCartOpen, setIsCartOpen] = useState(false);
 
-  // Get products by title
-  const [searchByTitle, setSearchByTitle] = useState(null)
+  // Set loading state
+  const [loading, setLoading] = useState(false)
 
-  // Get products by category
-  const [searchByCategory, setSearchByCategory] = useState(null)
-
-  useEffect(() => { 
-    const fetchProducts = async () => {
-      const response = await fetch('https://fakestoreapi.com/products'); // Reemplazar por la URL de la API 
-      const data = await response.json();
-      setItems(data);
-    };
-  
-    fetchProducts();
-  }, [])
-  
   // Para obtener los productos del carrito cada vez que abra o cierre el carrito
   useEffect(() => {
-    const fetchCartProducts = async () => {
-      setCartProducts(null);
-      const response = await fetch('https://fakestoreapi.com/cart'); // Reemplazar por la URL de la API y agregar credenciales de autenticación
-      const data = await response.json();
-      setCartProducts(data);
-    };
-  
-    fetchCartProducts();
+    setCartProducts(null)
+    fetch('https://fakestoreapi.com/cart') // Reemplazar por la URL de la API y agregar credenciales de autenticación
+      .then((response) => response.json())
+      .then((data) => setCartProducts(data))
   }, [isCartOpen])
 
-  const filterBy = (type,items,search) => {
-    if(type === "TITLE") return items?.filter(item => item.title.toLowerCase().includes(search.toLowerCase()));
-    if(type === "CATEGORY") return items?.filter(item => item.category.toLowerCase().includes(search.toLowerCase()));
-  }
-
-  useEffect(() => {
-    let tempItems = items;
-    if (searchByTitle) tempItems = filterBy("TITLE", tempItems, searchByTitle);
-    if(searchByCategory) tempItems = filterBy("CATEGORY", tempItems, searchByCategory);
-
-    setFilteredItems(tempItems)
-  }, [items, searchByTitle, searchByCategory]);
-
   return (
-    <GlobalContext.Provider value={{
-      items,
-      setItems,
-      cartCount,
-      filteredItems,
-      setFilteredItems,
-      isProductDetailOpen,
-      productToShow,
-      setProductToShow,
-      cartProducts,
-      setCartProducts,
-      isCartOpen,
-      setIsCartOpen,
-      searchByTitle,
-      setSearchByTitle,
-      searchByCategory,
-      setSearchByCategory
-    }}>
-        {children}
-    </GlobalContext.Provider>
+    <AuthProvider>
+      <GlobalContext.Provider value={{
+        cartCount,
+        isProductDetailOpen,
+        productToShow,
+        setProductToShow,
+        cartProducts,
+        setCartProducts,
+        isCartOpen,
+        setIsCartOpen,
+        loading,
+        setLoading
+      }}>
+          {children}
+      </GlobalContext.Provider>
+    </AuthProvider>
   );
 };
