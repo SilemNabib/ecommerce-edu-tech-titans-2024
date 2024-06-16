@@ -10,6 +10,8 @@ import com.sunflowers.ecommerce.auth.request.VerificationRequest;
 import com.sunflowers.ecommerce.auth.response.AuthResponse;
 import com.sunflowers.ecommerce.auth.request.LoginRequest;
 import com.sunflowers.ecommerce.auth.request.RegisterRequest;
+import com.sunflowers.ecommerce.email.EmailService;
+import com.sunflowers.ecommerce.email.MailBody;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -29,6 +31,7 @@ import java.time.Instant;
 @RequiredArgsConstructor
 public class AuthService {
 
+    private final EmailService emailService;
     @Autowired
     private UserRepository userRepository;
     @Autowired
@@ -52,6 +55,11 @@ public class AuthService {
         return String.valueOf(code);
     }
 
+    /**
+     * Validates a password.
+     * @param password the password to validate
+     * @return true if the password is valid, false otherwise
+     */
     private boolean validatePassword(String password) {
         return password.matches("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!(){}\\[\\]:;,.?/|<>\\-*])(?=\\S+$).{8,}$");
     }
@@ -88,16 +96,24 @@ public class AuthService {
 
         String token = jwtService.generateToken(registerRequest.getEmail(), Timestamp.from(new Date(System.currentTimeMillis() + 1000 * 60 * 15).toInstant()));
 
+        String verificationCode = generateVerificationCode();
+
         UnverifiedUser user = UnverifiedUser.builder()
                 .authToken(token)
                 .email(registerRequest.getEmail())
-                .verificationCode(generateVerificationCode())
+                .verificationCode(verificationCode)
                 .expiration(Timestamp.from(new Date(System.currentTimeMillis() + 1000 * 60 * 60).toInstant()))
                 .build();
 
         unverifiedUserRepository.save(user);
 
-        //TODO: Send verification email with code
+        emailService.sendEmail(
+                MailBody.builder()
+                .to(registerRequest.getEmail())
+                .subject("Email Verification")
+                .text("Please use the following code to verify your email: " + verificationCode)
+                .build()
+        );
 
         return AuthResponse.builder()
                 .token(token)
