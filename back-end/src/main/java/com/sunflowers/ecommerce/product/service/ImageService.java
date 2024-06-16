@@ -17,7 +17,8 @@ public class ImageService {
 
     public enum ImageType {
         PRODUCT,
-        CLOTHING_SET
+        CLOTHING_SET,
+        BANNER
     }
 
     public String uploadImage(MultipartFile file, ImageType type, String fileName) throws IOException {
@@ -33,6 +34,7 @@ public class ImageService {
         return switch (imageType) {
             case PRODUCT -> "products/";
             case CLOTHING_SET -> "clothing_set/";
+            case BANNER -> "banners/";
         };
     }
 
