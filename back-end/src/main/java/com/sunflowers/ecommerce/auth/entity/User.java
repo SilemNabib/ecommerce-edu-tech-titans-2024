@@ -60,9 +60,6 @@ public class User implements UserDetails {
     @Column(name = "deleted")
     private Timestamp deleted;
 
-    @OneToOne(mappedBy = "user")
-    private PasswordResetToken passwordResetToken;
-
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Address> addresses;
 

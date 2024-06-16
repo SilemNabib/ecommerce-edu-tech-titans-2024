@@ -17,13 +17,10 @@ import java.util.UUID;
 public class PasswordResetToken {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
     private Integer otp;
 
     private Date expirationTime;
 
-    @OneToOne
-    private User user;
 }
