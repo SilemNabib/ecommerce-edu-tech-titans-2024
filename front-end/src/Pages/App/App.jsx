@@ -6,6 +6,7 @@ import { NavigationCategories } from '../../config/NavigationCategories';
 import Home from "../Home";
 import Login from "../Login";
 import NotFound from "../NotFound";
+import ProductDetail from "../ProductDetail";
 import RecoverPassword from "../RecoverPassword";
 import Register from "../Register";
 import UpdatePassword from "../UpdatePassword";
@@ -25,7 +26,8 @@ const AppRoutes = () => {
     { path: '/register', element: <Register />},
     { path: '/recover-password', element: <RecoverPassword />	},
     { path: '/update-password', element: <UpdatePassword />	},
-    { path: '/verification-code', element: <VerificationCode />}
+    { path: '/verification-code', element: <VerificationCode />},
+    { path: '/product-detail/:id', element: <ProductDetail />},
   ]);
 
   return routes;
