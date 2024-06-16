@@ -1,6 +1,5 @@
 import { createContext, useEffect, useState } from "react";
 import { AuthProvider, useAuth } from "./AuthContext";
-import { ApiConfig } from "../config/ApiConfig";
 
 export const GlobalContext = createContext();
 

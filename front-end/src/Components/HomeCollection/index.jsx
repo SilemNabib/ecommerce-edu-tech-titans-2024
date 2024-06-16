@@ -5,23 +5,28 @@ import Slider from 'react-slick';
 import { toast } from 'react-toastify';
 import 'slick-carousel/slick/slick-theme.css';
 import 'slick-carousel/slick/slick.css';
+import { ApiConfig } from '../../config/ApiConfig';
 
-const HomeSection = ({ category }) => {
+const HomeSection = ({ category, categories }) => {
   const [products, setProducts] = useState([]);
 
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await fetch(`https://fakestoreapi.com/products/category/${category}`);
+        const categoriesQuery = categories.map(category => `categories=${category}`).join('&');
+        const response = await fetch(`${ApiConfig.products}?${categoriesQuery}`);
+        //http://127.0.0.1:8080/api/v1/product/?categories=men&categories=clothing
         const data = await response.json();
-        setProducts(data);
+        if(data._embedded){
+          setProducts(data._embedded.productList);
+        }
       } catch (error) {
         toast.error('Failed to fetch products');
       }
     };
 
     fetchProducts();
-  }, [category]);
+  }, [categories]);
 
   const settings = {
     dots: false,
@@ -55,6 +60,10 @@ const HomeSection = ({ category }) => {
       },
     ],
   };
+
+  if(products.length === 0){
+    return null;
+  }
   
   return (
     <section className="bg-gray-100 py-4">
