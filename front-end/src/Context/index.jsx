@@ -31,17 +31,25 @@ export const GlobalProvider = ( { children } ) => {
   const [searchByCategory, setSearchByCategory] = useState(null)
 
   useEffect(() => { 
-    fetch('https://fakestoreapi.com/products') // Reemplazar por la URL de la API 
-      .then((response) => response.json())
-      .then((data) => setItems(data))
+    const fetchProducts = async () => {
+      const response = await fetch('https://fakestoreapi.com/products'); // Reemplazar por la URL de la API 
+      const data = await response.json();
+      setItems(data);
+    };
+  
+    fetchProducts();
   }, [])
-
+  
   // Para obtener los productos del carrito cada vez que abra o cierre el carrito
   useEffect(() => {
-    setCartProducts(null)
-    fetch('https://fakestoreapi.com/cart') // Reemplazar por la URL de la API y agregar credenciales de autenticación
-      .then((response) => response.json())
-      .then((data) => setCartProducts(data))
+    const fetchCartProducts = async () => {
+      setCartProducts(null);
+      const response = await fetch('https://fakestoreapi.com/cart'); // Reemplazar por la URL de la API y agregar credenciales de autenticación
+      const data = await response.json();
+      setCartProducts(data);
+    };
+  
+    fetchCartProducts();
   }, [isCartOpen])
 
   const filterBy = (type,items,search) => {

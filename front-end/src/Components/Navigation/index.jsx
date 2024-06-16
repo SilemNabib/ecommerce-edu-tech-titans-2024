@@ -1,8 +1,9 @@
-import LocalShippingIcon from '@mui/icons-material/LocalShipping';
-import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
+import { UserIcon } from '@heroicons/react/24/outline';
+import { TruckIcon } from '@heroicons/react/24/solid';
 import { NavLink } from 'react-router-dom';
 import { NavigationCategories } from '../../config/NavigationCategories.js';
 import './styles.css';
+'@heroicons/react/24/solid';
 
 
 import {
@@ -125,19 +126,6 @@ export default function Navigation() {
                     </div>
                   ))}
                 </div>
-
-                <div className='space-y-6 border-t border-gray-200 px-4 py-6'>
-                  <div className='flow-root'>
-                    <NavLink to='/login' className='-m-2 block p-2 font-medium text-gray-900'>
-                      Sign in
-                    </NavLink>
-                  </div>
-                  <div className='flow-root'>
-                    <NavLink to='/register' className='-m-2 block p-2 font-medium text-gray-900'>
-                      Create account
-                    </NavLink>
-                  </div>
-                </div>
               </DialogPanel>
             </TransitionChild>
           </div>
@@ -146,7 +134,7 @@ export default function Navigation() {
 
       <header className='relative bg-white'>
       <p className='flex h-10 items-center justify-center bg-black px-4 text-sm sm:text-base md:text-lg font-medium text-white sm:px-6 lg:px-8'>
-  <     LocalShippingIcon className='mr-2'/> Shop now and enjoy free shipping on all your orders!
+      <TruckIcon className='h-6 w-6 mr-2'/> Shop now and enjoy free shipping on all your orders!
       </p>
 
         <nav aria-label='Top' className='mx-auto max-w-7xl px-4 sm:px-6 lg:px-8'>
@@ -254,11 +242,11 @@ export default function Navigation() {
 
               <div className='ml-auto flex items-center'>
                 
-                <div className='hidden lg:flex lg:flex-1 lg:items-center lg:justify-end lg:space-x-6'>
-                  <NavLink to='/login' className='text-gray-400 hover:text-gray-500'>
-                    <PersonOutlineOutlinedIcon className='h-6 w-6' />
-                  </NavLink>
-                </div>
+              <div className='flex flex-1 items-center justify-end space-x-6'>
+                <NavLink to='/login' className='text-gray-400 hover:text-gray-500 p-2 sm:p-0'>
+                  <UserIcon className='h-6 w-6' />
+                </NavLink>
+              </div>  
 
                 {/* Search */}
                 <div className='flex items-center lg:ml-6'>

@@ -8,9 +8,13 @@ const ProductDetail = () => {
   const [product, setProduct] = useState(null);
 
   useEffect(() => {
-    fetch(`https://fakestoreapi.com/products/${id}`)
-      .then(res => res.json())
-      .then(json => setProduct(json));
+    const fetchProduct = async () => {
+      const response = await fetch(`https://fakestoreapi.com/products/${id}`);
+      const product = await response.json();
+      setProduct(product);
+    };
+  
+    fetchProduct();
   }, [id]);
 
   if (!product) {
