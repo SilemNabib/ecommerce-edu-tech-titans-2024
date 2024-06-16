@@ -1,7 +1,9 @@
 package com.sunflowers.ecommerce.product.controller;
 
+import com.sunflowers.ecommerce.product.entity.Banner;
 import com.sunflowers.ecommerce.product.entity.Product;
 import com.sunflowers.ecommerce.product.request.ProductRequest;
+import com.sunflowers.ecommerce.product.service.BannerImageService;
 import com.sunflowers.ecommerce.product.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -21,6 +23,9 @@ public class ProductPublicController {
     @Autowired
     private ProductService productService;
 
+    @Autowired
+    private BannerImageService bannerService;
+
     @GetMapping("/")
     public ResponseEntity<PagedModel<EntityModel<Product>>> getProducts(@ModelAttribute ProductRequest productRequest,
                                                                         PagedResourcesAssembler<Product> assembler) {
@@ -38,4 +43,13 @@ public class ProductPublicController {
         }
     }
 
+    @GetMapping("/banner")
+    public ResponseEntity<Iterable<Banner>> getActiveBanners() {
+        return ResponseEntity.ok(bannerService.getActive());
+    }
+
+    @ExceptionHandler
+    public ResponseEntity<String> handleException(Exception e) {
+        return ResponseEntity.status(500).body(e.getMessage());
+    }
 }
