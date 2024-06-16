@@ -1,5 +1,5 @@
 import axios from "axios";
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext } from "react";
 import { ApiConfig } from "../config/ApiConfig";
 import * as jwt_decode from "jwt-decode";
 
@@ -17,13 +17,14 @@ const isTokenExpired = (token) => {
   }
 };
 
-export const isAuthenticated = () => {
-    return (axios.defaults.headers.common["Authorization"] !== null) || (localStorage.getItem("registerToken") !== null && !isTokenExpired(localStorage.getItem("registerToken")));
-}; // TODO: DECODE AND VALIDATE EXPIRATION DATE
 
 if (token && !isTokenExpired(token)) {
   axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
 }
+
+export const isAuthenticated = () => {
+  return axios.defaults.headers.common["Authorization"] || (localStorage.getItem("registerToken") && !isTokenExpired(localStorage.getItem("registerToken")));
+};
 
 const AuthContext = createContext();
 
@@ -93,11 +94,11 @@ export const AuthProvider = ({ children }) => {
       .finally(() => {if (final) final()});
   }
 
-  const requestLogout = async () => {
+  const requestLogout = () => {
     localStorage.removeItem("authToken");
     localStorage.removeItem("registerToken");
     localStorage.removeItem("user");
-    axios.defaults.headers.common["Authorization"] = null;
+    delete axios.defaults.headers.common["Authorization"];
   };
 
   const authFetch = async (url, options = {}) => {
