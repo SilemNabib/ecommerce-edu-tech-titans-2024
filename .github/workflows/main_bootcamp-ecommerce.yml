@@ -36,7 +36,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: java-app
-          path: '${{ github.workspace }}/back-end/build/libs/*.jar'
+          path: '${{ github.workspace }}/back-end/build/libs/*-SNAPSHOT.jar'
 
   deploy:
     runs-on: ubuntu-latest
