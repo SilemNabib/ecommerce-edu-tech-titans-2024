@@ -1,5 +1,5 @@
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/solid';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import Slider from 'react-slick';
 import { toast } from 'react-toastify';
 import 'slick-carousel/slick/slick-theme.css';
@@ -39,7 +39,7 @@ const HomeSection = ({ category }) => {
         },
       },
       {
-        breakpoint: 600,
+        breakpoint: 768,
         settings: {
           slidesToShow: 2,
           slidesToScroll: 1,
@@ -54,12 +54,12 @@ const HomeSection = ({ category }) => {
       },
     ],
   };
-
+  
   return (
     <section className="bg-gray-100 py-4">
       <div className="container mx-auto px-2 sm:px-4 lg:px-6">
         <header className="text-center">
-        <h2 className="text-3xl font-bold text-gray-900">{category.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')} Collection</h2>
+          <h2 className="text-3xl font-bold text-gray-900">{category.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')} Collection</h2>
         </header>
 
         <Slider {...settings} className="mt-8">
