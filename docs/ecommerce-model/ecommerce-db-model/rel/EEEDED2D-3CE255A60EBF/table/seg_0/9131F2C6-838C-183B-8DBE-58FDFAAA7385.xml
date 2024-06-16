@@ -1,0 +1,78 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="9131F2C6-838C-183B-8DBE-58FDFAAA7385" name="clothing_set_product">
+<createdBy>silem</createdBy>
+<createdTime>2024-06-13 19:01:38 UTC</createdTime>
+<ownerDesignName>ecommerce-db-model</ownerDesignName>
+<ordsAlias>relation_8</ordsAlias>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="clothing_set_id" id="9878F4FD-26F3-12D9-00D0-FCCFC47B7AE4">
+<createdBy>silem</createdBy>
+<createdTime>2024-06-13 19:01:38 UTC</createdTime>
+<ownerDesignName>ecommerce-db-model</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>36 CHAR</dataTypeSize>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="BAEAF2A7-617E-767B-F338-8331B9285E72" referredColumn="DBC0AE34-01A8-F5A3-2F41-A0492C246A70"/>
+</associations>
+</Column>
+<Column name="product_id" id="11DCEF02-AB8B-C0B0-C455-951BF8BDA7E0">
+<createdBy>silem</createdBy>
+<createdTime>2024-06-13 19:01:38 UTC</createdTime>
+<ownerDesignName>ecommerce-db-model</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>36 CHAR</dataTypeSize>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="45308305-3902-EC41-9BA7-2DA657FC3E1A" referredColumn="7B02DF80-C54D-05BF-8D82-777287C45490"/>
+</associations>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="6A309569-C686-4E04-73E8-30525FFE7586" name="Relation_8_PK">
+<createdBy>silem</createdBy>
+<createdTime>2024-06-13 19:01:38 UTC</createdTime>
+<ownerDesignName>ecommerce-db-model</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="9878F4FD-26F3-12D9-00D0-FCCFC47B7AE4"/>
+<colUsage columnID="11DCEF02-AB8B-C0B0-C455-951BF8BDA7E0"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="64D8A0CA-D230-AC91-7224-F68F06D80113" name="Relation_8_clothing_set_FK">
+<createdBy>silem</createdBy>
+<createdTime>2024-06-13 19:01:38 UTC</createdTime>
+<generatorID>A5CFF233-2DF3-FB11-DAC5-DEC877219105</generatorID>
+<ownerDesignName>ecommerce-db-model</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="9878F4FD-26F3-12D9-00D0-FCCFC47B7AE4"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="15C6CC1D-3400-0488-CB9C-6EA1E6C0806F" name="Relation_8_product_FK">
+<createdBy>silem</createdBy>
+<createdTime>2024-06-13 19:01:38 UTC</createdTime>
+<generatorID>A5CFF233-2DF3-FB11-DAC5-DEC877219105</generatorID>
+<ownerDesignName>ecommerce-db-model</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="11DCEF02-AB8B-C0B0-C455-951BF8BDA7E0"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>
