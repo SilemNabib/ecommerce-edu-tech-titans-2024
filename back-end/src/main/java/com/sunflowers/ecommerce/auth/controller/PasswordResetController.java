@@ -29,21 +29,46 @@ public class PasswordResetController {
      */
     @PostMapping("/verifyMail")
     public ResponseEntity<GeneralResponse<Void>> verifyEmail(@RequestBody VerifyEmailRequest emailRequest){
+        return ResponseEntity.ok(pwdResetService.verifyEmail(emailRequest));
+    }
 
-        try {
-            return ResponseEntity.ok(pwdResetService.verifyEmail(emailRequest));
-        } catch (UsernameNotFoundException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
-                    GeneralResponse.<Void>builder()
-                            .statusCode(HttpStatus.NOT_FOUND.value())
-                            .message(e.getMessage())
-                            .success(false)
-                            .build()
-            );
-        } catch (ConstraintViolationException | IllegalArgumentException e) {
-            return ResponseEntity.badRequest().build();
-        } catch (Exception e){
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
+    /**
+     * Handles password reset exceptions.
+     * This method will return a bad request response with an error message.
+     *
+     * @param e the password reset exception
+     * @return the error response containing the error message
+     */
+    @ExceptionHandler({
+            UsernameNotFoundException.class,
+            ConstraintViolationException.class,
+            IllegalArgumentException.class,
+    })
+    public ResponseEntity<GeneralResponse<Void>> handlePwdResetException(Exception e){
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
+                GeneralResponse.<Void>builder()
+                        .statusCode(HttpStatus.BAD_REQUEST.value())
+                        .message(e.getMessage())
+                        .success(false)
+                        .build()
+        );
+    }
+
+    /**
+     * Handles all other exceptions.
+     * This method will return an internal server error response with an error message.
+     *
+     * @param e the exception
+     * @return the error response containing the error message
+     */
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<GeneralResponse<Void>> handleException(Exception e){
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(
+                GeneralResponse.<Void>builder()
+                        .statusCode(HttpStatus.INTERNAL_SERVER_ERROR.value())
+                        .message(e.getMessage())
+                        .success(false)
+                        .build()
+        );
     }
 }
