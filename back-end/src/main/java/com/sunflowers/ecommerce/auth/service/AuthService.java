@@ -54,6 +54,11 @@ public class AuthService {
         return String.valueOf(code);
     }
 
+    /**
+     * Validates a password.
+     * @param password the password to validate
+     * @return true if the password is valid, false otherwise
+     */
     private boolean validatePassword(String password) {
         return password.matches("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!(){}\\[\\]:;,.?/|<>\\-*])(?=\\S+$).{8,}$");
     }

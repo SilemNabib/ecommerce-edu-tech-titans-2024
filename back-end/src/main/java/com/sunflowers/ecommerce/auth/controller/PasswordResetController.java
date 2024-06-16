@@ -12,6 +12,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Random;
 
+/**
+ * Controller for handling password reset requests.
+ */
 @RestController
 @RequestMapping("/api/v1/auth/forgotPwd")
 @RequiredArgsConstructor
@@ -19,6 +22,13 @@ public class PasswordResetController {
 
     private final PasswordResetService pwdResetService;
 
+    /**
+     * Handles password reset requests.
+     * This method will take a VerifyEmailRequest object and return a GeneralResponse object.
+     *
+     * @param emailRequest the email request containing the user's email
+     * @return the general response containing the status of the password reset request
+     */
     @PostMapping("/verifyMail")
     public ResponseEntity<GeneralResponse<Void>> verifyEmail(@RequestBody VerifyEmailRequest emailRequest){
 
