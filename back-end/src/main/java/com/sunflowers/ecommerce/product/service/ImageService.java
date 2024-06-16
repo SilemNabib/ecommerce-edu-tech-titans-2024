@@ -1,19 +1,19 @@
 package com.sunflowers.ecommerce.product.service;
 
+import com.google.auth.oauth2.GoogleCredentials;
 import com.google.cloud.storage.*;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.nio.file.Paths;
 
 @Service
 public class ImageService {
 
     private static final String BUCKET_NAME = "e-commerce-encora";
-
-    @Autowired
-    private Storage storage;
 
     public enum ImageType {
         PRODUCT,
@@ -24,7 +24,7 @@ public class ImageService {
         BlobId blobId = BlobId.of(BUCKET_NAME, getPrefix(type) + fileName);
         BlobInfo blobInfo = BlobInfo.newBuilder(blobId).setContentType(file.getContentType()).build();
 
-        Blob blob = storage.create(blobInfo, file.getBytes());
+        Blob blob = storage().create(blobInfo, file.getBytes());
 
         return blob.getMediaLink();
     }
@@ -34,5 +34,13 @@ public class ImageService {
             case PRODUCT -> "products/";
             case CLOTHING_SET -> "clothing_set/";
         };
+    }
+
+    @Bean
+    private Storage storage() throws IOException {
+        return StorageOptions.newBuilder()
+                .setProjectId("e-commerce-encora")
+                .setCredentials(GoogleCredentials.fromStream(new
+                        FileInputStream(Paths.get("credentials.json").toAbsolutePath().toString()))).build().getService();
     }
 }
