@@ -5,6 +5,7 @@ import com.sunflowers.ecommerce.auth.entity.User;
 import com.sunflowers.ecommerce.auth.repository.PasswordResetRepository;
 import com.sunflowers.ecommerce.auth.repository.UserRepository;
 import com.sunflowers.ecommerce.auth.request.VerifyEmailRequest;
+import com.sunflowers.ecommerce.email.EmailService;
 import com.sunflowers.ecommerce.email.MailBody;
 import com.sunflowers.ecommerce.response.GeneralResponse;
 import lombok.RequiredArgsConstructor;

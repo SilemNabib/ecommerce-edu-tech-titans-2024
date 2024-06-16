@@ -10,6 +10,7 @@ import com.sunflowers.ecommerce.auth.request.VerificationRequest;
 import com.sunflowers.ecommerce.auth.response.AuthResponse;
 import com.sunflowers.ecommerce.auth.request.LoginRequest;
 import com.sunflowers.ecommerce.auth.request.RegisterRequest;
+import com.sunflowers.ecommerce.email.EmailService;
 import com.sunflowers.ecommerce.email.MailBody;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;

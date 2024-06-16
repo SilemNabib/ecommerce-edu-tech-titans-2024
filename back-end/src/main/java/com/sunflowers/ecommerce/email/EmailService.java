@@ -1,6 +1,5 @@
-package com.sunflowers.ecommerce.auth.service;
+package com.sunflowers.ecommerce.email;
 
-import com.sunflowers.ecommerce.email.MailBody;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.env.Environment;
 import org.springframework.mail.SimpleMailMessage;

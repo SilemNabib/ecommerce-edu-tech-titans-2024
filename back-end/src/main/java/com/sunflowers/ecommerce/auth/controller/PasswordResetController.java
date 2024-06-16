@@ -10,8 +10,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Random;
-
 /**
  * Controller for handling password reset requests.
  */
@@ -47,12 +45,5 @@ public class PasswordResetController {
         } catch (Exception e){
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
-    }
-
-    // TODO: Secure method for generate a better otp
-
-    private Integer otpGenerator() {
-        Random random = new Random();
-        return random.nextInt(100_000, 999_999);
     }
 }
