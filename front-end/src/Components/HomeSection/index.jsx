@@ -1,5 +1,6 @@
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/solid';
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import Slider from 'react-slick';
 import { toast } from 'react-toastify';
 import 'slick-carousel/slick/slick-theme.css';
@@ -64,6 +65,7 @@ const HomeSection = ({ category }) => {
 
         <Slider {...settings} className="mt-8">
           {products.map((product) => (
+            <Link to={`/product-detail/${product.id}`} key={product.id} className="px-2">
             <div key={product.id} className="px-2">
               <div className="group block overflow-hidden bg-white rounded-lg shadow-md">
                 <img
@@ -78,6 +80,7 @@ const HomeSection = ({ category }) => {
                 </div>
               </div>
             </div>
+            </Link>
           ))}
         </Slider>
       </div>
