@@ -13,7 +13,7 @@ const Newsletter = () => {
   };
 
   return (
-    <section className="bg-black text-white py-12">
+    <section className="bg-black text-white py-12 w-screen h-screen">
       <div className="container mx-auto flex flex-col lg:flex-row items-center justify-between bg-black border border-gray-700 p-8 rounded-lg lg:rounded-xl space-y-8 lg:space-y-0">
         <div className="lg:w-1/2 text-center lg:text-left">
           <h2 className="text-3xl font-bold">Stay Ahead with the Latest Trends and Exclusive Offers</h2>

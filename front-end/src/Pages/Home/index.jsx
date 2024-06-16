@@ -1,8 +1,9 @@
 import { useContext } from 'react';
 import HomeCarousel from '../../Components/HomeCarousel';
-import HomeSection from '../../Components/HomeSection';
+import HomeCollection from '../../Components/HomeCollection';
 import Layout from '../../Components/Layout';
 import Newsletter from '../../Components/Newsletter';
+import PromoSection from '../../Components/PromoSection';
 import { GlobalContext } from '../../Context';
 
 function Home() {
@@ -20,11 +21,16 @@ function Home() {
   return (
     <Layout>
       <HomeCarousel />
-      <div className="container mx-auto px-2 sm:px-4 lg:px-6">
-        <HomeSection category="women's clothing" />
-        <HomeSection category="men's clothing" />
+      <div className="mx-auto px-2 sm:px-4 lg:px-6 w-full">
+        <HomeCollection category="women's clothing" />
+        <HomeCollection category="men's clothing" />
       </div>
-      <Newsletter />
+      <div className="my-4">
+        <PromoSection />
+      </div>
+      <div className="my-4">
+        <Newsletter />
+      </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 m-4 md:m-0">
         {/* {renderProducts()} */}
       </div>
