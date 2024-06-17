@@ -22,8 +22,8 @@ function Home() {
     <Layout>
       <HomeCarousel />
       <div className="mx-auto px-2 sm:px-4 lg:px-6 w-full">
-        <HomeCollection category="women's clothing" categories={["men", "clothing"]}/>
-        <HomeCollection category="men's clothing" categories={["women","clothing"]}/>
+        <HomeCollection category="women's clothing" categories={["male", "clothing"]}/>
+        <HomeCollection category="men's clothing" categories={["female","clothing"]}/>
       </div>
       <div className="my-4">
         <PromoSection />

@@ -1,11 +1,13 @@
 package com.sunflowers.ecommerce.product.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
 import java.util.Set;
 
 @Data
@@ -23,8 +25,10 @@ public class Category {
     @Column(name = "description")
     private String description;
 
+    @JsonIgnore
     @ManyToMany(mappedBy = "categories")
-    private Set<Product> products;
+    private List<Product> products;
+
 
 }
 
