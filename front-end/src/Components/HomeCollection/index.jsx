@@ -6,7 +6,6 @@ import { toast } from 'react-toastify';
 import 'slick-carousel/slick/slick-theme.css';
 import 'slick-carousel/slick/slick.css';
 import { ApiConfig } from '../../config/ApiConfig';
-
 /**
  * HomeSection component displays a collection of products based on the selected category.
  * 
@@ -23,7 +22,6 @@ const HomeSection = ({ category, categories }) => {
     const fetchProducts = async () => {
       try {
         const categoriesQuery = categories.map(category => `categories=${category}`).join('&');
-        console.log(categoriesQuery)
         const response = await fetch(`${ApiConfig.products}?${categoriesQuery}`);
         const data = await response.json();
         if(data._embedded){
@@ -89,11 +87,11 @@ const HomeSection = ({ category, categories }) => {
                 <img
                   src={product.productImages[0].url}
                   alt={product.name}
-                  className="h-48 w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  className="h-48 w-full object-cover object-right-top transition-transform duration-500 group-hover:scale-105"
                 />
                 <div className="p-4">
                   <h3 className="text-sm text-gray-700 group-hover:underline overflow-ellipsis overflow-hidden h-12">
-                    {product.name}
+                    {product.name.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')}
                   </h3>
                 </div>
               </div>

@@ -1,15 +1,9 @@
 import { CircularProgress } from '@mui/material';
 import { useEffect, useState } from 'react';
-import AliceCarousel, { Link } from 'react-alice-carousel';
+import AliceCarousel from 'react-alice-carousel';
 import 'react-alice-carousel/lib/alice-carousel.css';
+import { toast } from 'react-toastify';
 import { ApiConfig } from '../../config/ApiConfig';
-import './styles.css';
-
-const responsive = {
-    0: { items: 1 },
-    720: { items: 2 },
-    1024: { items: 3 },
-};
 
 /**
  * HomeCarousel component displays a carousel of banners fetched from an API.
@@ -20,13 +14,14 @@ const HomeCarousel = () => {
     const [banners, setBanners] = useState(null);
 
     useEffect(() => {
+
       const fetchBanners = async () => {
         try {
           const response = await fetch(ApiConfig.banners);
           const data = await response.json();
           if (data) {
             setBanners(data);
-          }else{
+          } else {
             setBanners([]);
           }
         } catch (error) {
@@ -36,16 +31,15 @@ const HomeCarousel = () => {
       fetchBanners();
     }, []);
 
-    const items = banners?.map((item, index) =>
-        <Link to={item.url}>
+    const items = banners?.map((item) =>
+        <div className="w-full h-full flex items-center justify-center rounded-lg overflow-hidden" key={item.id}>
           <img
-              key={item.id}
-              className='carousel-image cursor-pointer'
+              className='w-full h-[30vw] sm:h-[20vw] md:h-[15vw] lg:h-[100vh] object-contain'
               role='presentation'
               src={item.imageUrl}
               alt="carousel"
           />
-        </Link>
+        </div>
     )
 
     if(!banners){
@@ -53,13 +47,16 @@ const HomeCarousel = () => {
     }
 
     return (
-        <AliceCarousel 
-            items={items}
-            disableButtonsControls
-            autoPlay
-            autoPlayInterval={3000}
-            infinite
-        />        
+        <div className="mb-8">
+            <AliceCarousel 
+                items={items}
+                disableButtonsControls
+                disableDotsControls
+                autoPlay
+                autoPlayInterval={2000}
+                infinite
+            />        
+        </div>
     )
 };
 

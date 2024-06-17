@@ -4,6 +4,7 @@ import HomeCollection from '../../Components/HomeCollection';
 import Layout from '../../Components/Layout';
 import Newsletter from '../../Components/Newsletter';
 import PromoSection from '../../Components/PromoSection';
+import SearchBar from '../../Components/SearchBar';
 import { GlobalContext } from '../../Context';
 
 /**
@@ -25,10 +26,13 @@ function Home() {
 
   return (
     <Layout>
+      <div className="lg:hidden flex justify-center">
+        <SearchBar className="max-w-md mb-4 mx-auto"/>
+      </div>
       <HomeCarousel />
       <div className="mx-auto px-1 sm:px-2 lg:px-4 w-full">
-        <HomeCollection category="women's clothing" categories={["male", "clothing"]}/>
-        <HomeCollection category="men's clothing" categories={["female","clothing"]}/>
+        <HomeCollection category="women's clothing" categories={["female","clothing"]}/>
+        <HomeCollection category="men's clothing" categories={["male", "clothing"]}/>
       </div>
       <div className="my-4">
         <PromoSection />
