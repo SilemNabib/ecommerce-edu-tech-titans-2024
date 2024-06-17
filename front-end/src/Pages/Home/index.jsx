@@ -21,7 +21,7 @@ function Home() {
   return (
     <Layout>
       <HomeCarousel />
-      <div className="mx-auto px-2 sm:px-4 lg:px-6 w-full">
+      <div className="mx-auto px-1 sm:px-2 lg:px-4 w-full">
         <HomeCollection category="women's clothing" categories={["men", "clothing"]}/>
         <HomeCollection category="men's clothing" categories={["women","clothing"]}/>
       </div>
@@ -31,7 +31,7 @@ function Home() {
       <div className="my-4">
         <Newsletter />
       </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 m-4 md:m-0">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 m-2 md:m-0">
         {/* {renderProducts()} */}
       </div>
     </Layout>

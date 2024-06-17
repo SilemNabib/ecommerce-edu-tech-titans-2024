@@ -1,10 +1,9 @@
 import { UserIcon } from '@heroicons/react/24/outline';
 import { TruckIcon } from '@heroicons/react/24/solid';
-import { NavLink, redirect } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { NavigationCategories } from '../../config/NavigationCategories.js';
 import './styles.css';
 '@heroicons/react/24/solid';
-
 
 import {
   Dialog,
@@ -22,10 +21,10 @@ import {
   TransitionChild,
 } from '@headlessui/react';
 import { Bars3Icon, MagnifyingGlassIcon, ShoppingBagIcon, XMarkIcon } from '@heroicons/react/24/outline';
+import { Logout } from '@mui/icons-material';
+import { LinearProgress } from '@mui/material';
 import { Fragment, useContext, useState } from 'react';
 import { GlobalContext } from '../../Context';
-import { LinearProgress } from '@mui/material';
-import { Logout } from '@mui/icons-material';
 import { useAuth } from '../../Context/AuthContext';
 
 function classNames(...classes) {
@@ -166,7 +165,7 @@ export default function Navigation() {
               </button>
 
               {/* Logo */}
-              <div className='ml-4 flex lg:ml-0 lg:block hidden'>
+              <div className='h-4 w-4 md:h-10 md:w-10 ml-4 flex lg:ml-0 lg:block'>
                 <a href='/'>
                   <span className='sr-only'>Sunflowers</span>
                   <img
@@ -295,7 +294,7 @@ export default function Navigation() {
                       className='h-3 w-3 md:h-6 md:w-6 flex-shrink-0 text-gray-400 group-hover:text-gray-500'
                       aria-hidden='true'
                     />
-                    <span className='ml-2 text-xs sm:text-sm font-medium text-gray-700 group-hover:text-gray-800'>0</span>
+                    <span className='ml-2 text-xs sm:text-sm font-medium text-gray-700 group-hover:text-gray-800 hidden md:block'>0</span>
                     <span className='sr-only'>items in cart, view bag</span>
                   </a>
                 </div>

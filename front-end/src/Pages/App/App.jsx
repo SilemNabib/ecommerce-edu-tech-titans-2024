@@ -1,7 +1,9 @@
+import { Navigate } from "react-router";
 import { BrowserRouter, useParams, useRoutes } from "react-router-dom";
 import Footer from '../../Components/Footer';
 import Navigation from '../../Components/Navigation';
 import { GlobalProvider } from "../../Context";
+import { isAuthenticated } from "../../Context/AuthContext";
 import { NavigationCategories } from '../../config/NavigationCategories';
 import Home from "../Home";
 import Login from "../Login";
@@ -11,8 +13,6 @@ import RecoverPassword from "../RecoverPassword";
 import Register from "../Register";
 import UpdatePassword from "../UpdatePassword";
 import VerificationCode from "../VerificationCode";
-import { isAuthenticated } from "../../Context/AuthContext";
-import { Navigate } from "react-router";
 
 import "./App.css";
 

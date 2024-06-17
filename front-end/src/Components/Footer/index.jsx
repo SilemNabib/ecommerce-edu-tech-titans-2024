@@ -9,7 +9,7 @@ const Footer = () => {
         <div className="font-sans">
             <Grid 
             container
-            className = 'bg-black text-white text-center mt-10'
+            className = 'bg-black text-white text-center mt-4'
             sx={{bgcolor:'black', color:'white', py:3}}
             >
                 <Grid item xs={12} sm={4} className="space-x-4">
