@@ -23,8 +23,8 @@ const HomeSection = ({ category, categories }) => {
     const fetchProducts = async () => {
       try {
         const categoriesQuery = categories.map(category => `categories=${category}`).join('&');
+        console.log(categoriesQuery)
         const response = await fetch(`${ApiConfig.products}?${categoriesQuery}`);
-        //http://127.0.0.1:8080/api/v1/product/?categories=men&categories=clothing
         const data = await response.json();
         if(data._embedded){
           setProducts(data._embedded.productList);
@@ -87,13 +87,13 @@ const HomeSection = ({ category, categories }) => {
             <div key={product.id} className="px-2">
               <div className="group block overflow-hidden bg-white rounded-lg shadow-md">
                 <img
-                  src={product.image}
-                  alt={product.title}
+                  src={product.productImages[0].url}
+                  alt={product.name}
                   className="h-48 w-full object-cover transition-transform duration-500 group-hover:scale-105"
                 />
                 <div className="p-4">
                   <h3 className="text-sm text-gray-700 group-hover:underline overflow-ellipsis overflow-hidden h-12">
-                    {product.title}
+                    {product.name}
                   </h3>
                 </div>
               </div>
