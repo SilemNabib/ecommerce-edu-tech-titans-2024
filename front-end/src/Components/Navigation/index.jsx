@@ -31,6 +31,11 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
 
+/**
+ * Navigation component for the website.
+ * 
+ * @returns {JSX.Element} The rendered Navigation component.
+ */
 export default function Navigation() {
   const context = useContext(GlobalContext);
   const auth = useAuth();

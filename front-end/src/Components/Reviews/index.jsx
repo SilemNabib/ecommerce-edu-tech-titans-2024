@@ -1,6 +1,11 @@
 import { StarIcon } from '@heroicons/react/24/solid';
 import { useState } from 'react';
 
+/**
+ * Renders a component for displaying reviews and allowing users to leave comments.
+ *
+ * @returns {JSX.Element} The rendered Reviews component.
+ */
 const Reviews = () => {
   const [comment, setComment] = useState('');
 

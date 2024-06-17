@@ -1,5 +1,10 @@
 import React, { useState } from 'react';
 
+/**
+ * This component displays a newsletter subscription form.
+ *
+ * @returns {JSX.Element} The rendered Newsletter component.
+ */
 const Newsletter = () => {
   const [email, setEmail] = useState('');
   const [consent, setConsent] = useState(false);

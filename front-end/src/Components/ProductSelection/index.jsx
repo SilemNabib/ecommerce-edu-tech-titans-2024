@@ -1,5 +1,12 @@
 import { useState } from 'react';
 
+/**
+ * Renders a product selection component.
+ *
+ * @param {Object} props - The component props.
+ * @param {Object} props.product - The product object containing information about the product.
+ * @returns {JSX.Element} The rendered product selection component.
+ */
 const ProductSelection = ({ product }) => {
   const [selectedColor, setSelectedColor] = useState('');
   const [selectedSize, setSelectedSize] = useState('');

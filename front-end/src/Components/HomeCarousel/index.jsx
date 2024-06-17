@@ -1,9 +1,9 @@
+import { CircularProgress } from '@mui/material';
+import { useEffect, useState } from 'react';
 import AliceCarousel, { Link } from 'react-alice-carousel';
 import 'react-alice-carousel/lib/alice-carousel.css';
 import { ApiConfig } from '../../config/ApiConfig';
 import './styles.css';
-import { useEffect, useState } from 'react';
-import { CircularProgress } from '@mui/material';
 
 const responsive = {
     0: { items: 1 },
@@ -11,6 +11,11 @@ const responsive = {
     1024: { items: 3 },
 };
 
+/**
+ * HomeCarousel component displays a carousel of banners fetched from an API.
+ *
+ * @returns {JSX.Element} The HomeCarousel component.
+ */
 const HomeCarousel = () => {
     const [banners, setBanners] = useState(null);
 

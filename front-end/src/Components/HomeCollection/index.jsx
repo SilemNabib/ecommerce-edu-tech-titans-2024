@@ -7,6 +7,15 @@ import 'slick-carousel/slick/slick-theme.css';
 import 'slick-carousel/slick/slick.css';
 import { ApiConfig } from '../../config/ApiConfig';
 
+/**
+ * HomeSection component displays a collection of products based on the selected category.
+ * 
+ * @param {Object} props - The component props.
+ * @param {string} props.category - The selected category.
+ * @param {Array} props.categories - The list of categories.
+ * 
+ * @returns {JSX.Element|null} The rendered HomeSection component.
+ */
 const HomeSection = ({ category, categories }) => {
   const [products, setProducts] = useState([]);
 

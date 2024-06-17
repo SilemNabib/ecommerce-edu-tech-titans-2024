@@ -4,6 +4,11 @@ import XIcon from '@mui/icons-material/X';
 
 import { Grid, Typography } from '@mui/material';
 
+/**
+ * Footer component for the website.
+ *
+ * @returns {JSX.Element} The rendered Footer component.
+ */
 const Footer = () => {  
     return (
         <div className="font-sans">

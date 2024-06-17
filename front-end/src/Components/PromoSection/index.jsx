@@ -1,5 +1,10 @@
 import { images } from '../../config/PromoSectionData';
 
+/**
+ * Component for displaying a promotional section with images and text.
+ *
+ * @returns {JSX.Element} The rendered PromoSection component.
+ */
 export default function PromoSection() {
   const columns = [
     images.slice(0, 2),

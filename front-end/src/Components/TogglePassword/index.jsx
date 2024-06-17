@@ -1,6 +1,14 @@
 import { EyeIcon, EyeSlashIcon } from '@heroicons/react/24/solid';
 import React, { useState } from 'react';
 
+/**
+ * A component that provides a toggleable password input field.
+ *
+ * @param {Object} props - The component props.
+ * @param {Function} props.register - The register function from a form library.
+ * @param {string} props.name - The name of the input field.
+ * @returns {JSX.Element} The TogglePassword component.
+ */
 const TogglePassword = ({ register, name }) => {
   const [showPassword, setShowPassword] = useState(false);
 

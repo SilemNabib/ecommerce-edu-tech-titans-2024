@@ -4,6 +4,12 @@ import { useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { GlobalContext } from '../../Context';
 
+/**
+ * Card component represents a card item in the UI.
+ *
+ * @param {Object} data - The data object containing information about the card.
+ * @returns {JSX.Element} - The rendered Card component.
+ */
 const Card = ({ data }) => {
   const context = useContext(GlobalContext);
 
