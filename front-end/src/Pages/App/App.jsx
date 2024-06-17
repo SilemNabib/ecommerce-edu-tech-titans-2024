@@ -62,9 +62,11 @@ const App = () => {
   return (
     <GlobalProvider>
       <BrowserRouter>
-      <Navigation/>
-        <AppRoutes />
-        <Footer />
+        <div className="flex flex-col min-h-screen justify-between">
+          <Navigation/>
+          <AppRoutes />
+          <Footer />
+        </div>
       </BrowserRouter>
     </GlobalProvider>
   );

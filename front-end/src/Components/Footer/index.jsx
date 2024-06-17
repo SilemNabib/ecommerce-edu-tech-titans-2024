@@ -11,7 +11,7 @@ import { Grid, Typography } from '@mui/material';
  */
 const Footer = () => {  
     return (
-        <div className="font-sans">
+        <div className="font-sans w-full">
             <Grid 
             container
             className = 'bg-black text-white text-center mt-4'
