@@ -5,6 +5,11 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import TogglePassword from '../../Components/TogglePassword';
 
+/**
+ * Register component for user registration.
+ *
+ * @returns {JSX.Element} The Register component.
+ */
 const Register = () => {
   const { register, handleSubmit, formState: { errors } } = useForm();
 

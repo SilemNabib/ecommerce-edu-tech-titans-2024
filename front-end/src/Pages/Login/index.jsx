@@ -6,12 +6,16 @@ import LocalShippingIcon from "@mui/icons-material/LocalShipping";
 import React, { useContext } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import TogglePassword from "../../Components/TogglePassword";
-import { useAuth } from "../../Context/AuthContext";
 import { GlobalContext } from "../../Context";
+import { useAuth } from "../../Context/AuthContext";
 
+/**
+ * Represents the Login page component.
+ *
+ * @returns {JSX.Element} The Login page component.
+ */
 const Login = () => {
   const context = useContext(GlobalContext);
   const auth = useAuth();

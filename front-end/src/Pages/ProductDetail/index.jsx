@@ -3,6 +3,11 @@ import { useParams } from 'react-router-dom';
 import ProductSelection from '../../Components/ProductSelection';
 import Reviews from '../../Components/Reviews';
 
+/**
+ * Renders the product detail page.
+ *
+ * @returns {JSX.Element} The rendered product detail page.
+ */
 const ProductDetail = () => {
   const { id } = useParams();
   const [product, setProduct] = useState(null);

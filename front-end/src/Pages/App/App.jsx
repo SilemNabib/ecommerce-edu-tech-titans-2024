@@ -16,6 +16,11 @@ import VerificationCode from "../VerificationCode";
 
 import "./App.css";
 
+/**
+ * Renders the routes for the application.
+ *
+ * @returns {ReactNode} The rendered routes.
+ */
 const AppRoutes = () => {
   let routes = useRoutes([
     { path: "/", element: <Home /> },

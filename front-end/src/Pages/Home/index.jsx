@@ -6,6 +6,11 @@ import Newsletter from '../../Components/Newsletter';
 import PromoSection from '../../Components/PromoSection';
 import { GlobalContext } from '../../Context';
 
+/**
+ * Renders the Home page.
+ *
+ * @returns {JSX.Element} The Home page component.
+ */
 function Home() {
   const context = useContext(GlobalContext);
 
