@@ -37,14 +37,6 @@ const Register = () => {
           />
           {errors.surname && <span className="text-red-500 mb-4">This field is mandatory</span>}
 
-          <label className="font-bold mb-1">Email</label>
-          <input
-            type="email"
-            {...register('email', { required: true })}
-            className="mb-* p-2 border border-black rounded-lg focus:outline-none"
-          />
-          {errors.email && <span className="text-red-500 mb-4">This field is mandatory</span>}
-
           <label className="font-bold mb-1">Password</label>
           <TogglePassword register={register} name="password" />
           {errors.password && <span className="text-red-500 mb-4">This field is mandatory</span>}

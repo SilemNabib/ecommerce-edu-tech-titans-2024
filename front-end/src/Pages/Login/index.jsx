@@ -23,8 +23,14 @@ const Login = () => {
     toast.success("Successful Login");
   };
 
+  
+  const handleBack = () => {
+    navigate('/');
+  };
+
   return (
-    <div className="max-w-4xl mx-auto mt-8 p-8 bg-gray-100 rounded-lg shadow-md">
+  <div>
+<div className="max-w-4xl mx-auto mt-8 p-8 bg-gray-100 rounded-lg shadow-md">
       <h2 className="text-center mb-8 font-bold">
         LOG IN OR CREATE YOUR ACCOUNT
       </h2>
@@ -90,14 +96,26 @@ const Login = () => {
           </ul>
 
           <button
-            onClick={() => navigate("/register")}
+            onClick={() => navigate("/email-verification")}
             className="mb-6 bg-gray-300 text-black py-2 px-4 rounded-lg hover:font-bold"
           >
             CREATE ACCOUNT
           </button>
         </div>
+        
       </div>
+      
     </div>
+    <div className="flex justify-end mt-4 md:w-1/2 mx-5">
+        <button
+          onClick={handleBack}
+          className="bg-gray-400 text-white py-2 px-4 rounded-lg hover:font-bold"
+        >
+          BACK
+        </button>   
+      </div>
+  </div>
+    
   );
 };
 

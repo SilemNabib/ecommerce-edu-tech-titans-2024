@@ -10,6 +10,7 @@ import RecoverPassword from "../RecoverPassword";
 import Register from "../Register";
 import UpdatePassword from "../UpdatePassword";
 import VerificationCode from "../VerificationCode";
+import EmailVerification from "../EmailVerification";
 
 import "./App.css";
 
@@ -25,7 +26,8 @@ const AppRoutes = () => {
     { path: '/register', element: <Register />},
     { path: '/recover-password', element: <RecoverPassword />	},
     { path: '/update-password', element: <UpdatePassword />	},
-    { path: '/verification-code', element: <VerificationCode />}
+    { path: '/verification-code', element: <VerificationCode />},
+    { path: '/email-verification', element: <EmailVerification />}
   ]);
 
   return routes;
