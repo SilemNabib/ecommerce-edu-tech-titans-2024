@@ -1,6 +1,8 @@
-import AliceCarousel from 'react-alice-carousel';
+import { CircularProgress } from '@mui/material';
+import { useEffect, useState } from 'react';
+import AliceCarousel, { Link } from 'react-alice-carousel';
 import 'react-alice-carousel/lib/alice-carousel.css';
-import { homeCarouselData } from '../../config/HomeCarouselData';
+import { ApiConfig } from '../../config/ApiConfig';
 import './styles.css';
 
 const responsive = {
@@ -9,16 +11,46 @@ const responsive = {
     1024: { items: 3 },
 };
 
+/**
+ * HomeCarousel component displays a carousel of banners fetched from an API.
+ *
+ * @returns {JSX.Element} The HomeCarousel component.
+ */
 const HomeCarousel = () => {
-    const items = homeCarouselData.map((item, index) => 
-        <img 
-            key={index}
-            className='carousel-image cursor-pointer' 
-            role='presentation' 
-            src={item.image} 
-            alt="carousel" 
-        />
+    const [banners, setBanners] = useState(null);
+
+    useEffect(() => {
+      const fetchBanners = async () => {
+        try {
+          const response = await fetch(ApiConfig.banners);
+          const data = await response.json();
+          if (data) {
+            setBanners(data);
+          }else{
+            setBanners([]);
+          }
+        } catch (error) {
+          toast.error("Failed to fetch home banners");
+        }
+      };
+      fetchBanners();
+    }, []);
+
+    const items = banners?.map((item, index) =>
+        <Link to={item.url}>
+          <img
+              key={item.id}
+              className='carousel-image cursor-pointer'
+              role='presentation'
+              src={item.imageUrl}
+              alt="carousel"
+          />
+        </Link>
     )
+
+    if(!banners){
+        return <CircularProgress />;
+    }
 
     return (
         <AliceCarousel 

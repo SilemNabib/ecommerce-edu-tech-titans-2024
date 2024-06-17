@@ -4,6 +4,11 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import TogglePassword from '../../Components/TogglePassword';
 
+/**
+ * Renders a form for updating the password.
+ *
+ * @returns {JSX.Element} The UpdatePassword component.
+ */
 const UpdatePasword = () => {
   const { register, handleSubmit, formState: { errors } } = useForm();
 

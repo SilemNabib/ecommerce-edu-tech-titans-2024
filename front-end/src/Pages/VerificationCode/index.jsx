@@ -4,6 +4,11 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
+/**
+ * Component for entering and verifying a verification code.
+ *
+ * @returns {JSX.Element} The VerificationCode component.
+ */
 const VerificationCode = () => {
   const { register, handleSubmit, formState: { errors } } = useForm();
   const navigate = useNavigate();

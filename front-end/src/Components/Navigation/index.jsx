@@ -1,9 +1,9 @@
-import LocalShippingIcon from '@mui/icons-material/LocalShipping';
-import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
+import { UserIcon } from '@heroicons/react/24/outline';
+import { TruckIcon } from '@heroicons/react/24/solid';
 import { NavLink } from 'react-router-dom';
 import { NavigationCategories } from '../../config/NavigationCategories.js';
 import './styles.css';
-
+'@heroicons/react/24/solid';
 
 import {
   Dialog,
@@ -21,18 +21,38 @@ import {
   TransitionChild,
 } from '@headlessui/react';
 import { Bars3Icon, MagnifyingGlassIcon, ShoppingBagIcon, XMarkIcon } from '@heroicons/react/24/outline';
-import { Fragment, useState } from 'react';
+import { Logout } from '@mui/icons-material';
+import { LinearProgress } from '@mui/material';
+import { Fragment, useContext, useState } from 'react';
+import { GlobalContext } from '../../Context';
+import { useAuth } from '../../Context/AuthContext';
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
 
+/**
+ * Navigation component for the website.
+ * 
+ * @returns {JSX.Element} The rendered Navigation component.
+ */
 export default function Navigation() {
+  const context = useContext(GlobalContext);
+  const auth = useAuth();
+
   const [open, setOpen] = useState(false)
   const [showSearch, setShowSearch] = useState(false);
 
+  const onLogout = () => {
+    context.setLoading(true);
+    auth.requestLogout();
+    window.location.reload();
+    context.setLoading(false);
+  }
+
   return (
-    <div className='bg-white'>
+    <div>
+      <div className='bg-white'>
       {/* Mobile menu */}
       <Transition show={open}>
         <Dialog className='relative z-40 lg:hidden' onClose={setOpen}>
@@ -147,7 +167,7 @@ export default function Navigation() {
 
       <header className='relative bg-white'>
       <p className='flex h-10 items-center justify-center bg-black px-4 text-sm sm:text-base md:text-lg font-medium text-white sm:px-6 lg:px-8'>
-  <     LocalShippingIcon className='mr-2'/> Shop now and enjoy free shipping on all your orders!
+      <TruckIcon className='h-6 w-6 mr-2'/> Shop now and enjoy free shipping on all your orders!
       </p>
 
         <nav aria-label='Top' className='mx-auto max-w-7xl px-4 sm:px-6 lg:px-8'>
@@ -164,7 +184,7 @@ export default function Navigation() {
               </button>
 
               {/* Logo */}
-              <div className='ml-4 flex lg:ml-0'>
+              <div className='h-4 w-4 md:h-10 md:w-10 ml-4 flex lg:ml-0 lg:block'>
                 <a href='/'>
                   <span className='sr-only'>Sunflowers</span>
                   <img
@@ -254,24 +274,32 @@ export default function Navigation() {
               </PopoverGroup>
 
               <div className='ml-auto flex items-center'>
-                
-                <div className='hidden lg:flex lg:flex-1 lg:items-center lg:justify-end lg:space-x-6'>
-                  <NavLink to='/login' className='text-gray-400 hover:text-gray-500'>
-                    <PersonOutlineOutlinedIcon className='h-6 w-6' />
+              
+              {auth.isAuthenticated() && (
+                <div className="flex flex-1 items-center justify-end space-x-6 mr-3">
+                  <NavLink onClick={onLogout} className="text-gray-400 hover:text-gray-500 p-2 sm:p-0">
+                    <Logout className="h-6 w-6" />
                   </NavLink>
                 </div>
+              )}
+                
+              <div className='flex flex-1 items-center justify-end space-x-6'>
+                <NavLink to='/login' className='text-gray-400 hover:text-gray-500 p-2 sm:p-0'>
+                  <UserIcon className='h-3 w-3 md:h-6 md:w-6' />
+                </NavLink>
+              </div>  
 
                 {/* Search */}
                 <div className='flex items-center lg:ml-6'>
                   <button onClick={() => setShowSearch(!showSearch)} className='p-2 text-gray-400 hover:text-gray-500'>
                     <span className='sr-only'>Search</span>
-                    <MagnifyingGlassIcon className='h-6 w-6' aria-hidden='true' />
+                    <MagnifyingGlassIcon className='h-3 w-3 md:h-6 md:w-6' aria-hidden='true' />
                   </button>
                   {showSearch && (
                     <input
                       type='text'
                       placeholder='Search...'
-                      className='p-2 ml-2 text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-gray-300 focus:border-gray-300'
+                      className='p-1 ml-1 text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-gray-300 focus:border-gray-300 md:w-full sm:w-1/2'
                       // Aqui se implementa la lógica para manejar las peticiones de búsqueda a la base de datos
                       // onChange={(e) => handleSearch(e.target.value)}
                     />
@@ -279,13 +307,13 @@ export default function Navigation() {
                 </div>
 
                 {/* Cart */}
-                <div className='ml-4 flow-root lg:ml-6'>
+                <div className='ml-2 flow-root lg:ml-6'>
                   <a href='#' className='group -m-2 flex items-center p-2'>
                     <ShoppingBagIcon
-                      className='h-6 w-6 flex-shrink-0 text-gray-400 group-hover:text-gray-500'
+                      className='h-3 w-3 md:h-6 md:w-6 flex-shrink-0 text-gray-400 group-hover:text-gray-500'
                       aria-hidden='true'
                     />
-                    <span className='ml-2 text-sm font-medium text-gray-700 group-hover:text-gray-800'>0</span>
+                    <span className='ml-2 text-xs sm:text-sm font-medium text-gray-700 group-hover:text-gray-800 hidden md:block'>0</span>
                     <span className='sr-only'>items in cart, view bag</span>
                   </a>
                 </div>
@@ -295,5 +323,7 @@ export default function Navigation() {
         </nav>
       </header>
     </div>
-  )
+    {context.loading && <LinearProgress />}
+    </div>
+  );
 }

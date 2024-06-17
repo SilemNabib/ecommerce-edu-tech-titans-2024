@@ -1,8 +1,15 @@
 import { CheckIcon, PlusIcon } from '@heroicons/react/24/solid';
 import PropTypes from 'prop-types';
 import { useContext, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { GlobalContext } from '../../Context';
 
+/**
+ * Card component represents a card item in the UI.
+ *
+ * @param {Object} data - The data object containing information about the card.
+ * @returns {JSX.Element} - The rendered Card component.
+ */
 const Card = ({ data }) => {
   const context = useContext(GlobalContext);
 
@@ -35,6 +42,7 @@ const Card = ({ data }) => {
   const sizes = ['S', 'M', 'L', 'XL'];
 
   return (
+    <Link to={`/product-detail/${data.id}`}>
     <div className='bg-white cursor-pointer w-full sm:w-64 h-100 shadow-lg rounded-lg overflow-hidden mb-4 flex flex-col' onClick={showProduct}>
       <figure className='relative w-full h-2/3'>
         <img className='w-full h-full object-cover' src={data.image} alt={data.title} />
@@ -70,6 +78,7 @@ const Card = ({ data }) => {
         </div>
       </div>
     </div>
+    </Link>
   )
 }
 

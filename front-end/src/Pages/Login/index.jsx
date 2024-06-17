@@ -3,24 +3,48 @@ import {
   ShoppingBagIcon,
 } from "@heroicons/react/24/solid";
 import LocalShippingIcon from "@mui/icons-material/LocalShipping";
-import React from "react";
+import React, { useContext } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import TogglePassword from "../../Components/TogglePassword";
+import { GlobalContext } from "../../Context";
+import { useAuth } from "../../Context/AuthContext";
 
+/**
+ * Represents the Login page component.
+ *
+ * @returns {JSX.Element} The Login page component.
+ */
 const Login = () => {
+  const context = useContext(GlobalContext);
+  const auth = useAuth();
+  const navigate = useNavigate();
+
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
-  const navigate = useNavigate();
-
+  
   const onSubmit = (data) => {
-    console.log(data);
-    toast.success("Successful Login");
+    context.setLoading(true);
+    auth
+      .requestLogin({
+        data: data,
+        then: (response) => {
+          if (response) {
+            navigate("/");
+          } else {
+            // Manejar el mensaje de error, no supe hacerlo
+            // No pudo iniciar sesión por credenciales incorrectas
+          }
+        },
+        on_error: (error) => {
+          // Manejar el mensaje de error, no supe hacerlo
+        },
+        final: () => context.setLoading(false)
+      })
   };
 
   

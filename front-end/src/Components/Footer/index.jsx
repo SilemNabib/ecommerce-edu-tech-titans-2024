@@ -4,12 +4,17 @@ import XIcon from '@mui/icons-material/X';
 
 import { Grid, Typography } from '@mui/material';
 
+/**
+ * Footer component for the website.
+ *
+ * @returns {JSX.Element} The rendered Footer component.
+ */
 const Footer = () => {  
     return (
-        <div className="font-sans">
+        <div className="font-sans w-full">
             <Grid 
             container
-            className = 'bg-black text-white text-center mt-10'
+            className = 'bg-black text-white text-center mt-4'
             sx={{bgcolor:'black', color:'white', py:3}}
             >
                 <Grid item xs={12} sm={4} className="space-x-4">
