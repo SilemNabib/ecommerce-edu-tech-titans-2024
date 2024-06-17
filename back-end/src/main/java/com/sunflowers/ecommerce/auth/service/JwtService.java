@@ -8,6 +8,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import javax.crypto.SecretKey;
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.function.Function;
@@ -26,7 +27,7 @@ public class JwtService {
      * @return the generated JWT token
      */
     public String generateToken(String username) {
-        return getToken(new HashMap<>(), username, new java.util.Date(System.currentTimeMillis() + 1000 * 60 * 24));
+        return getToken(new HashMap<>(), username, Timestamp.from(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 24).toInstant()));
     }
 
     /**
