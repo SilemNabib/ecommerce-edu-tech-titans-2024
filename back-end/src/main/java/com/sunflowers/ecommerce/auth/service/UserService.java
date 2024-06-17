@@ -5,6 +5,8 @@ import com.sunflowers.ecommerce.auth.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.UUID;
+
 /**
  * Service class for handling user-related operations.
  */
@@ -21,5 +23,10 @@ public class UserService {
      */
     public Iterable<User> getAllUsers() {
         return userRepository.findAll();
+    }
+
+    public User getUserByEmail(String email) {
+        return userRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("User not found"));
     }
 }

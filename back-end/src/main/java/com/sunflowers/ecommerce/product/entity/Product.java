@@ -75,8 +75,13 @@ public class Product {
     private List<Category> categories;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<ClothingSetProduct> clothingSetProducts;
+    @ManyToMany
+    @JoinTable(
+            name = "product_clothing_set",
+            joinColumns = @JoinColumn(name = "product_id"),
+            inverseJoinColumns = @JoinColumn(name = "clothing_set_id")
+    )
+    private List<ClothingSet> clothingSets;
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ProductImage> productImages;

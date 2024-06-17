@@ -26,7 +26,7 @@ public class SecurityConfig {
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
     private final AuthenticationProvider authProvider;
 
-    public static final String[] PUBLIC_PATHS = new String[] {"/api/v1/auth/**", "/api/v1/product/**"};
+    public static final String[] PUBLIC_PATHS = new String[] {"/api/v1/auth/**", "/api/v1/product/**", "/api/v1/review/product/**"};
 
     /**
      * Configures the security filter chain for HTTP security.

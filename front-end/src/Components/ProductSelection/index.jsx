@@ -10,8 +10,8 @@ const ProductSelection = ({ product }) => {
 
   return (
     <div className="flex flex-col items-center bg-white shadow-md rounded-lg p-4 mt-8">
-      <h1 className="text-3xl font-bold mb-4">{product.title}</h1>
-      <img src={product.image} alt={product.title} className="w-64 h-64 object-cover mb-4" />
+      <h1 className="text-3xl font-bold mb-4">{product.name.toUpperCase()}</h1>
+      <img src={product.productImages[0].url} alt={product.name} className="w-64 h-64 object-cover mb-4" />
       <p className="text-gray-700 mb-4">{product.description}</p>
       <div className="flex mb-4">
         {colors.map((color, index) => (

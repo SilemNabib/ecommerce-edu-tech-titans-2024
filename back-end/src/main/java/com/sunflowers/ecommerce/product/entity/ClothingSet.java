@@ -27,8 +27,8 @@ public class ClothingSet {
     @Column(name = "description")
     private String description;
 
-    @OneToMany(mappedBy = "clothingSet", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<ClothingSetProduct> clothingSetProducts;
+    @ManyToMany(mappedBy = "clothingSets")
+    private List<Product> products;
 
     @OneToMany(mappedBy = "clothingSet", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ClothingSetImage> clothingSetImages;

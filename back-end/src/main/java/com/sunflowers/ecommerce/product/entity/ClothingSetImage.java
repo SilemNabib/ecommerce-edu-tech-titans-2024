@@ -1,5 +1,6 @@
 package com.sunflowers.ecommerce.product.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -23,6 +24,7 @@ public class ClothingSetImage {
     @Column(name = "url", nullable = false)
     private String url;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "clothing_set", nullable = false)
     private ClothingSet clothingSet;
