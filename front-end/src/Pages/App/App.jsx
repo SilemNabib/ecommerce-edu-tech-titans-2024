@@ -11,6 +11,8 @@ import RecoverPassword from "../RecoverPassword";
 import Register from "../Register";
 import UpdatePassword from "../UpdatePassword";
 import VerificationCode from "../VerificationCode";
+import { isAuthenticated } from "../../Context/AuthContext";
+import { Navigate } from "react-router";
 
 import "./App.css";
 
@@ -22,7 +24,7 @@ const AppRoutes = () => {
       ...category.featured.map(feature => ({ path: feature.href, element: <Category /> })),
       ...category.sections.flatMap(section => section.items.map(item => ({ path: item.href, element: <Category /> })))
     ]),
-    { path: '/login', element: <Login />},
+    { path: '/login', element: isAuthenticated() ? <Navigate to="/profile" /> : <Login /> },
     { path: '/register', element: <Register />},
     { path: '/recover-password', element: <RecoverPassword />	},
     { path: '/update-password', element: <UpdatePassword />	},

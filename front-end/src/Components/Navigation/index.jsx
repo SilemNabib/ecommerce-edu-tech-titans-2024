@@ -1,6 +1,6 @@
 import { UserIcon } from '@heroicons/react/24/outline';
 import { TruckIcon } from '@heroicons/react/24/solid';
-import { NavLink } from 'react-router-dom';
+import { NavLink, redirect } from 'react-router-dom';
 import { NavigationCategories } from '../../config/NavigationCategories.js';
 import './styles.css';
 '@heroicons/react/24/solid';
@@ -22,18 +22,33 @@ import {
   TransitionChild,
 } from '@headlessui/react';
 import { Bars3Icon, MagnifyingGlassIcon, ShoppingBagIcon, XMarkIcon } from '@heroicons/react/24/outline';
-import { Fragment, useState } from 'react';
+import { Fragment, useContext, useState } from 'react';
+import { GlobalContext } from '../../Context';
+import { LinearProgress } from '@mui/material';
+import { Logout } from '@mui/icons-material';
+import { useAuth } from '../../Context/AuthContext';
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
 
 export default function Navigation() {
+  const context = useContext(GlobalContext);
+  const auth = useAuth();
+
   const [open, setOpen] = useState(false)
   const [showSearch, setShowSearch] = useState(false);
 
+  const onLogout = () => {
+    context.setLoading(true);
+    auth.requestLogout();
+    window.location.reload();
+    context.setLoading(false);
+  }
+
   return (
-    <div className='bg-white'>
+    <div>
+      <div className='bg-white'>
       {/* Mobile menu */}
       <Transition show={open}>
         <Dialog className='relative z-40 lg:hidden' onClose={setOpen}>
@@ -241,6 +256,14 @@ export default function Navigation() {
               </PopoverGroup>
 
               <div className='ml-auto flex items-center'>
+              
+              {auth.isAuthenticated() && (
+                <div className="flex flex-1 items-center justify-end space-x-6 mr-3">
+                  <NavLink onClick={onLogout} className="text-gray-400 hover:text-gray-500 p-2 sm:p-0">
+                    <Logout className="h-6 w-6" />
+                  </NavLink>
+                </div>
+              )}
                 
               <div className='flex flex-1 items-center justify-end space-x-6'>
                 <NavLink to='/login' className='text-gray-400 hover:text-gray-500 p-2 sm:p-0'>
@@ -282,5 +305,7 @@ export default function Navigation() {
         </nav>
       </header>
     </div>
-  )
+    {context.loading && <LinearProgress />}
+    </div>
+  );
 }

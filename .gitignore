@@ -71,3 +71,6 @@ bower_components
 psd
 thumb
 sketch
+
+.env
+back-end/credentials.json
