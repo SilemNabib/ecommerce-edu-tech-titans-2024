@@ -10,6 +10,7 @@ import "react-toastify/dist/ReactToastify.css";
 import TogglePassword from "../../Components/TogglePassword";
 import { GlobalContext } from "../../Context";
 import { useAuth } from "../../Context/AuthContext";
+import InputText from "../../Components/InputText";
 
 /**
  * Represents the Login page component.
@@ -62,12 +63,12 @@ const Login = () => {
         <div className="w-full md:w-1/2 mb-9 md:mb-0 p-6">
           <form className="flex flex-col" onSubmit={handleSubmit(onSubmit)}>
             <label className="font-bold mb-1">Email</label>
-            <input
-              type="email"
-              {...register("email", { required: true })}
-              placeholder="Enter your email address"
-              className="p-2 border border-black rounded-lg focus:outline-none mb-*"
-            />
+            <InputText
+              options={{
+                type: "email",
+                ...register("email", { required: true }),
+                placeholder: "Enter your email address",
+              }}/>
             {errors.email && (
               <span className="text-red-500 mb-4">This field is mandatory</span>
             )}
@@ -78,15 +79,8 @@ const Login = () => {
               <span className="text-red-500 mb-4">This field is mandatory</span>
             )}
 
-            <div className="mt-4 mb-4 flex items-center justify-between">
-              <label>
-                <input
-                  type="checkbox"
-                  {...register("rememberMe")}
-                />{" "}
-                Remind me
-              </label>
-              <a href="/recover-password" className="text-gray-400 underline">
+            <div className="mt-4 mb-4 flex items-center justify-center">
+              <a href="/recover-password" className="text-gray-500 hover:underline">
                 Have you forgotten your password?
               </a>
             </div>

@@ -3,6 +3,15 @@ import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import ProgressBar from '../../Components/ProgressBar';
+import { ArrowBack } from '@mui/icons-material';
+import InputText from '../../Components/InputText';
+
+const registerSteps = [
+  <a href={"/email-verification"}>Email verification</a>,
+  <a href={"/verification-code"}>Verification code</a>,
+  <a href={"/register"}>Create account</a>,
+];
 
 const SendVerificationEmail = () => {
   const { register, handleSubmit, formState: { errors } } = useForm();
@@ -30,38 +39,46 @@ const SendVerificationEmail = () => {
     }
   };
 
-  const handleBack = () => {
-    navigate('/login');
-  };
-
   return (
-    <div className="flex flex-col items-center justify-center mt-8 mx-4">
-      <div className="w-full md:w-1/3 p-5 bg-gray-100 rounded-lg shadow-md mx-4">
-        <h2 className="text-center mb-5 font-bold">WE WILL SEND A VERIFICATION EMAIL</h2>
-        <form className="flex flex-col" onSubmit={handleSubmit(onSubmit)}>
-          <label className="font-bold mb-1">Email</label>
-          <input
-            type="email"
-            {...register('email', { required: true })}
-            className="mb-1 p-2 border border-black rounded-lg focus:outline-none"
-          />
-          {errors.email && <span className="text-red-500 mb-4">This field is mandatory</span>}
+    <div className='w-screen h-screen'
+        style={{
+          backgroundImage: 'url(https://upload.wikimedia.org/wikipedia/commons/d/dc/Trendy_apparel_store_%28Unsplash%29.jpg)',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center'}}>
+      <div className="max-w-4xl mx-auto mt-8 p-8 bg-gray-100 rounded-lg shadow-md">
+        <button>
+          <a href="/login">
+            <ArrowBack />
+          </a>
+        </button>
+        <ProgressBar steps={registerSteps} currentStep={0} title="Register progress" />
+        <div className="flex flex-col items-center justify-center mt-8 mx-4">
+          <div className="w-4/6 p-5 mx-4">
+            <h1 className="text-center mb-6 font-bold text-xl">We will send a verification email</h1>
+            <form className="flex flex-col" onSubmit={handleSubmit(onSubmit)}>
+              <label className="font-bold mb-1">Email</label>
+              <InputText
+              type="email"
+                
+                options={{
+                  type: 'email',
+                  ...register('email', { 
+                      required: true
+                   }),
+                  placeholder: 'Enter your email',
+                }}
+              />
+              {errors.email && <span className="text-red-500 mb-4">This field is mandatory</span>}
 
-          <button
-            type="submit"
-            className="mb-2 bg-black text-white py-2 px-4 rounded-lg hover:font-bold"
-          >
-            SEND EMAIL
-          </button>
-        </form>
-      </div>
-      <div className="flex justify-end mt-4 w-full md:w-1/3 mx-4">
-        <button
-          onClick={handleBack}
-          className="bg-gray-400 text-white py-2 px-4 rounded-lg hover:font-bold"
-        >
-          BACK
-        </button>   
+              <button
+                type="submit"
+                className="mb-2 mt-1 bg-black text-white py-2 px-4 rounded-lg hover:font-bold"
+              >
+                Send email
+              </button>
+            </form>
+          </div>
+        </div>
       </div>
     </div>
   );

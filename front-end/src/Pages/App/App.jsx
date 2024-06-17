@@ -32,12 +32,30 @@ const AppRoutes = () => {
     ]),
     { path: '/login', element: isAuthenticated() ? <Navigate to="/profile" /> : <Login /> },
     { path: '/profile', element: isAuthenticated() ? <NotFound /> : <Login /> },
-    { path: '/register', element: <Register />},
     { path: '/recover-password', element: <RecoverPassword />	},
     { path: '/update-password', element: <UpdatePassword />	},
-    { path: '/verification-code', element: <VerificationCode />},
-    { path: '/email-verification', element: <EmailVerification />},
+    { path: '/register/email-verification', element: <EmailVerification />},
+    { path: '/register/verification-code', element: <VerificationCode />},
+    { path: 'register/*', element: <Register />},
     { path: '/product-detail/:id', element: <ProductDetail />},
+  ]);
+
+  return routes;
+};
+
+const NavRoutes = () => {
+  let routes = useRoutes([
+    { path: '*', element: <Navigation /> },
+    { path: 'register/*', element: undefined },
+  ]);
+
+  return routes;
+};
+
+const FootRoutes = () => {
+  let routes = useRoutes([
+    { path: "*", element: <Footer /> },
+    { path: "register/*", element: undefined },
   ]);
 
   return routes;
@@ -66,9 +84,9 @@ const App = () => {
     <GlobalProvider>
       <BrowserRouter>
         <div className="flex flex-col min-h-screen justify-between">
-          <Navigation/>
+          <NavRoutes/>
           <AppRoutes />
-          <Footer />
+          <FootRoutes />
         </div>
       </BrowserRouter>
     </GlobalProvider>
