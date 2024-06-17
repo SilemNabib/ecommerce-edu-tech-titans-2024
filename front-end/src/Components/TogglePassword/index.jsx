@@ -10,7 +10,7 @@ const TogglePassword = ({ register, name }) => {
 
   return (
     <div className="relative">
-      <div className="flex items-center border border-black rounded-md">
+      <div className="flex items-center border border-black rounded-md mb-1">
         <input
           type={showPassword ? 'text' : 'password'}
           {...register(name, {
