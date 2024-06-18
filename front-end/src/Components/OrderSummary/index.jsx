@@ -3,7 +3,7 @@ import OrderSummaryData from '../../config/OrderSummaryData';
 const OrderSummary = () => {
   const { subtotal, shipping, total, products } = OrderSummaryData;
   return (
-    <div className="bg-white p-4 rounded-md shadow-md border border-gray-300 max-w-md mx-auto md:mx-0 md:max-w-full">
+    <div className="bg-white p-4 rounded-md shadow-md border border-gray-300 max-w-md mx-auto md:mx-0 md:max-w-full mb-8">
       <h2 className="text-lg font-semibold mb-4">Order Summary</h2>
 
       <div className="mb-4">

@@ -7,6 +7,7 @@ import { isAuthenticated } from '../../Context/AuthContext';
 import { NavigationCategories } from '../../config/NavigationCategories';
 import CheckoutCart from '../CheckoutCart';
 import CheckoutProfile from '../CheckoutProfile';
+import CheckoutShipping from '../CheckoutShipping';
 import EmailVerification from "../EmailVerification";
 import Home from '../Home';
 import Login from '../Login';
@@ -42,6 +43,7 @@ const AppRoutes = () => {
     { path: '/product-detail/:id', element: <ProductDetail />},
     { path: '/checkout/cart', element: <CheckoutCart />},
     { path: '/checkout/profile', element: <CheckoutProfile />},
+    { path: '/checkout/shipping', element: <CheckoutShipping />},
 
   ]);
 
