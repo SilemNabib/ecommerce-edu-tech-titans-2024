@@ -1,9 +1,10 @@
 package com.sunflowers.ecommerce.auth.controller;
 
-import com.sunflowers.ecommerce.auth.entity.User;
 import com.sunflowers.ecommerce.auth.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.converter.json.MappingJacksonValue;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -17,13 +18,8 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    /**
-     * Retrieves all users from the system. JUST FOR TESTING PURPOSES.
-     *
-     * @return an iterable collection of all users
-     */
-    @GetMapping("/all")
-    public Iterable<User> getAllUsers() {
-        return userService.getAllUsers();
+    @GetMapping("/{userID}")
+    public MappingJacksonValue getUserProfile(@RequestHeader(name = "Authorization") String authorizationHeader) {
+        return userService.getUserProfile(authorizationHeader);
     }
 }
