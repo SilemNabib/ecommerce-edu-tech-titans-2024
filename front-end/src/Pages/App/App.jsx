@@ -1,11 +1,11 @@
 import { Navigate } from 'react-router';
-import { BrowserRouter, Outlet, useParams, useRoutes } from 'react-router-dom';
+import { BrowserRouter, Outlet, useRoutes } from 'react-router-dom';
 import Footer from '../../Components/Footer';
 import Navigation from '../../Components/Navigation';
 import StripeProvider from '../../Components/StripeProvider';
 import { GlobalProvider } from '../../Context';
 import { isAuthenticated } from '../../Context/AuthContext';
-import { NavigationCategories } from '../../config/NavigationCategories';
+import Category from '../Categories';
 import CheckoutCart from '../CheckoutCart';
 import CheckoutPayment from '../CheckoutPayment';
 import CheckoutProfile from '../CheckoutProfile';
@@ -26,10 +26,9 @@ const AppRoutes = () => {
   let routes = useRoutes([
     { path: '/', element: <Home /> },
     { path: '*', element: <NotFound /> },
-    ...NavigationCategories.categories.flatMap(category => [
-      ...category.featured.map(feature => ({ path: feature.href, element: <Category /> })),
-      ...category.sections.flatMap(section => section.items.map(item => ({ path: item.href, element: <Category /> })))
-    ]),
+    { path: "/category/:category", element: <Category /> },
+    { path: "/category/:category/:section", element: <Category /> },
+    { path: "/category/:category/:section/:item", element: <Category /> },
     { path: '/login', element: isAuthenticated() ? <Navigate to='/profile' /> : <Login /> },
     { path: '/profile', element: isAuthenticated() ? <NotFound /> : <Login /> },
     { path: '/recover-password', element: <RecoverPassword /> },
@@ -69,24 +68,6 @@ const FootRoutes = () => {
 
   return routes;
 };
-
-const Category = () => {
-  let { category, section, item } = useParams();
-  let products;
-
-  return (
-    <div>
-      <side>Filtros</side>
-      <main>{products?.map(product => (
-        <article key={product.id}>
-          <h2>{product.name}</h2>
-          <p>{product.description}</p>
-          <p>{product.price}</p>
-        </article>
-      ))}</main>
-    </div>
-  );
-}
 
 const App = () => {
   return (

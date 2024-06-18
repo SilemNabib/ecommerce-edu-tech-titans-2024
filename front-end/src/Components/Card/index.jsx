@@ -45,7 +45,7 @@ const Card = ({ data }) => {
     <Link to={`/product-detail/${data.id}`}>
     <div className='bg-white cursor-pointer w-full sm:w-64 h-100 shadow-lg rounded-lg overflow-hidden mb-4 flex flex-col' onClick={showProduct}>
       <figure className='relative w-full h-2/3'>
-        <img className='w-full h-full object-cover' src={data.image} alt={data.title} />
+        <img className='w-full h-full object-cover' src={data.productImages[0].url} alt={data.name} />
         <div
           className={`absolute top-0 right-0 flex justify-center items-center w-8 h-8 rounded-full m-2 p-1 ${isInCart ? 'bg-green-500' : 'bg-white'}`}
           onClick={isInCart ? undefined : addProductsToCart}>
