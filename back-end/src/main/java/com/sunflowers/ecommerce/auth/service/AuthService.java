@@ -115,6 +115,9 @@ public class AuthService {
                 .expiration(Timestamp.from(new Date(System.currentTimeMillis() + 1000 * 60 * 60).toInstant()))
                 .build();
 
+        unverifiedUserRepository.findByEmail(registerRequest.getEmail())
+                .ifPresent(unverifiedUserRepository::delete);
+
         unverifiedUserRepository.save(user);
 
         String text = "Please use the following code to verify your email: " + verificationCode
