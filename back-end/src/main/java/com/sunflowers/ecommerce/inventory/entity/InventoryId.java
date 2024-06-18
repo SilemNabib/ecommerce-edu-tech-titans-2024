@@ -9,6 +9,10 @@ import lombok.Setter;
 import java.io.Serializable;
 import java.util.Objects;
 
+/**
+ * The InventoryId class represents the composite key for the Inventory entity.
+ * It includes the product ID, the color ID, and the size.
+ */
 @Setter
 @Getter
 @AllArgsConstructor

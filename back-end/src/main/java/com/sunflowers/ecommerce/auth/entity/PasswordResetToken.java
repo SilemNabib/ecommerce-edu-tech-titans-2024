@@ -9,6 +9,9 @@ import lombok.NoArgsConstructor;
 import java.util.Date;
 import java.util.UUID;
 
+/**
+ * The PasswordResetToken entity represents a token that is used for password reset operations in the authentication system.
+ */
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor

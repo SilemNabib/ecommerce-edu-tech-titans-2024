@@ -9,6 +9,10 @@ import lombok.Setter;
 import java.io.Serializable;
 import java.util.Objects;
 
+/**
+ * Embeddable class for the ClothingSetProductId.
+ * This class represents a composite key for the ClothingSetProduct entity.
+ */
 @Getter
 @Setter
 @AllArgsConstructor

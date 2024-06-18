@@ -10,6 +10,10 @@ import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.Set;
 
+/**
+ * Entity class for the Product.
+ * This class represents a product with various attributes like name, description, discount etc.
+ */
 @Getter
 @Setter
 @Data

@@ -6,6 +6,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * The Country entity represents a country in the system.
+ */
 @Data
 @Builder
 @AllArgsConstructor

@@ -7,6 +7,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * The CartDetail entity representing an individual product that a user has added to their shopping cart.
+ */
 @Data
 @Builder
 @NoArgsConstructor

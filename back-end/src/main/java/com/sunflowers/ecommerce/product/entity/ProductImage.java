@@ -8,6 +8,10 @@ import lombok.NoArgsConstructor;
 
 import java.util.UUID;
 
+/**
+ * Entity class for the ProductImage.
+ * This class represents an image associated with a product.
+ */
 @Data
 @Builder
 @NoArgsConstructor

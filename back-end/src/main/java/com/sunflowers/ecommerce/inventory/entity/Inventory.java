@@ -7,6 +7,10 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * The Inventory entity represents the stock status of a specific product variant in the e-commerce system.
+ * It encapsulates details such as the product, its color, and the quantity available in stock.
+ */
 @Data
 @Builder
 @NoArgsConstructor

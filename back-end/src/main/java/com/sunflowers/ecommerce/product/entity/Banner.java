@@ -9,6 +9,9 @@ import lombok.NoArgsConstructor;
 import java.sql.Timestamp;
 import java.util.UUID;
 
+/**
+ * Entity class for the Banner.
+ */
 @Data
 @Builder
 @AllArgsConstructor

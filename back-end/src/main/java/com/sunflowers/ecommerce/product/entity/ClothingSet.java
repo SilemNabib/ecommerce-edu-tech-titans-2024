@@ -8,6 +8,10 @@ import lombok.NoArgsConstructor;
 
 import java.util.Set;
 
+/**
+ * Entity class for the ClothingSet.
+ * This class represents a clothing set which is associated with multiple products and images.
+ */
 @Data
 @Builder
 @AllArgsConstructor

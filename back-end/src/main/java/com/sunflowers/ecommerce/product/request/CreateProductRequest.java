@@ -6,6 +6,10 @@ import lombok.*;
 
 import java.util.List;
 
+/**
+ * Request class for creating a new Product.
+ * This class represents a request to create a new product with a name, description, price, categories, and imageIds.
+ */
 @Data
 @Getter
 @Setter

@@ -6,6 +6,10 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * Entity class for the ClothingSetProduct.
+ * This class represents a product associated with a clothing set.
+ */
 @Data
 @Builder
 @AllArgsConstructor

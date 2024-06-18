@@ -9,6 +9,10 @@ import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 
+/**
+ * Represents the details of an order in the e-commerce system.
+ * Each OrderDetail links an order with a specific product and includes the quantity and price details.
+ */
 @Data
 @Builder
 @NoArgsConstructor

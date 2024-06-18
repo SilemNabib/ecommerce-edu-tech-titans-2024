@@ -11,6 +11,10 @@ import java.sql.Timestamp;
 import java.util.Set;
 import java.util.UUID;
 
+/**
+ * The Cart entity represents a user's shopping cart in the e-commerce system.
+ * It includes details such as the user, the creation date, the last update, and the details of the cart.
+ */
 @Data
 @Builder
 @NoArgsConstructor

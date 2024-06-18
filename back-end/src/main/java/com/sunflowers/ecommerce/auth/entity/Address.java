@@ -8,6 +8,10 @@ import lombok.NoArgsConstructor;
 
 import java.util.UUID;
 
+/**
+ * The Address entity represents a user's address in the system.
+ * It includes details such as the user, the city ID, the street, the zip code, the phone, and the country.
+ */
 @Data
 @Builder
 @NoArgsConstructor

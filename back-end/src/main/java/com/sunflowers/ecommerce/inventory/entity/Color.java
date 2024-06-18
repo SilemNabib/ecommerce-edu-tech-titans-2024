@@ -8,6 +8,10 @@ import lombok.NoArgsConstructor;
 
 import java.util.Set;
 
+/**
+ * The Color entity represents a color in the inventory system.
+ * It includes details such as the name of the color, the color code, and the inventories that have this color.
+ */
 @Data
 @Builder
 @NoArgsConstructor

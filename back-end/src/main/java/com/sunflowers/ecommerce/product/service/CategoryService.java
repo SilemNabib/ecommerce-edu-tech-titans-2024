@@ -9,6 +9,10 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Service class for managing Categories.
+ * This class provides methods to create a list of categories.
+ */
 @Service
 public class CategoryService {
 

@@ -5,6 +5,10 @@ import lombok.*;
 import java.math.BigDecimal;
 import java.util.List;
 
+/**
+ * Request class for the Product.
+ * This class represents a request to filter products by page, pageSize, sortBy, categories, minPrice, maxPrice, sizes, and colors.
+ */
 @Data
 @Builder
 @Getter

@@ -12,6 +12,11 @@ import java.sql.Timestamp;
 import java.util.Set;
 import java.util.UUID;
 
+/**
+ * The Order entity represents an order in the e-commerce system.
+ * It includes details such as the user who placed the order, the delivery address, the payment method, 
+ * the creation date, the shipping price, the total price, the order status, and the order details.
+ */
 @Data
 @Builder
 @AllArgsConstructor

@@ -9,6 +9,10 @@ import lombok.NoArgsConstructor;
 
 import java.sql.Timestamp;
 
+/**
+ * Entity class for the Review.
+ * This class represents a review made by a user for a product.
+ */
 @Data
 @Builder
 @NoArgsConstructor

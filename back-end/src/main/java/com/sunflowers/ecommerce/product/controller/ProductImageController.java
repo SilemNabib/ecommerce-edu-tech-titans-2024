@@ -18,6 +18,13 @@ public class ProductImageController {
     @Autowired
     private ProductImageService productImageService;
 
+    /**
+     * Endpoint for uploading a product image.
+     * This method handles POST requests for uploading a product image.
+     *
+     * @param file the image file to be uploaded
+     * @return a ResponseEntity containing the created ProductImage entity, or a FORBIDDEN status if an error occurred
+     */
     @PostMapping("/")
     public ResponseEntity<ProductImage> uploadImage(@RequestParam("file") MultipartFile file) {
         try {
@@ -28,11 +35,25 @@ public class ProductImageController {
         }
     }
 
+    /**
+     * Exception handler for IllegalArgumentException.
+     * This method returns a ResponseEntity with a BAD_REQUEST status and an ErrorResponse.
+     *
+     * @param e the exception
+     * @return a ResponseEntity with a BAD_REQUEST status and an ErrorResponse
+     */
     @ExceptionHandler({IllegalArgumentException.class})
     public ResponseEntity<ErrorResponse> handleArguments(Exception e) {
         return ResponseEntity.badRequest().body(new ErrorResponse("Bad arguments", e.getMessage()));
     }
 
+    /**
+     * General exception handler.
+     * This method returns a ResponseEntity with an INTERNAL_SERVER_ERROR status and an ErrorResponse.
+     *
+     * @param e the exception
+     * @return a ResponseEntity with an INTERNAL_SERVER_ERROR status and an ErrorResponse
+     */
     @ExceptionHandler({Exception.class})
     public ResponseEntity<ErrorResponse> handleExceptions(Exception e) {
         return ResponseEntity.status(500).body(new ErrorResponse("Unhandled error", e.getMessage()));

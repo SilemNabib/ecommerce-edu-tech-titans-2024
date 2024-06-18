@@ -8,6 +8,10 @@ import lombok.NoArgsConstructor;
 
 import java.util.Set;
 
+/**
+ * Entity class for the Category.
+ * This class represents a category which is associated with multiple products.
+ */
 @Data
 @Builder
 @NoArgsConstructor

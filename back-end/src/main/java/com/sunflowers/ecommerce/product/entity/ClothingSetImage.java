@@ -8,6 +8,10 @@ import lombok.NoArgsConstructor;
 
 import java.util.UUID;
 
+/**
+ * Entity class for the ClothingSetImage.
+ * This class represents an image associated with a clothing set.
+ */
 @Data
 @Builder
 @NoArgsConstructor

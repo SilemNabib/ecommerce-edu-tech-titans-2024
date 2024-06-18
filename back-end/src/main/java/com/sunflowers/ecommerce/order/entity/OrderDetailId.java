@@ -7,6 +7,10 @@ import java.io.Serializable;
 import java.util.Objects;
 import java.util.UUID;
 
+/**
+ * The OrderDetailId class represents the composite identifier for the OrderDetail entity.
+ * It includes the order ID and the product ID.
+ */
 @Setter
 @Getter
 @AllArgsConstructor

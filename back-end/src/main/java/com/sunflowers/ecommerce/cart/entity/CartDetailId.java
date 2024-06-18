@@ -8,6 +8,10 @@ import lombok.Setter;
 
 import java.util.UUID;
 
+/**
+ * The CartDetailId class represents the composite key for the CartDetail entity.
+ * It includes the cart ID and the product ID.
+ */
 @Setter
 @Getter
 @NoArgsConstructor
