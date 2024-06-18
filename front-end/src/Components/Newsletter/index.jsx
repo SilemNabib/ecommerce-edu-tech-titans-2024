@@ -18,7 +18,7 @@ const Newsletter = () => {
   };
 
   return (
-    <section className="bg-gray-100  text-black py-10 w-screen flex items-center justify-center">
+    <section className="bg-gray-100  text-black py-10 w-full flex items-center justify-center">
       <div className="container mx-auto flex flex-col lg:flex-row items-center justify-between bg-gray  border border-gray-700 p-8 rounded-lg lg:rounded-xl space-y-8 lg:space-y-0">
         <div className="lg:w-1/2 text-center lg:text-left">
           <h2 className="text-3xl font-bold">Stay Ahead with the Latest Trends and Exclusive Offers</h2>

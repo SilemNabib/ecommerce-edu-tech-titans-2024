@@ -2,6 +2,7 @@ import { UserIcon } from '@heroicons/react/24/outline';
 import { TruckIcon } from '@heroicons/react/24/solid';
 import { NavLink } from 'react-router-dom';
 import { NavigationCategories } from '../../config/NavigationCategories.js';
+import SearchBar from '../SearchBar';
 import './styles.css';
 '@heroicons/react/24/solid';
 
@@ -184,7 +185,7 @@ export default function Navigation() {
               </button>
 
               {/* Logo */}
-              <div className='h-4 w-4 md:h-10 md:w-10 ml-4 flex lg:ml-0 lg:block'>
+              <div className='h-6 w-6 items-center md:h-10 md:w-10 ml-4 flex lg:ml-0 lg:block'>
                 <a href='/'>
                   <span className='sr-only'>Sunflowers</span>
                   <img
@@ -285,32 +286,26 @@ export default function Navigation() {
                 
               <div className='flex flex-1 items-center justify-end space-x-6'>
                 <NavLink to='/login' className='text-gray-400 hover:text-gray-500 p-2 sm:p-0'>
-                  <UserIcon className='h-3 w-3 md:h-6 md:w-6' />
+                  <UserIcon className='h-6 w-6' />
                 </NavLink>
               </div>  
 
-                {/* Search */}
+              {/* Search */}
                 <div className='flex items-center lg:ml-6'>
-                  <button onClick={() => setShowSearch(!showSearch)} className='p-2 text-gray-400 hover:text-gray-500'>
+                  <button onClick={() => setShowSearch(!showSearch)} className='p-2 text-gray-400 hover:text-gray-500 lg:block hidden'>
                     <span className='sr-only'>Search</span>
-                    <MagnifyingGlassIcon className='h-3 w-3 md:h-6 md:w-6' aria-hidden='true' />
+                    <MagnifyingGlassIcon className='h-6 w-6' aria-hidden='true' />
                   </button>
                   {showSearch && (
-                    <input
-                      type='text'
-                      placeholder='Search...'
-                      className='p-1 ml-1 text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-gray-300 focus:border-gray-300 md:w-full sm:w-1/2'
-                      // Aqui se implementa la lógica para manejar las peticiones de búsqueda a la base de datos
-                      // onChange={(e) => handleSearch(e.target.value)}
-                    />
+                    <SearchBar className='p-1 ml-1 text-gray-700 bg-white border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-gray-300 focus:border-gray-300 md:w-full sm:w-1/2' />
                   )}
-                </div>
+              </div>
 
                 {/* Cart */}
                 <div className='ml-2 flow-root lg:ml-6'>
                   <a href='#' className='group -m-2 flex items-center p-2'>
                     <ShoppingBagIcon
-                      className='h-3 w-3 md:h-6 md:w-6 flex-shrink-0 text-gray-400 group-hover:text-gray-500'
+                      className='h-6 w-6 flex-shrink-0 text-gray-400 group-hover:text-gray-500'
                       aria-hidden='true'
                     />
                     <span className='ml-2 text-xs sm:text-sm font-medium text-gray-700 group-hover:text-gray-800 hidden md:block'>0</span>
