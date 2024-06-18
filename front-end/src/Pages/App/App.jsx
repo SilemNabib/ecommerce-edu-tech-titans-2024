@@ -6,6 +6,7 @@ import { GlobalProvider } from '../../Context';
 import { isAuthenticated } from '../../Context/AuthContext';
 import { NavigationCategories } from '../../config/NavigationCategories';
 import CheckoutCart from '../CheckoutCart';
+import EmailVerification from "../EmailVerification";
 import Home from '../Home';
 import Login from '../Login';
 import NotFound from '../NotFound';
@@ -31,10 +32,12 @@ const AppRoutes = () => {
       ...category.sections.flatMap(section => section.items.map(item => ({ path: item.href, element: <Category /> })))
     ]),
     { path: '/login', element: isAuthenticated() ? <Navigate to='/profile' /> : <Login /> },
-    { path: '/register', element: <Register />},
+    { path: '/profile', element: isAuthenticated() ? <NotFound /> : <Login /> },
     { path: '/recover-password', element: <RecoverPassword />	},
     { path: '/update-password', element: <UpdatePassword />	},
-    { path: '/verification-code', element: <VerificationCode />},
+    { path: '/register/email-verification', element: <EmailVerification />},
+    { path: '/register/verification-code', element: <VerificationCode />},
+    { path: 'register/*', element: <Register />},
     { path: '/product-detail/:id', element: <ProductDetail />},
     { path: '/checkout/cart', element: <CheckoutCart />}
   ]);
@@ -42,6 +45,23 @@ const AppRoutes = () => {
   return routes;
 };
 
+const NavRoutes = () => {
+  let routes = useRoutes([
+    { path: '*', element: <Navigation /> },
+    { path: 'register/*', element: undefined },
+  ]);
+
+  return routes;
+};
+
+const FootRoutes = () => {
+  let routes = useRoutes([
+    { path: "*", element: <Footer /> },
+    { path: "register/*", element: undefined },
+  ]);
+
+  return routes;
+};
 const Category = () => {
 
   let { category, section, item } = useParams();
@@ -65,9 +85,9 @@ const App = () => {
     <GlobalProvider>
       <BrowserRouter>
         <div className='flex flex-col min-h-screen justify-between'>
-          <Navigation/>
+          <NavRoutes/>
           <AppRoutes />
-          <Footer />
+          <FootRoutes />
         </div>
       </BrowserRouter>
     </GlobalProvider>

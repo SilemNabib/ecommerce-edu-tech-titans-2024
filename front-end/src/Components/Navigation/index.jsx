@@ -146,6 +146,20 @@ export default function Navigation() {
                     </div>
                   ))}
                 </div>
+
+                {/* Sign in / Create account */}
+                <div className='space-y-6 border-t border-gray-200 px-4 py-6'>
+                  <div className='flow-root'>
+                    <NavLink to='/login' className='-m-2 block p-2 font-medium text-gray-900'>
+                      Sign in
+                    </NavLink>
+                  </div>
+                  <div className='flow-root'>
+                    <NavLink to='/email-verification' className='-m-2 block p-2 font-medium text-gray-900'>
+                      Create account
+                    </NavLink>
+                  </div>
+                </div>
               </DialogPanel>
             </TransitionChild>
           </div>

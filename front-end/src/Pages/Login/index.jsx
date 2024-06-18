@@ -10,6 +10,7 @@ import "react-toastify/dist/ReactToastify.css";
 import TogglePassword from "../../Components/TogglePassword";
 import { GlobalContext } from "../../Context";
 import { useAuth } from "../../Context/AuthContext";
+import InputText from "../../Components/InputText";
 
 /**
  * Represents the Login page component.
@@ -47,8 +48,14 @@ const Login = () => {
       })
   };
 
+  
+  const handleBack = () => {
+    navigate('/');
+  };
+
   return (
-    <div className="max-w-4xl mx-auto mt-8 p-8 bg-gray-100 rounded-lg shadow-md">
+  <div>
+<div className="max-w-4xl mx-auto mt-8 p-8 bg-gray-100 rounded-lg shadow-md">
       <h2 className="text-center mb-8 font-bold">
         LOG IN OR CREATE YOUR ACCOUNT
       </h2>
@@ -56,12 +63,12 @@ const Login = () => {
         <div className="w-full md:w-1/2 mb-9 md:mb-0 p-6">
           <form className="flex flex-col" onSubmit={handleSubmit(onSubmit)}>
             <label className="font-bold mb-1">Email</label>
-            <input
-              type="email"
-              {...register("email", { required: true })}
-              placeholder="Enter your email address"
-              className="p-2 border border-black rounded-lg focus:outline-none mb-4"
-            />
+            <InputText
+              options={{
+                type: "email",
+                ...register("email", { required: true }),
+                placeholder: "Enter your email address",
+              }}/>
             {errors.email && (
               <span className="text-red-500 mb-4">This field is mandatory</span>
             )}
@@ -72,15 +79,8 @@ const Login = () => {
               <span className="text-red-500 mb-4">This field is mandatory</span>
             )}
 
-            <div className="mt-4 mb-4 flex items-center justify-between">
-              <label>
-                <input
-                  type="checkbox"
-                  {...register("rememberMe")}
-                />{" "}
-                Remind me
-              </label>
-              <a href="/recover-password" className="text-gray-400 underline">
+            <div className="mt-4 mb-4 flex items-center justify-center">
+              <a href="/recover-password" className="text-gray-500 hover:underline">
                 Have you forgotten your password?
               </a>
             </div>
@@ -114,14 +114,26 @@ const Login = () => {
           </ul>
 
           <button
-            onClick={() => navigate("/register")}
+            onClick={() => navigate("/email-verification")}
             className="mb-6 bg-gray-300 text-black py-2 px-4 rounded-lg hover:font-bold"
           >
             CREATE ACCOUNT
           </button>
         </div>
+        
       </div>
+      
     </div>
+    <div className="flex justify-end mt-4 md:w-1/2 mx-5">
+        <button
+          onClick={handleBack}
+          className="bg-gray-400 text-white py-2 px-4 rounded-lg hover:font-bold"
+        >
+          BACK
+        </button>   
+      </div>
+  </div>
+    
   );
 };
 
