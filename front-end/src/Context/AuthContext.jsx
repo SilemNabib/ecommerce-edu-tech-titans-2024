@@ -5,10 +5,22 @@ import * as jwt_decode from "jwt-decode";
 
 const token = localStorage.getItem("authToken");
 
-const isTokenExpired = (token) => {
+export const isTokenExpired = (token) => {
   try {
     const { exp } = jwt_decode.jwtDecode(token);
     if (exp < Date.now() / 1000) {
+      return true;
+    }
+    return false;
+  } catch (e) {
+    return true;
+  }
+};
+
+export const isRegisterExpired = (token) => {
+  try {
+    const { exp } = jwt_decode.jwtDecode(token);
+    if (exp + 2700 < Date.now() / 1000) {
       return true;
     }
     return false;
@@ -23,7 +35,7 @@ if (token && !isTokenExpired(token)) {
 }
 
 export const isAuthenticated = () => {
-  return axios.defaults.headers.common["Authorization"] || (localStorage.getItem("registerToken") && !isTokenExpired(localStorage.getItem("registerToken")));
+  return axios.defaults.headers.common["Authorization"];
 };
 
 const AuthContext = createContext();
@@ -39,8 +51,10 @@ export const AuthProvider = ({ children }) => {
     axios.post(ApiConfig.auth.login, data)
     .then((response) => {
       const { token } = response.data;
+
+      requestLogout();
       axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-  
+      
       localStorage.setItem("user", response.data.user);
       localStorage.setItem("authToken", token);
       if(then){
@@ -70,12 +84,15 @@ export const AuthProvider = ({ children }) => {
       .post(ApiConfig.auth.verify, data)
       .then((response) => {
         localStorage.setItem("registerToken", response.data.token);
-        // No se que más retorne, tengo que ver
+        
         if(then){
           then(response);
         }
       })
-      .catch((error) => {if(on_error) on_error(error)})
+      .catch((error) => {
+        localStorage.removeItem("registerToken");
+        if(on_error) on_error(error)
+      })
       .finally(() => {if (final) final()});
   }
 
@@ -83,20 +100,24 @@ export const AuthProvider = ({ children }) => {
     axios
       .post(ApiConfig.auth.complete, data)
       .then((response) => {
+
+        requestLogout();
+
         localStorage.setItem("authToken", response.data.token);
-        // No se que más retorne, tengo que ver
-        
+        localStorage.setItem("user", response.data.user);
+        axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
         if(then){
           then(response);
         }
       })
-      .catch((error) => {if(on_error) on_error(error)})
+      .catch((error) => { if(on_error) on_error(error)})
       .finally(() => {if (final) final()});
   }
 
   const requestLogout = () => {
     localStorage.removeItem("authToken");
     localStorage.removeItem("registerToken");
+    localStorage.removeItem("email-validated");
     localStorage.removeItem("user");
     delete axios.defaults.headers.common["Authorization"];
   };

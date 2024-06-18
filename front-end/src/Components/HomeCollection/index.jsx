@@ -23,7 +23,6 @@ const HomeSection = ({ category, categories }) => {
     const fetchProducts = async () => {
       try {
         const categoriesQuery = categories.map(category => `categories=${category}`).join('&');
-        console.log(categoriesQuery)
         const response = await fetch(`${ApiConfig.products}?${categoriesQuery}`);
         const data = await response.json();
         if(data._embedded){

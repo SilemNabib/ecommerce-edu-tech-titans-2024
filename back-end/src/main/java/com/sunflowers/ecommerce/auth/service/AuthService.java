@@ -12,6 +12,7 @@ import com.sunflowers.ecommerce.auth.request.LoginRequest;
 import com.sunflowers.ecommerce.auth.request.RegisterRequest;
 import com.sunflowers.ecommerce.email.EmailService;
 import com.sunflowers.ecommerce.email.MailBody;
+import com.sunflowers.ecommerce.utils.FrontLinks;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -107,11 +108,16 @@ public class AuthService {
 
         unverifiedUserRepository.save(user);
 
+        String text = "Please use the following code to verify your email: " + verificationCode
+                + "\n\nThis code will expire in 15 minutes."
+                + "\n\nIf you did not request this code, please ignore this email."
+                + "\n\n\n\n" + FrontLinks.VERIFICATION_CODE + "?token=" + token;
+
         emailService.sendEmail(
                 MailBody.builder()
                 .to(registerRequest.getEmail())
                 .subject("Email Verification")
-                .text("Please use the following code to verify your email: " + verificationCode)
+                .text(text)
                 .build()
         );
 

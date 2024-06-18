@@ -19,7 +19,6 @@ const Reviews = ({ product_id, average }) => {
     const fetchReviews = async () => {
       const response = await auth.authFetch(`${ApiConfig.reviews}${product_id}`);
       const review = await response.data;
-      console.log(review);
       setReviews(review);
     };
   

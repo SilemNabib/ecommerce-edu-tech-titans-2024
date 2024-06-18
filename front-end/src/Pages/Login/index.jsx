@@ -48,17 +48,12 @@ const Login = () => {
       })
   };
 
-  
-  const handleBack = () => {
-    navigate('/');
-  };
-
   return (
   <div>
-<div className="max-w-4xl mx-auto mt-8 p-8 bg-gray-100 rounded-lg shadow-md">
-      <h2 className="text-center mb-8 font-bold">
-        LOG IN OR CREATE YOUR ACCOUNT
-      </h2>
+<div className="max-w-4xl mx-auto mt-8 mb-8 p-8 bg-gray-100 rounded-lg shadow-md">
+      <h1 className="text-center mb-8 font-bold text-3xl">
+        ¡Welcome back!
+      </h1>
       <div className="flex flex-col md:flex-row">
         <div className="w-full md:w-1/2 mb-9 md:mb-0 p-6">
           <form className="flex flex-col" onSubmit={handleSubmit(onSubmit)}>
@@ -89,13 +84,13 @@ const Login = () => {
               type="submit"
               className="w-full md:w-auto bg-black text-white py-2 px-4 rounded-lg hover:font-bold"
             >
-              SIGN IN
+              Sign in
             </button>
           </form>
         </div>
 
         <div className="w-full md:w-1/2 flex flex-col justify-center items-center p-6">
-          <p className="mb-4 font-bold">DON&apos;T HAVE AN ACCOUNT YET?</p>
+          <p className="mb-4 font-bold text-xl">Don&apos;t have an account yet?</p>
           <ul className="mb-4 list-disc pl-10 leading-relaxed">
             {" "}
             <li className="mb-2 flex items-center">
@@ -114,24 +109,16 @@ const Login = () => {
           </ul>
 
           <button
-            onClick={() => navigate("/email-verification")}
+            onClick={() => window.location.href="/register/email-verification"}
             className="mb-6 bg-gray-300 text-black py-2 px-4 rounded-lg hover:font-bold"
           >
-            CREATE ACCOUNT
+            Sign up
           </button>
         </div>
         
       </div>
       
     </div>
-    <div className="flex justify-end mt-4 md:w-1/2 mx-5">
-        <button
-          onClick={handleBack}
-          className="bg-gray-400 text-white py-2 px-4 rounded-lg hover:font-bold"
-        >
-          BACK
-        </button>   
-      </div>
   </div>
     
   );
