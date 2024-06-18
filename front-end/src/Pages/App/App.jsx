@@ -2,10 +2,12 @@ import { Navigate } from 'react-router';
 import { BrowserRouter, useParams, useRoutes } from 'react-router-dom';
 import Footer from '../../Components/Footer';
 import Navigation from '../../Components/Navigation';
+import StripeProvider from '../../Components/StripeProvider';
 import { GlobalProvider } from '../../Context';
 import { isAuthenticated } from '../../Context/AuthContext';
 import { NavigationCategories } from '../../config/NavigationCategories';
 import CheckoutCart from '../CheckoutCart';
+import CheckoutPayment from '../CheckoutPayment';
 import CheckoutProfile from '../CheckoutProfile';
 import CheckoutShipping from '../CheckoutShipping';
 import EmailVerification from "../EmailVerification";
@@ -20,11 +22,6 @@ import VerificationCode from '../VerificationCode';
 
 import './App.css';
 
-/**
- * Renders the routes for the application.
- *
- * @returns {ReactNode} The rendered routes.
- */
 const AppRoutes = () => {
   let routes = useRoutes([
     { path: '/', element: <Home /> },
@@ -35,16 +32,20 @@ const AppRoutes = () => {
     ]),
     { path: '/login', element: isAuthenticated() ? <Navigate to='/profile' /> : <Login /> },
     { path: '/profile', element: isAuthenticated() ? <NotFound /> : <Login /> },
-    { path: '/recover-password', element: <RecoverPassword />	},
-    { path: '/update-password', element: <UpdatePassword />	},
-    { path: '/register/email-verification', element: <EmailVerification />},
-    { path: '/register/verification-code', element: <VerificationCode />},
-    { path: 'register/*', element: <Register />},
-    { path: '/product-detail/:id', element: <ProductDetail />},
-    { path: '/checkout/cart', element: <CheckoutCart />},
-    { path: '/checkout/profile', element: <CheckoutProfile />},
-    { path: '/checkout/shipping', element: <CheckoutShipping />},
-
+    { path: '/recover-password', element: <RecoverPassword /> },
+    { path: '/update-password', element: <UpdatePassword /> },
+    { path: '/register/email-verification', element: <EmailVerification /> },
+    { path: '/register/verification-code', element: <VerificationCode /> },
+    { path: 'register/*', element: <Register /> },
+    { path: '/product-detail/:id', element: <ProductDetail /> },
+    { path: '/checkout/cart', element: <CheckoutCart /> },
+    { path: '/checkout/profile', element: <CheckoutProfile /> },
+    { path: '/checkout/shipping', element: <CheckoutShipping /> },
+    { path: '/checkout/payment', element: (
+      <StripeProvider>
+        <CheckoutPayment />
+      </StripeProvider>
+    )},
   ]);
 
   return routes;
@@ -54,7 +55,7 @@ const NavRoutes = () => {
   let routes = useRoutes([
     { path: '*', element: <Navigation /> },
     { path: 'register/*', element: undefined },
-    { path: '/checkout/*', element: undefined}
+    { path: '/checkout/*', element: undefined }
   ]);
 
   return routes;
@@ -68,22 +69,23 @@ const FootRoutes = () => {
 
   return routes;
 };
+
 const Category = () => {
-
   let { category, section, item } = useParams();
-
   let products;
 
-  return <div>
-    <side>Filtros</side>
-    <main>{products?.map(product => { 
-      return <article key={product.id}>
-        <h2>{product.name}</h2>
-        <p>{product.description}</p>
-        <p>{product.price}</p>
-      </article>
-    })}</main>
-  </div>
+  return (
+    <div>
+      <side>Filtros</side>
+      <main>{products?.map(product => (
+        <article key={product.id}>
+          <h2>{product.name}</h2>
+          <p>{product.description}</p>
+          <p>{product.price}</p>
+        </article>
+      ))}</main>
+    </div>
+  );
 }
 
 const App = () => {
@@ -91,7 +93,7 @@ const App = () => {
     <GlobalProvider>
       <BrowserRouter>
         <div className='flex flex-col min-h-screen justify-between'>
-          <NavRoutes/>
+          <NavRoutes />
           <AppRoutes />
           <FootRoutes />
         </div>
