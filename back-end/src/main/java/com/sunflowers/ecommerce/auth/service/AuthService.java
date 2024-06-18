@@ -1,5 +1,6 @@
 package com.sunflowers.ecommerce.auth.service;
 
+import com.sunflowers.ecommerce.auth.config.JwtAuthenticationFilter;
 import com.sunflowers.ecommerce.auth.entity.Role;
 import com.sunflowers.ecommerce.auth.entity.UnverifiedUser;
 import com.sunflowers.ecommerce.auth.entity.User;
@@ -15,6 +16,7 @@ import com.sunflowers.ecommerce.email.MailBody;
 import com.sunflowers.ecommerce.utils.FrontLinks;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.AuthorizationServiceException;
 import org.springframework.security.authentication.AccountExpiredException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -27,6 +29,7 @@ import java.util.Arrays;
 import java.util.Date;
 import java.sql.Timestamp;
 import java.time.Instant;
+import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -41,6 +44,8 @@ public class AuthService {
     private final EmailService emailService;
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private UserService userService;
     @Autowired
     private UnverifiedUserRepository unverifiedUserRepository;
     @Autowired
@@ -201,6 +206,17 @@ public class AuthService {
         return AuthResponse.builder()
                 .token(jwtService.generateToken(user.getEmail()))
                 .build();
+    }
+
+    public User validateAuthorization(String authToken) {
+        String token = JwtAuthenticationFilter.getTokenFromHeader(authToken);
+
+        User user = userRepository.findById(UUID.fromString(authToken)).orElseThrow(() -> new AuthorizationServiceException("User not found"));
+
+        if(!jwtService.validateToken(token, user) || !user.getEmail().equalsIgnoreCase(jwtService.extractUsername(token))){
+            throw new AuthorizationServiceException("Unauthorized");
+        }
+        return user;
     }
 
     public static boolean validatePhoneNumber(String phone) {
