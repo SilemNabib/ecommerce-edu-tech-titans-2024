@@ -1,5 +1,7 @@
 package com.sunflowers.ecommerce.auth.entity;
 
+import com.fasterxml.jackson.annotation.JsonFilter;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.sunflowers.ecommerce.cart.entity.Cart;
 import com.sunflowers.ecommerce.order.entity.Order;
 import com.sunflowers.ecommerce.product.entity.Review;
@@ -16,7 +18,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.List;
-import java.util.Set;
 import java.util.UUID;
 
 /**
@@ -28,6 +29,8 @@ import java.util.UUID;
 @AllArgsConstructor
 @Entity
 @Table(name = "users", uniqueConstraints = @UniqueConstraint(columnNames = "email"))
+@JsonIgnoreProperties({"addresses", "cart", "orders", "reviews"})
+@JsonFilter("UserFilter")
 public class User implements UserDetails {
 
     @Id
