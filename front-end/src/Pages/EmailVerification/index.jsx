@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
@@ -6,68 +6,64 @@ import 'react-toastify/dist/ReactToastify.css';
 import ProgressBar from '../../Components/ProgressBar';
 import { ArrowBack } from '@mui/icons-material';
 import InputText from '../../Components/InputText';
+import { useAuth } from '../../Context/AuthContext';
+import { CircularProgress } from '@mui/material';
 
-const registerSteps = [
-  <a href={"/email-verification"}>Email verification</a>,
-  <a href={"/verification-code"}>Verification code</a>,
-  <a href={"/register"}>Create account</a>,
-];
+export const registerSteps = ["Email", "Verify", "Create"];
 
 const SendVerificationEmail = () => {
+  // Initialize page methods
+  localStorage.removeItem("registerToken");
+  localStorage.removeItem("email-validated");
+
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false);
+
+  const auth = useAuth();
+
   const { register, handleSubmit, formState: { errors } } = useForm();
   const navigate = useNavigate();
 
   const onSubmit = async (data) => {
     try {
-      // Simulamos una petición al backend para enviar el correo de verificación - Se debe cambiar por la petición real
-      const response = await fetch('/api/send-verification-email', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
+      setError(null);
+      setLoading(true);
+      auth.requestRegister({
+        data: data,
+        then: (response) => {
+          if(response.data.token && localStorage.getItem("registerToken") === response.data.token){
+            navigate('/register/verification-code');
+          }
         },
-        body: JSON.stringify({ email: data.email }),
+        on_error: (error) => setError(error.response.data.details),
+        final: () => setLoading(false),
       });
 
-      if (response.ok) {
-        toast.success('Verification email sent successfully');
-        navigate('/verification-code');
-      } else {
-        toast.error('Failed to send verification email');
-      }
     } catch (error) {
       toast.error('An error occurred while sending the verification email');
     }
   };
 
   return (
-    <div className='w-screen h-screen'
+    <div className='w-full h-full min-h-screen relative'
         style={{
-          backgroundImage: 'url(https://upload.wikimedia.org/wikipedia/commons/d/dc/Trendy_apparel_store_%28Unsplash%29.jpg)',
+          backgroundImage: 'url("../assets/store_background.jpg")',
           backgroundSize: 'cover',
           backgroundPosition: 'center'}}>
-      <div className="max-w-4xl mx-auto mt-8 p-8 bg-gray-100 rounded-lg shadow-md">
+      <div className="absolute inset-0 bg-black opacity-50"></div>
+      <div className="relative max-w-4xl mx-auto mt-8 mb-8 p-8 bg-gray-100 rounded-lg shadow-md">
         <button>
           <a href="/login">
             <ArrowBack />
           </a>
         </button>
-        <ProgressBar steps={registerSteps} currentStep={0} title="Register progress" />
+        <ProgressBar steps={registerSteps} currentStep={0} title="Email to register" />
         <div className="flex flex-col items-center justify-center mt-8 mx-4">
-          <div className="w-4/6 p-5 mx-4">
-            <h1 className="text-center mb-6 font-bold text-xl">We will send a verification email</h1>
+          <div className="w-4/6 p-5 mx-4 min-w-72">
+            <h1 className="text-center mb-6 font-bold text-xl">We will send a verification email 👋</h1>
             <form className="flex flex-col" onSubmit={handleSubmit(onSubmit)}>
-              <label className="font-bold mb-1">Email</label>
-              <InputText
-              type="email"
-                
-                options={{
-                  type: 'email',
-                  ...register('email', { 
-                      required: true
-                   }),
-                  placeholder: 'Enter your email',
-                }}
-              />
+              <label className="font-bold mb-1">Email *</label>
+              <InputText options={{type: 'email', ...register('email', { required: true }), placeholder: 'Enter your email' }}/>
               {errors.email && <span className="text-red-500 mb-4">This field is mandatory</span>}
 
               <button
@@ -76,6 +72,9 @@ const SendVerificationEmail = () => {
               >
                 Send email
               </button>
+              <span className="w-full text-center text-red-500">
+                {loading && <CircularProgress/>}
+                {error}</span>
             </form>
           </div>
         </div>

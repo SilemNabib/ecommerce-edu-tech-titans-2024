@@ -21,7 +21,7 @@ const ProgressBar = ({ steps, currentStep, title }) => {
       <div className="flex justify-between text-sm text-gray-600">
         {steps?.map((step, index) => {
           return (
-            <div className={`${index <= currentStep? 'text-black' : 'text-gray-500'} flex`}>
+            <div key={index} className={`${index <= currentStep? 'text-black' : 'text-gray-500'} flex`}>
               {(index < currentStep) &&
                 (<CheckBadgeIcon className="w-4 mr-1"/>)
               }

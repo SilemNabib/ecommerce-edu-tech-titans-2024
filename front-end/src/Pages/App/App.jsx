@@ -1,5 +1,5 @@
 import { Navigate } from 'react-router';
-import { BrowserRouter, useParams, useRoutes } from 'react-router-dom';
+import { BrowserRouter, Outlet, useParams, useRoutes } from 'react-router-dom';
 import Footer from '../../Components/Footer';
 import Navigation from '../../Components/Navigation';
 import StripeProvider from '../../Components/StripeProvider';
@@ -34,9 +34,9 @@ const AppRoutes = () => {
     { path: '/profile', element: isAuthenticated() ? <NotFound /> : <Login /> },
     { path: '/recover-password', element: <RecoverPassword /> },
     { path: '/update-password', element: <UpdatePassword /> },
-    { path: '/register/email-verification', element: <EmailVerification /> },
-    { path: '/register/verification-code', element: <VerificationCode /> },
-    { path: 'register/*', element: <Register /> },
+    { path: '/register/email-verification', element: isAuthenticated() ? <Navigate to="/profile" /> : <EmailVerification /> },
+    { path: '/register/verification-code', element: isAuthenticated() ? <Navigate to="/profile" /> : <VerificationCode /> },
+    { path: '/register/complete', element: isAuthenticated() ? <Navigate to="/profile" /> : <Register /> },
     { path: '/product-detail/:id', element: <ProductDetail /> },
     { path: '/checkout/cart', element: <CheckoutCart /> },
     { path: '/checkout/profile', element: <CheckoutProfile /> },
@@ -53,8 +53,8 @@ const AppRoutes = () => {
 
 const NavRoutes = () => {
   let routes = useRoutes([
-    { path: '*', element: <Navigation /> },
-    { path: 'register/*', element: undefined },
+    { path: "*", element: <Navigation /> },
+    { path: "register/*", element: <Outlet />},
     { path: '/checkout/*', element: undefined }
   ]);
 
@@ -64,7 +64,7 @@ const NavRoutes = () => {
 const FootRoutes = () => {
   let routes = useRoutes([
     { path: "*", element: <Footer /> },
-    { path: "register/*", element: undefined },
+    { path: "register/*", element: <Outlet />},
   ]);
 
   return routes;
