@@ -1,7 +1,9 @@
 package com.sunflowers.ecommerce.product.service;
 
+import com.sunflowers.ecommerce.inventory.entity.Inventory;
 import com.sunflowers.ecommerce.product.entity.Product;
 import com.sunflowers.ecommerce.product.entity.Category;
+import com.sunflowers.ecommerce.product.entity.ProductImage;
 import com.sunflowers.ecommerce.product.repository.CategoryRepository;
 import com.sunflowers.ecommerce.product.repository.ProductImageRepository;
 import com.sunflowers.ecommerce.product.repository.ProductRepository;
@@ -9,6 +11,9 @@ import com.sunflowers.ecommerce.product.request.CreateProductRequest;
 import com.sunflowers.ecommerce.product.request.ProductRequest;
 import com.sunflowers.ecommerce.utils.EntitySpecs;
 import com.sunflowers.ecommerce.utils.RepositoryUtils;
+import jakarta.persistence.criteria.Join;
+import jakarta.persistence.criteria.JoinType;
+import jakarta.persistence.criteria.Predicate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.data.jpa.domain.Specification;
@@ -17,6 +22,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Service class for performing operations on Product entities.
@@ -44,12 +51,40 @@ public class ProductService {
     public Page<Product> getProducts(ProductRequest request) {
         Pageable pageable = PageRequest.of(request.getPage(), request.getPageSize(), Sort.by(request.getSortBy()));
 
-        Specification<Product> spec = Specification.where(EntitySpecs.<Timestamp, Product>hasAttribute("deleted", null))
-                .and(EntitySpecs.hasAttributeGraterThan("price", request.getMinPrice()))
-                .and(EntitySpecs.hasAttributeLessThan("price",request.getMaxPrice()))
-                .and(EntitySpecs.<String, Product, Category>hasAllElements("categories", "name", request.getCategories()))
-                .and(EntitySpecs.hasAnyElement("inventories", "size", request.getSizes()))
-                .and(EntitySpecs.hasAnyElement("inventories", "color_id", request.getColors()));
+        Specification<Product> spec = (root, query, cb) -> {
+            List<Predicate> predicates = new ArrayList<>();
+
+            predicates.add(cb.isNull(root.get("deleted")));
+
+            if (request.getMinPrice() != null) {
+                predicates.add(cb.greaterThanOrEqualTo(root.get("price"), request.getMinPrice()));
+            }
+            if (request.getMaxPrice() != null) {
+                predicates.add(cb.lessThanOrEqualTo(root.get("price"), request.getMaxPrice()));
+            }
+
+            if (request.getCategories() != null && !request.getCategories().isEmpty()) {
+                Join<Product, Category> join = root.join("categories", JoinType.INNER);
+                Predicate categoryPredicate = join.get("name").in(request.getCategories());
+                predicates.add(categoryPredicate);
+                query.groupBy(root.get("id"));
+                query.having(cb.equal(cb.count(root.get("id")), request.getCategories().size()));
+            }
+
+            if (request.getSizes() != null && !request.getSizes().isEmpty()) {
+                Join<Product, Inventory> inventoryJoin = root.join("inventories", JoinType.INNER);
+                Predicate sizePredicate = inventoryJoin.get("size").in(request.getSizes());
+                predicates.add(sizePredicate);
+            }
+
+            if (request.getColors() != null && !request.getColors().isEmpty()) {
+                Join<Product, Inventory> inventoryJoin = root.join("inventories", JoinType.INNER);
+                Predicate colorPredicate = inventoryJoin.get("color_id").in(request.getColors());
+                predicates.add(colorPredicate);
+            }
+
+            return cb.and(predicates.toArray(new Predicate[0]));
+        };
 
         return productRepository.findAll(spec, pageable);
     }
@@ -102,8 +137,14 @@ public class ProductService {
                 .description(request.getDescription())
                 .price(BigDecimal.valueOf(request.getPrice()))
                 .categories(RepositoryUtils.getSetOfEntities(request.getCategories(), categoryRepository,"Category"))
-                .productImages(RepositoryUtils.getSetOfEntitiesUUID(request.getImageIds(), productImageRepository,"ProductImage"))
                 .build();
+
+        List<ProductImage> images = RepositoryUtils.getSetOfEntitiesUUID(request.getImageIds(), productImageRepository,"ProductImage");
+
+        for(ProductImage image : images) {
+            image.setProduct(product);
+            productImageRepository.save(image);
+        }
 
         return productRepository.save(product);
     }

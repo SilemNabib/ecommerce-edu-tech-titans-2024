@@ -12,17 +12,24 @@ import com.sunflowers.ecommerce.auth.request.LoginRequest;
 import com.sunflowers.ecommerce.auth.request.RegisterRequest;
 import com.sunflowers.ecommerce.email.EmailService;
 import com.sunflowers.ecommerce.email.MailBody;
+import com.sunflowers.ecommerce.utils.FrontLinks;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AccountExpiredException;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.Date;
 import java.sql.Timestamp;
 import java.time.Instant;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 /**
  * Service class for handling authentication and user registration.
@@ -91,7 +98,7 @@ public class AuthService {
      */
     public AuthResponse register(RegisterRequest registerRequest) {
         if (userRepository.existsByEmail(registerRequest.getEmail()))  {
-            throw new RuntimeException("Email already registered");
+            throw new BadCredentialsException("Email already registered");
         }
 
         String token = jwtService.generateToken(registerRequest.getEmail(), Timestamp.from(new Date(System.currentTimeMillis() + 1000 * 60 * 15).toInstant()));
@@ -107,11 +114,16 @@ public class AuthService {
 
         unverifiedUserRepository.save(user);
 
+        String text = "Please use the following code to verify your email: " + verificationCode
+                + "\n\nThis code will expire in 15 minutes."
+                + "\n\nIf you did not request this code, please ignore this email."
+                + "\n\n\n\n" + FrontLinks.VERIFICATION_CODE + "?token=" + token;
+
         emailService.sendEmail(
                 MailBody.builder()
                 .to(registerRequest.getEmail())
                 .subject("Email Verification")
-                .text("Please use the following code to verify your email: " + verificationCode)
+                .text(text)
                 .build()
         );
 
@@ -131,17 +143,17 @@ public class AuthService {
      */
     public AuthResponse verify(VerificationRequest verificationRequest) {
         UnverifiedUser user = unverifiedUserRepository.findByAuthToken(verificationRequest.getToken())
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new BadCredentialsException("User not found"));
 
         if(jwtService.isTokenExpired(user.getAuthToken())) {
-            throw new RuntimeException("Session expired");
+            throw new AccountExpiredException("Session expired");
         }
 
         if (user.getVerificationCode().equals(verificationRequest.getVerificationCode())) {
             user.setVerified(true);
             unverifiedUserRepository.save(user);
         } else {
-            throw new RuntimeException("Invalid verification code");
+            throw new AccountExpiredException("Invalid verification code");
         }
 
         return AuthResponse.builder()
@@ -159,20 +171,24 @@ public class AuthService {
      */
     public AuthResponse completeRegistration(CompleteRegistrationRequest registerRequest) {
         UnverifiedUser unverifiedUser = unverifiedUserRepository.findByAuthToken(registerRequest.getToken())
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new BadCredentialsException("User not found"));
 
         if (!unverifiedUser.isVerified()) {
-            throw new RuntimeException("User not verified");
+            throw new IllegalArgumentException("User not verified");
         }
 
         if (!validatePassword(registerRequest.getPassword())) {
-            throw new RuntimeException("Invalid password");
+            throw new IllegalArgumentException("Invalid password");
+        }
+
+        if(!validatePhoneNumber(registerRequest.getPhone())) {
+            throw new IllegalArgumentException("Invalid phone number");
         }
 
         User user = User.builder()
-                .firstName(registerRequest.getFirstName())
-                .lastName(registerRequest.getLastName())
-                .email(unverifiedUser.getEmail())
+                .firstName(toNameCase(removeDoubleBlanks(registerRequest.getFirstName())))
+                .lastName(toNameCase(removeDoubleBlanks(registerRequest.getLastName())))
+                .email(unverifiedUser.getEmail().toLowerCase())
                 .password(passwordEncoder.encode(registerRequest.getPassword()))
                 .phone(registerRequest.getPhone())
                 .registrationDate(Timestamp.from(Instant.now()))
@@ -185,5 +201,35 @@ public class AuthService {
         return AuthResponse.builder()
                 .token(jwtService.generateToken(user.getEmail()))
                 .build();
+    }
+
+    public static boolean validatePhoneNumber(String phone) {
+        Pattern pattern = Pattern.compile("\\d*");
+        Matcher matcher = pattern.matcher(phone);
+        return matcher.matches() && phone.length() == 10;
+    }
+
+    /**
+     * Converts a string to name case.
+     * This method converts a string to name case by capitalizing the first letter of each word given in the name.
+     *
+     * @param text the text to convert
+     * @return the text in name case
+     */
+    public static String toNameCase(String text) {
+        return Arrays.stream(text.split("\\s"))
+                .map(word -> Character.toTitleCase(word.charAt(0)) + word.substring(1))
+                .collect(Collectors.joining(" "));
+    }
+
+    /**
+     * Removes double blanks from a string.
+     * This method removes double blanks from a string by replacing all occurrences of two or more consecutive spaces with a single space.
+     *
+     * @param text the text to process
+     * @return the text with double blanks removed
+     */
+    public static String removeDoubleBlanks(String text) {
+        return text.replaceAll("\\s+", " ");
     }
 }
