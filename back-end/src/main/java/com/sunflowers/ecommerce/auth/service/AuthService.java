@@ -45,8 +45,6 @@ public class AuthService {
     @Autowired
     private UserRepository userRepository;
     @Autowired
-    private UserService userService;
-    @Autowired
     private UnverifiedUserRepository unverifiedUserRepository;
     @Autowired
     private JwtService jwtService;
