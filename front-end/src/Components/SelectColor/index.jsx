@@ -6,7 +6,7 @@ const SelectColor = ({ colors, selectedColor, onSelectColor }) => {
       {colors.map((color, index) => (
         <span
           key={index}
-          onClick={() => onSelectColor(color.name)}
+          onClick={() => onSelectColor(selectedColor === color.name? null : color.name)}
           className={`h-6 w-6 rounded-full ${color.class} ml-2 ${selectedColor === color.name ? 'ring-2 ring-black' : ''}`}
         ></span>
       ))}
@@ -19,7 +19,6 @@ SelectColor.propTypes = {
     name: PropTypes.string.isRequired,
     class: PropTypes.string.isRequired,
   })).isRequired,
-  selectedColor: PropTypes.string.isRequired,
   onSelectColor: PropTypes.func.isRequired,
 };
 

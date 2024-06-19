@@ -7,7 +7,7 @@ const SelectSize = ({ sizes, selectedSize, onSelectSize }) => {
       {sizes.map((size, index) => (
         <div
           key={index}
-          onClick={() => onSelectSize(size)}
+          onClick={() => onSelectSize(selectedSize == size? null:size)}
           className={`cursor-pointer px-2 py-1 border-2 ${selectedSize === size ? 'border-black bg-black text-white' : 'border-gray-300'} rounded-lg ml-2 mr-2`}
         >
           {size}
@@ -19,7 +19,6 @@ const SelectSize = ({ sizes, selectedSize, onSelectSize }) => {
 
 SelectSize.propTypes = {
   sizes: PropTypes.arrayOf(PropTypes.string).isRequired,
-  selectedSize: PropTypes.string.isRequired,
   onSelectSize: PropTypes.func.isRequired,
 };
 

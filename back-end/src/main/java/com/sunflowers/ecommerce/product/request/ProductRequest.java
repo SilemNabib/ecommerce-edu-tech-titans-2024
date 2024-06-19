@@ -15,6 +15,7 @@ public class ProductRequest {
     private int page = 0;
     private int pageSize = 10;
     private String sortBy = "name";
+    private String direction = "asc";
     private List<String> categories;
     private BigDecimal minPrice;
     private BigDecimal maxPrice;
