@@ -19,6 +19,7 @@ import RecoverPassword from '../RecoverPassword';
 import Register from '../Register';
 import UpdatePassword from '../UpdatePassword';
 import VerificationCode from '../VerificationCode';
+import Profile from '../InformationProfile';
 
 import './App.css';
 
@@ -45,6 +46,7 @@ const AppRoutes = () => {
         <CheckoutPayment />
       </StripeProvider>
     )},
+    { path: '/information/profile', element: <Profile />}
   ]);
 
   return routes;
