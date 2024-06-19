@@ -51,7 +51,7 @@ const AppRoutes = () => {
       </StripeProvider>
     )},
     { path: '/admin/dashboard', element: <AdminDashboard />},
-    { path: '/admin/orders', element: <ProductManagement />},
+    { path: '/admin/products', element: <ProductManagement />},
     { path: '/admin/products/add', element: <AddProductDetail />},
     { path: '/admin/products/add/images', element: <AddProductImage />},
     { path: '/admin/products/add/inventory', element: <AddProductInventory />},

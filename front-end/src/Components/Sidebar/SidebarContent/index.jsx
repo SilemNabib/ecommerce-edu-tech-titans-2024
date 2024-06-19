@@ -7,7 +7,7 @@ const SidebarContent = ({ isOpen }) => (
   <>
     <div className="flex-1 mt-5 space-y-3">
       <ul className="space-y-1 text-sm">
-        <Link to="/admin/orders"><SidebarItem isOpen={isOpen} Icon={HomeIcon} label="Orders" /></Link>
+        <Link to="/admin/dashboard"><SidebarItem isOpen={isOpen} Icon={HomeIcon} label="Orders" /></Link>
         <Link to="/admin/products"><SidebarItem isOpen={isOpen} Icon={ShoppingCartIcon} label="Products" /></Link>
         <Link to="/admin/users"><SidebarItem isOpen={isOpen} Icon={UserIcon} label="Users" /></Link>
         <Link to="/admin/customize"><SidebarItem isOpen={isOpen} Icon={CogIcon} label="Customize" /></Link>
