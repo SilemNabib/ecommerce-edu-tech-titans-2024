@@ -14,7 +14,7 @@ const ProductsManagement = () => {
                         <SearchBar className="w-full" />
                         <MagnifyingGlassIcon className="text-gray-400 absolute right-2 top-1/2 transform -translate-y-1/2 h-6 w-6 lg:block hidden" />
                     </div>
-                    <Link to="/admin/products/create" className="ml-4">
+                    <Link to="/admin/products/add" className="ml-4">
                         <button className="bg-black hover:bg-gray-900 text-white font-bold py-2 px-4 rounded-lg">
                             Create New Product
                         </button>
