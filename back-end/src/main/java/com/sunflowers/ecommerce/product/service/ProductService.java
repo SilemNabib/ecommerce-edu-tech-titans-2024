@@ -136,10 +136,10 @@ public class ProductService {
                 .name(request.getName())
                 .description(request.getDescription())
                 .price(BigDecimal.valueOf(request.getPrice()))
-                .categories(RepositoryUtils.getSetOfEntities(request.getCategories(), categoryRepository,"Category"))
+                .categories(RepositoryUtils.getListOfEntities(request.getCategories(), categoryRepository,"Category"))
                 .build();
 
-        List<ProductImage> images = RepositoryUtils.getSetOfEntitiesUUID(request.getImageIds(), productImageRepository,"ProductImage");
+        List<ProductImage> images = RepositoryUtils.getListOfEntitiesUUID(request.getImageIds(), productImageRepository,"ProductImage");
 
         for(ProductImage image : images) {
             image.setProduct(product);
