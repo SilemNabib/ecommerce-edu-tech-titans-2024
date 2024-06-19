@@ -19,8 +19,10 @@ public class PasswordResetToken {
     @Id
     private UUID id;
 
+    @Column(name = "otp", nullable = false)
     private Integer otp;
 
+    @Column(name = "expiration_time", nullable = false)
     private Date expirationTime;
 
 }

@@ -9,10 +9,10 @@ import lombok.NoArgsConstructor;
 import java.util.UUID;
 
 @Data
+@Entity
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
 @Table(name = "address")
 public class Address {
 
@@ -24,10 +24,7 @@ public class Address {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @Column(name = "city_id", nullable = false)
-    private int cityId;
-
-    @Column(name = "street", nullable = false)
+    @Column(name = "street", nullable = false, length = 20)
     private String street;
 
     @Column(name = "zip_code", nullable = false, length = 20)
