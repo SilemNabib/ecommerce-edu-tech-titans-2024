@@ -19,6 +19,10 @@ import RecoverPassword from '../RecoverPassword';
 import Register from '../Register';
 import UpdatePassword from '../UpdatePassword';
 import VerificationCode from '../VerificationCode';
+import Company from '../Company';
+import Cookies from '../Cookies';
+import Privacy from '../Privacy';
+import Terms from '../Terms';
 
 import './App.css';
 
@@ -40,11 +44,17 @@ const AppRoutes = () => {
     { path: '/checkout/cart', element: <CheckoutCart /> },
     { path: '/checkout/profile', element: <CheckoutProfile /> },
     { path: '/checkout/shipping', element: <CheckoutShipping /> },
-    { path: '/checkout/payment', element: (
-      <StripeProvider>
-        <CheckoutPayment />
-      </StripeProvider>
-    )},
+    {
+      path: '/checkout/payment', element: (
+        <StripeProvider>
+          <CheckoutPayment />
+        </StripeProvider>
+      )
+    },
+    { path: '/company', element: <Company /> },
+    { path: '/cookies', element: <Cookies /> },
+    { path: '/privacy', element: <Privacy /> },
+    { path: '/terms', element: <Terms /> }
   ]);
 
   return routes;
@@ -53,7 +63,7 @@ const AppRoutes = () => {
 const NavRoutes = () => {
   let routes = useRoutes([
     { path: "*", element: <Navigation /> },
-    { path: "register/*", element: <Outlet />},
+    { path: "register/*", element: <Outlet /> },
     { path: '/checkout/*', element: undefined }
   ]);
 
@@ -63,7 +73,7 @@ const NavRoutes = () => {
 const FootRoutes = () => {
   let routes = useRoutes([
     { path: "*", element: <Footer /> },
-    { path: "register/*", element: <Outlet />},
+    { path: "register/*", element: <Outlet /> },
   ]);
 
   return routes;
