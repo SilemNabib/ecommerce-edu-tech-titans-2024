@@ -1,0 +1,151 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="3F221436-22F0-407F-FFF3-B5DD4A30B0C6" name="order">
+<createdBy>silem</createdBy>
+<createdTime>2024-06-13 19:01:38 UTC</createdTime>
+<generatorID>10A0E099-1ACA-9045-E329-0A01191AFB89</generatorID>
+<ownerDesignName>ecommerce-db-model</ownerDesignName>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="id" id="3279E4EE-FC60-6D22-27BC-5DFE7C34277D">
+<createdBy>silem</createdBy>
+<createdTime>2024-06-13 19:01:38 UTC</createdTime>
+<generatorID>B22E2678-462B-2C7A-DD8B-AA7903572D61</generatorID>
+<ownerDesignName>ecommerce-db-model</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>36 CHAR</dataTypeSize>
+<ownDataTypeParameters>36 CHAR,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="user_id" id="A62C38C2-368F-D3B9-4348-635033D2CC88">
+<createdBy>silem</createdBy>
+<createdTime>2024-06-13 19:01:38 UTC</createdTime>
+<generatorID>4ABF3B58-54A8-15E0-F76E-8F39A76E7F66</generatorID>
+<ownerDesignName>ecommerce-db-model</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>36 CHAR</dataTypeSize>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="F03E3D9C-FB7A-A8ED-EB52-FA9BAE88E72D" referredColumn="4AF0ED40-92AF-28A0-377B-5F1AF5463C84"/>
+</associations>
+</Column>
+<Column name="adress" id="E2363F74-CEF8-7525-9588-45A1B5CD71B9">
+<createdBy>silem</createdBy>
+<createdTime>2024-06-13 19:01:38 UTC</createdTime>
+<generatorID>EAE5EF2A-FFF6-5F8C-0A57-BECF08D59216</generatorID>
+<ownerDesignName>ecommerce-db-model</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT040</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="payment_method" id="00F74E5D-1F74-B5EE-7528-DE796C358380">
+<createdBy>silem</createdBy>
+<createdTime>2024-06-13 19:01:38 UTC</createdTime>
+<generatorID>4CC127AF-86D9-0022-BB66-554A6BE3EC94</generatorID>
+<ownerDesignName>ecommerce-db-model</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT040</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="creation_date" id="3A145B2C-A9AA-E154-71F2-90B0018C08AC">
+<createdBy>silem</createdBy>
+<createdTime>2024-06-13 19:01:38 UTC</createdTime>
+<generatorID>75096B4A-C066-CF98-3654-2472447D4095</generatorID>
+<ownerDesignName>ecommerce-db-model</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT047</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="shipping_price" id="F36A3F7D-2022-58E5-8306-282D9D1FE41A">
+<createdBy>silem</createdBy>
+<createdTime>2024-06-13 19:01:38 UTC</createdTime>
+<generatorID>6A42FE94-0C89-09F6-3B3E-1899E549B311</generatorID>
+<ownerDesignName>ecommerce-db-model</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT026</logicalDatatype>
+<dataTypePrecision>10</dataTypePrecision>
+<dataTypeScale>2</dataTypeScale>
+<ownDataTypeParameters>,10,2</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="total_price" id="F95FF3A6-6D44-5D75-B0FD-2623D50BC7A7">
+<createdBy>silem</createdBy>
+<createdTime>2024-06-13 19:01:38 UTC</createdTime>
+<generatorID>0ADC645D-9C01-1C30-6229-B89DFA3BCBB5</generatorID>
+<ownerDesignName>ecommerce-db-model</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT026</logicalDatatype>
+<dataTypePrecision>10</dataTypePrecision>
+<dataTypeScale>2</dataTypeScale>
+<ownDataTypeParameters>,10,2</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="order_status_name" id="F4F31EEF-0D3C-9540-6DFC-AE00798AC6CA">
+<createdBy>silem</createdBy>
+<createdTime>2024-06-13 19:01:38 UTC</createdTime>
+<generatorID>868A6715-1D8D-E828-CE83-B96AD3524C2B</generatorID>
+<ownerDesignName>ecommerce-db-model</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>20 CHAR</dataTypeSize>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="AE29D01D-DAA1-807E-E893-040B54FDF6B1" referredColumn="E712A7E8-031B-1D0B-1951-E763E3D80017"/>
+</associations>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="CA2D7BDF-3762-2A34-9B6D-4D093697198D" name="ORDER_PK">
+<createdBy>silem</createdBy>
+<createdTime>2024-06-13 19:01:38 UTC</createdTime>
+<generatorID>152E6664-BA02-78AC-0AF0-E1286C5FDFE8</generatorID>
+<ownerDesignName>ecommerce-db-model</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="3279E4EE-FC60-6D22-27BC-5DFE7C34277D"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="5C28975B-D558-93B3-5163-9D868D80C56F" name="Relation_34">
+<createdBy>silem</createdBy>
+<createdTime>2024-06-13 19:01:38 UTC</createdTime>
+<generatorID>EB0D477A-6328-DB14-8FFC-D9DB1002A45A</generatorID>
+<ownerDesignName>ecommerce-db-model</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="A62C38C2-368F-D3B9-4348-635033D2CC88"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="AE9216AE-0F04-A551-AA25-C39D335789F6" name="Relation_35">
+<createdBy>silem</createdBy>
+<createdTime>2024-06-13 19:01:38 UTC</createdTime>
+<generatorID>1B6591D1-4B86-69E7-28A9-EFA020F1BC8C</generatorID>
+<ownerDesignName>ecommerce-db-model</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="F4F31EEF-0D3C-9540-6DFC-AE00798AC6CA"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

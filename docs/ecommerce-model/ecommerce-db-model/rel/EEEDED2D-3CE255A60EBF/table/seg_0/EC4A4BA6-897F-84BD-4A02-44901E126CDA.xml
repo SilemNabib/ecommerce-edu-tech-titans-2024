@@ -1,0 +1,38 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="EC4A4BA6-897F-84BD-4A02-44901E126CDA" name="rol">
+<createdBy>silem</createdBy>
+<createdTime>2024-06-13 19:01:38 UTC</createdTime>
+<generatorID>3E3220AF-87F2-4DD2-2B1E-ABFED264D123</generatorID>
+<ownerDesignName>ecommerce-db-model</ownerDesignName>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="name" id="BAC67307-7C8D-15CA-465F-D81189337E25">
+<createdBy>silem</createdBy>
+<createdTime>2024-06-13 19:01:38 UTC</createdTime>
+<generatorID>9705331D-0EBE-F41F-3811-DF70523BC424</generatorID>
+<ownerDesignName>ecommerce-db-model</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>24 CHAR</dataTypeSize>
+<ownDataTypeParameters>24 CHAR,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="800C66F7-21C3-2D80-0989-1997D5F82CB5" name="ROL_PK">
+<createdBy>silem</createdBy>
+<createdTime>2024-06-13 19:01:38 UTC</createdTime>
+<generatorID>A86BE999-7833-6831-97C3-D7365AB67359</generatorID>
+<ownerDesignName>ecommerce-db-model</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="BAC67307-7C8D-15CA-465F-D81189337E25"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>
