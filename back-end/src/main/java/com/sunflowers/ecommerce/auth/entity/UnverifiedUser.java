@@ -34,21 +34,21 @@ public class UnverifiedUser {
      * This email address is used to send the verification email.
      */
     @Email
-    @Column(nullable = false)
+    @Column(name = "email", nullable = false)
     private String email;
 
     /**
      * The verification code sent to the unverified user's email address.
      * This code is used to verify the user's email address.
      */
-    @Column(name = "verification_code")
+    @Column(name = "verification_code", nullable = false)
     private String verificationCode;
 
     /**
      * A flag indicating whether the unverified user has verified their email address.
      * This flag will be set to true when the user verifies their email address but not completed the registration.
      */
-    @Column(nullable = false)
+    @Column(name = "verified", nullable = false)
     private boolean verified;
 
     /**
