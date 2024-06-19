@@ -5,6 +5,7 @@ import Navigation from '../../Components/Navigation';
 import StripeProvider from '../../Components/StripeProvider';
 import { GlobalProvider } from '../../Context';
 import { isAuthenticated } from '../../Context/AuthContext';
+import AdminDashboard from '../AdminDashboard';
 import Categories from '../Categories';
 import CheckoutCart from '../CheckoutCart';
 import CheckoutPayment from '../CheckoutPayment';
@@ -45,6 +46,7 @@ const AppRoutes = () => {
         <CheckoutPayment />
       </StripeProvider>
     )},
+    { path: '/admin/dashboard', element: <AdminDashboard />},
   ]);
 
   return routes;
@@ -54,7 +56,8 @@ const NavRoutes = () => {
   let routes = useRoutes([
     { path: "*", element: <Navigation /> },
     { path: "register/*", element: <Outlet />},
-    { path: '/checkout/*', element: undefined }
+    { path: '/checkout/*', element: undefined },
+    {path: '/admin/*', element: undefined}
   ]);
 
   return routes;
@@ -64,6 +67,7 @@ const FootRoutes = () => {
   let routes = useRoutes([
     { path: "*", element: <Footer /> },
     { path: "register/*", element: <Outlet />},
+    { path: 'admin/*', element: undefined}
   ]);
 
   return routes;

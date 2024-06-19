@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import SortByPrice from '../SortByPrice';
-import SortByRating from '../SortByRating';
+import SortByPrice from './SortByPrice';
+import SortByRating from './SortByRating';
 
 const SortBy = () => {
   const [sortByOption, setSortByOption] = useState('');
