@@ -14,7 +14,7 @@ const Profile = () => {
             className="w-full h-full object-cover"
           />
           <div className="absolute bottom-0 left-0 right-0 py-2 text-center w-full">
-            <span className="text-white font-bold">Hola, {UserInfo.firstName}</span>
+            <span className="text-white font-bold">Hi, {UserInfo.firstName}</span>
           </div>
         </div>
 
@@ -25,13 +25,13 @@ const Profile = () => {
             </a>
           </li>
           <li className="mb-2">
-            <a href="#" className="text-gray-700 hover:text-gray-900">
+            <a href="/order-history" className="text-gray-700 hover:text-gray-900">
               Orders History
             </a>
           </li>
           <li className="mb-2">
-            <a href="#" className="text-gray-700 hover:text-gray-900">
-              Manage Accout
+            <a href="/manage-profile" className="text-gray-700 hover:text-gray-900">
+              Manage Profile
             </a>
           </li>
           <li>

@@ -20,6 +20,7 @@ import Register from '../Register';
 import UpdatePassword from '../UpdatePassword';
 import VerificationCode from '../VerificationCode';
 import Profile from '../InformationProfile';
+import ManageProfile from '../MangeProfile';	
 
 import './App.css';
 
@@ -46,7 +47,9 @@ const AppRoutes = () => {
         <CheckoutPayment />
       </StripeProvider>
     )},
-    { path: '/information/profile', element: <Profile />}
+    { path: '/information/profile', element: <Profile />},
+    { path: '/manage-profile', element: <ManageProfile />},
+    
   ]);
 
   return routes;
