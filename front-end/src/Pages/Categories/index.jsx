@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import Card from '../../Components/Card';
 import FilterBy from '../../Components/FilterBy';
+import SortBy from '../../Components/SortBy';
 import { ApiConfig } from '../../config/ApiConfig';
 
 const Categories = () => {
@@ -63,10 +64,10 @@ const Categories = () => {
           selectedSize={selectedSize} 
           setSelectedSize={setSelectedSize} 
         />
+        <SortBy />
       </div>
       <div className="w-full sm:w-3/4">
         <div className="container mx-auto">
-          <h1 className="text-3xl font-bold mb-4">{category}</h1>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4 border border-gray-300 rounded-lg p-4">
             {filteredProducts.map(product => (
               <Card key={product.id} data={product} />
