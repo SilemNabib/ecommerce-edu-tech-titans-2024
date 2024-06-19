@@ -1,7 +1,6 @@
 package com.sunflowers.ecommerce.product.service;
 
 import com.sunflowers.ecommerce.inventory.entity.Inventory;
-import com.sunflowers.ecommerce.inventory.entity.InventoryId;
 import com.sunflowers.ecommerce.product.entity.Product;
 import com.sunflowers.ecommerce.product.entity.Category;
 import com.sunflowers.ecommerce.product.entity.ProductImage;
@@ -73,15 +72,13 @@ public class ProductService {
 
             if (request.getSizes() != null && !request.getSizes().isEmpty()) {
                 Join<Product, Inventory> inventoryJoin = root.join("inventories", JoinType.INNER);
-                Join<Inventory, InventoryId> inventoryIdJoin = inventoryJoin.join("id");
-                Predicate sizePredicate = inventoryIdJoin.get("size").in(request.getSizes());
+                Predicate sizePredicate = inventoryJoin.get("size").in(request.getSizes());
                 predicates.add(sizePredicate);
             }
 
             if (request.getColors() != null && !request.getColors().isEmpty()) {
                 Join<Product, Inventory> inventoryJoin = root.join("inventories", JoinType.INNER);
-                Join<Inventory, InventoryId> inventoryIdJoin = inventoryJoin.join("id");
-                Predicate colorPredicate = inventoryIdJoin.get("colorId").in(request.getColors());
+                Predicate colorPredicate = inventoryJoin.get("color").in(request.getColors());
                 predicates.add(colorPredicate);
             }
 
