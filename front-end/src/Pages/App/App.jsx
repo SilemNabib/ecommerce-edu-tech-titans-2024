@@ -5,7 +5,7 @@ import Navigation from '../../Components/Navigation';
 import StripeProvider from '../../Components/StripeProvider';
 import { GlobalProvider } from '../../Context';
 import { isAuthenticated } from '../../Context/AuthContext';
-import Category from '../Categories';
+import Categories from '../Categories';
 import CheckoutCart from '../CheckoutCart';
 import CheckoutPayment from '../CheckoutPayment';
 import CheckoutProfile from '../CheckoutProfile';
@@ -26,9 +26,9 @@ const AppRoutes = () => {
   let routes = useRoutes([
     { path: '/', element: <Home /> },
     { path: '*', element: <NotFound /> },
-    { path: "/category/:category", element: <Category /> },
-    { path: "/category/:category/:section", element: <Category /> },
-    { path: "/category/:category/:section/:item", element: <Category /> },
+    { path: "/category/:category", element: <Categories /> },
+    { path: "/category/:category/:section", element: <Categories /> },
+    { path: "/category/:category/:section/:item", element: <Categories /> },
     { path: '/login', element: isAuthenticated() ? <Navigate to='/profile' /> : <Login /> },
     { path: '/profile', element: isAuthenticated() ? <NotFound /> : <Login /> },
     { path: '/recover-password', element: <RecoverPassword /> },
