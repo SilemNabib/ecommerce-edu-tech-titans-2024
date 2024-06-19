@@ -17,13 +17,13 @@ const SortBy = ({sortBy, order, setSortBy, setSelectedOrder}) => {
       <div className="mb-8">
         <div className="flex flex-grid grid-cols-2 justify-between">
           <button
-            className="w-4/5 text-left py-2 px-4 border border-gray-300 rounded-lg bg-white"
+            className="w-4/5 text-left py-2 px-4 border border-gray-200 rounded-lg bg-white"
             onClick={() => setIsDropdownOpen(!isDropdownOpen)}
           >
             Sort by {sortBy || ""}
           </button>
           <button
-            className="w-1/6 text-left py-2 px-2 border border-gray-300 rounded-lg"
+            className="w-1/6 text-left py-2 px-2 border border-gray-200 rounded-lg"
             onClick={() => setSelectedOrder(order === "asc"? "desc" : "asc")}>
             {order === "asc" ? (
               <BarsArrowUpIcon className="h-full w-full transition-transform" />
@@ -33,7 +33,7 @@ const SortBy = ({sortBy, order, setSortBy, setSelectedOrder}) => {
           </button>
         </div>
         {isDropdownOpen && (
-          <div className="mt-2">
+          <div className="mt-1">
             <SortByOptions
               selectedOption={sortBy}
               onSelectOption={handleSortBy}

@@ -12,7 +12,7 @@ const FilterBy = ({ colors, sizes, selectedColor, setSelectedColor, selectedSize
       
       <div className="mb-4 mt-4">
         <button 
-          className="w-full text-left py-2 px-4 border border-gray-300 rounded-lg bg-white"
+          className="w-full text-left py-2 px-4 border border-gray-200 rounded-lg bg-white"
           onClick={() => setIsColorDropdownOpen(!isColorDropdownOpen)}
         >
           Filter by Color
@@ -26,7 +26,7 @@ const FilterBy = ({ colors, sizes, selectedColor, setSelectedColor, selectedSize
 
       <div className="mb-4">
         <button 
-          className="w-full text-left py-2 px-4 border border-gray-300 rounded-lg bg-white"
+          className="w-full text-left py-2 px-4 border border-gray-200 rounded-lg bg-white"
           onClick={() => setIsSizeDropdownOpen(!isSizeDropdownOpen)}
         >
           Filter by Size

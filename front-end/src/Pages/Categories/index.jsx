@@ -45,24 +45,34 @@ const Categories = () => {
     fetchProducts();
   }, [category, section, item, selectedColor, selectedSize, selectedSort, selectedOrder]);
 
-  const colors = [
-    { name: 'red', class: 'bg-red-500' },
-    { name: 'blue', class: 'bg-blue-500' },
-    { name: 'green', class: 'bg-green-500' },
-  ];
+  const [colors, setColors] = useState([]);
+  const [sizes, setSizes] = useState([]);
 
-  const sizes = ['S', 'M', 'L', 'XL'];
+  useEffect(() => {
+    const fetchFilters = async () => {
+      try {
+        const response = await fetch(`${ApiConfig.inventory}/unique`);
+        const data = await response.json();
+        setColors(data.colors || []);
+        setSizes(data.sizes || []);
+      } catch (error) {
+        console.error('Error fetching filters:', error);
+      }
+    };
+
+    fetchFilters();
+  }, []);
 
   return (
     <div className="relative flex flex-col sm:flex-row px-4 py-8">
-      <div className="w-full sm:w-1/4 pr-4 mb-4 sm:mb-0">
-        <FilterBy 
-          colors={colors} 
-          sizes={sizes} 
-          selectedColor={selectedColor} 
-          setSelectedColor={setSelectedColor} 
-          selectedSize={selectedSize} 
-          setSelectedSize={setSelectedSize} 
+      <div className="w-full sm:w-1/4 pr-4 mb-4 sm:mb-0 bg-gray-50 rounded-lg m-2">
+        <FilterBy
+          colors={colors}
+          sizes={sizes}
+          selectedColor={selectedColor}
+          setSelectedColor={setSelectedColor}
+          selectedSize={selectedSize}
+          setSelectedSize={setSelectedSize}
         />
         <SortBy
           sortBy={selectedSort}
@@ -73,19 +83,19 @@ const Categories = () => {
       </div>
       <div className="w-full sm:w-3/4">
         <div className="container mx-auto h-full">
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4 border border-gray-300 rounded-lg p-4 h-full">
-            {products.map(product => (
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4 border border-gray-200 rounded-lg p-4 m-2 h-full">
+            {products.map((product) => (
               <Card key={product.id} data={product} />
             ))}
             {loadingQuery && (
-              <div className='w-full h-full bg-black opacity-50 rounded-lg col-span-3'>
-                <div className='flex justify-center items-center w-full h-full'>
-                  <div className='animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-gray-900'></div>
+              <div className="w-full h-full bg-black opacity-50 rounded-lg col-span-3">
+                <div className="flex justify-center items-center w-full h-full">
+                  <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-gray-900"></div>
                 </div>
               </div>
             )}
           </div>
-      </div>
+        </div>
       </div>
     </div>
   );
