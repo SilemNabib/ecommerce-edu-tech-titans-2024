@@ -6,6 +6,10 @@ import StripeProvider from '../../Components/StripeProvider';
 import { GlobalProvider } from '../../Context';
 import { isAuthenticated } from '../../Context/AuthContext';
 import AdminDashboard from '../AdminDashboard';
+import ProductManagement from '../AdminDashboard/ProductManagement';
+import AddProductDetail from '../AdminDashboard/ProductManagement/AddProductDetail';
+import AddProductImage from '../AdminDashboard/ProductManagement/AddProductImage';
+import AddProductInventory from '../AdminDashboard/ProductManagement/AddProductInventory';
 import Categories from '../Categories';
 import CheckoutCart from '../CheckoutCart';
 import CheckoutPayment from '../CheckoutPayment';
@@ -47,6 +51,10 @@ const AppRoutes = () => {
       </StripeProvider>
     )},
     { path: '/admin/dashboard', element: <AdminDashboard />},
+    { path: '/admin/orders', element: <ProductManagement />},
+    { path: '/admin/products/add', element: <AddProductDetail />},
+    { path: '/admin/products/add/images', element: <AddProductImage />},
+    { path: '/admin/products/add/inventory', element: <AddProductInventory />},
   ]);
 
   return routes;
