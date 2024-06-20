@@ -60,7 +60,7 @@ const CategorySelector = ({ categories, onCategorySelect }) => {
                             key={index}
                             onClick={() => handleCategorySelect(parentCategory, section, item)}
                             className={`p-2 border rounded ${
-                              selectedCategories.includes(categoryId) ? "bg-blue-500 text-white" : ""
+                              selectedCategories.includes(categoryId) ? "bg-black text-white" : ""
                             }`}
                           >
                             {item.name}
