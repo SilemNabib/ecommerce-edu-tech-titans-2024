@@ -3,16 +3,15 @@ package com.sunflowers.ecommerce.order.entity;
 import com.sunflowers.ecommerce.auth.entity.User;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.DecimalMin;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.UUID;
 
+@Getter
+@Setter
 @Data
 @Builder
 @AllArgsConstructor
@@ -32,18 +31,25 @@ public class Order {
     @Column(name = "address", nullable = false)
     private String address;
 
-    @Column(name = "payment_method", nullable = false)
-    private String paymentMethod;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "payment_method")
+    private PaymentMethod paymentMethod;
+
+    @Column(name = "platform_id")
+    private String platformId;
+
+    @Column(name = "platform_status")
+    private String platformStatus;
 
     @Column(name = "creation_date", nullable = false)
     private Timestamp creationDate;
 
     @Column(name = "shipping_price", nullable = false, precision = 10, scale = 2)
-    @DecimalMin(value = "0.00", inclusive = false, message = "Shipping Price must be greater than 0.00")
+    @DecimalMin(value = "0.00", message = "Shipping Price must be greater than 0.00")
     private BigDecimal shippingPrice;
 
     @Column(name = "total_price", nullable = false, precision = 10, scale = 2)
-    @DecimalMin(value = "0.00", inclusive = false, message = "Total Price must be greater than 0.00")
+    @DecimalMin(value = "0.00", message = "Total Price must be greater than 0.00")
     private BigDecimal totalPrice;
 
     @Enumerated(EnumType.STRING)
