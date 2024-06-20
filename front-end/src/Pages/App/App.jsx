@@ -82,7 +82,7 @@ const NavRoutes = () => {
 const FootRoutes = () => {
   let routes = useRoutes([
     { path: "*", element: <Footer /> },
-    { path: "register/*", element: <Outlet />},
+    { path: "register/*", element: undefined },
     { path: 'admin/*', element: undefined}
   ]);
 

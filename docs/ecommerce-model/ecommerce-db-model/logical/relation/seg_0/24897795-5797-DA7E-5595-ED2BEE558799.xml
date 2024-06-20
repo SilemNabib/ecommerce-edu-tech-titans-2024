@@ -1,0 +1,19 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Relation class="oracle.dbtools.crest.model.design.logical.Relation" name="Relation_37" directorySegmentName="seg_0" id="24897795-5797-DA7E-5595-ED2BEE558799">
+<createdBy>silem</createdBy>
+<createdTime>2024-06-13 17:43:12 UTC</createdTime>
+<ownerDesignName>ecommerce-db-model</ownerDesignName>
+<engineerTo>
+<item key="EEEDED2D-02DD-DF73-451F-3CE255A60EBF" value="true"/>
+</engineerTo>
+<sourcePk>CF63EB18-4473-19AE-2E74-DF6D3DF1232E</sourcePk>
+<identifying>false</identifying>
+<optionalSource>true</optionalSource>
+<optionalTarget>false</optionalTarget>
+<sourceCardinality>1</sourceCardinality>
+<sourceEntity>0D70969D-5465-676F-5CD4-8097EA0EC816</sourceEntity>
+<targetCardinalityString>*</targetCardinalityString>
+<targetEntity>17BA48F8-B8AD-AD03-0B07-ECD287B4F9C6</targetEntity>
+<transferable>true</transferable>
+<deleteRule>NO ACTION</deleteRule>
+</Relation>

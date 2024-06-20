@@ -7,8 +7,8 @@ import { NavigationCategories } from "../../../../config/NavigationCategories";
 
 const registerSteps = [
   <a href={"/admin/products/add"}>Product Details</a>,
-  <a href={"/admin/products/add/images"}>Product Images</a>,
   <a href={"/admin/products/add/inventory"}>Product Inventory</a>,
+  <a href={"/admin/products/add/images"}>Product Images</a>,
 ];
 
 const AddProductDetail = () => {
