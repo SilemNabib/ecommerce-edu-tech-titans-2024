@@ -78,7 +78,7 @@ public class ProductService {
 
             if (request.getColors() != null && !request.getColors().isEmpty()) {
                 Join<Product, Inventory> inventoryJoin = root.join("inventories", JoinType.INNER);
-                Predicate colorPredicate = inventoryJoin.get("color").in(request.getColors());
+                Predicate colorPredicate = inventoryJoin.get("color").get("name").in(request.getColors());
                 predicates.add(colorPredicate);
             }
 
