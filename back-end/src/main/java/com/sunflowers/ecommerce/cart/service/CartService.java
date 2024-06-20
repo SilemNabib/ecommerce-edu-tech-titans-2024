@@ -65,4 +65,24 @@ public class CartService {
                 .data(cartItem)
                 .build());
     }
+
+    public ResponseEntity<GeneralResponse<Boolean>> containsItem(HttpServletRequest servletRequest, Long inventoryId) {
+        User user = getUserFromRequest(servletRequest);
+        Inventory inventory = inventoryService.getProductInventory(inventoryId);
+
+        boolean contains = productIsInCart(user, inventory);
+        String message = "Items in cart";
+
+        if (!contains) {
+            message = "Item not in cart";
+        }
+
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(GeneralResponse.<Boolean>builder()
+                        .statusCode(HttpStatus.OK.value())
+                        .message(message)
+                        .success(true)
+                        .data(contains)
+                        .build());
+    }
 }
