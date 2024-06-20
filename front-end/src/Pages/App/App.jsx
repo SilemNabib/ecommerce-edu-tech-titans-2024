@@ -24,6 +24,7 @@ import RecoverPassword from '../RecoverPassword';
 import Register from '../Register';
 import UpdatePassword from '../UpdatePassword';
 import VerificationCode from '../VerificationCode';
+import Cart from '../Cart'
 
 import './App.css';
 
@@ -55,6 +56,7 @@ const AppRoutes = () => {
     { path: '/admin/products/add', element: <AddProductDetail />},
     { path: '/admin/products/add/images', element: <AddProductImage />},
     { path: '/admin/products/add/inventory', element: <AddProductInventory />},
+    { path: '/cart', element: <Cart /> },
 
   ]);
 
