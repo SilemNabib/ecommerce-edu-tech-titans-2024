@@ -5,7 +5,12 @@ import Navigation from '../../Components/Navigation';
 import StripeProvider from '../../Components/StripeProvider';
 import { GlobalProvider } from '../../Context';
 import { isAuthenticated } from '../../Context/AuthContext';
-import Category from '../Categories';
+import AdminDashboard from '../AdminDashboard';
+import ProductManagement from '../AdminDashboard/ProductManagement';
+import AddProductDetail from '../AdminDashboard/ProductManagement/AddProductDetail';
+import AddProductImage from '../AdminDashboard/ProductManagement/AddProductImage';
+import AddProductInventory from '../AdminDashboard/ProductManagement/AddProductInventory';
+import Categories from '../Categories';
 import CheckoutCart from '../CheckoutCart';
 import CheckoutPayment from '../CheckoutPayment';
 import CheckoutProfile from '../CheckoutProfile';
@@ -28,9 +33,9 @@ const AppRoutes = () => {
   let routes = useRoutes([
     { path: '/', element: <Home /> },
     { path: '*', element: <NotFound /> },
-    { path: "/category/:category", element: <Category /> },
-    { path: "/category/:category/:section", element: <Category /> },
-    { path: "/category/:category/:section/:item", element: <Category /> },
+    { path: "/category/:category", element: <Categories /> },
+    { path: "/category/:category/:section", element: <Categories /> },
+    { path: "/category/:category/:section/:item", element: <Categories /> },
     { path: '/login', element: isAuthenticated() ? <Navigate to='/profile' /> : <Login /> },
     { path: '/profile', element: isAuthenticated() ? <NotFound /> : <Login /> },
     { path: '/recover-password', element: <RecoverPassword /> },
@@ -50,6 +55,12 @@ const AppRoutes = () => {
     { path: '/information/profile', element: <Profile />},
     { path: '/manage-profile', element: <ManageProfile />},
     
+
+    { path: '/admin/dashboard', element: <AdminDashboard />},
+    { path: '/admin/products', element: <ProductManagement />},
+    { path: '/admin/products/add', element: <AddProductDetail />},
+    { path: '/admin/products/add/images', element: <AddProductImage />},
+    { path: '/admin/products/add/inventory', element: <AddProductInventory />},
   ]);
 
   return routes;
@@ -59,7 +70,8 @@ const NavRoutes = () => {
   let routes = useRoutes([
     { path: "*", element: <Navigation /> },
     { path: "register/*", element: <Outlet />},
-    { path: '/checkout/*', element: undefined }
+    { path: '/checkout/*', element: undefined },
+    {path: '/admin/*', element: undefined}
   ]);
 
   return routes;
@@ -69,6 +81,7 @@ const FootRoutes = () => {
   let routes = useRoutes([
     { path: "*", element: <Footer /> },
     { path: "register/*", element: <Outlet />},
+    { path: 'admin/*', element: undefined}
   ]);
 
   return routes;
