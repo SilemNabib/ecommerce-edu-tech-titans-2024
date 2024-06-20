@@ -26,6 +26,7 @@ import UpdatePassword from '../UpdatePassword';
 import VerificationCode from '../VerificationCode';
 import Profile from '../InformationProfile';
 import ManageProfile from '../MangeProfile';	
+import OrderHistory from '../OrderHistory';
 
 import './App.css';
 
@@ -54,6 +55,7 @@ const AppRoutes = () => {
     )},
     { path: '/information/profile', element: <Profile />},
     { path: '/manage-profile', element: <ManageProfile />},
+    { path: '/order-history', element: <OrderHistory/>},
     
 
     { path: '/admin/dashboard', element: <AdminDashboard />},
