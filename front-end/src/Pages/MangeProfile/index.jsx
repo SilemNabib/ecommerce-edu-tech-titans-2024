@@ -8,6 +8,7 @@ const ManageProfile = () => {
   const [email, setEmail] = useState(UserInfo.email);
   const [phone, setPhone] = useState(UserInfo.phone);
   const [addresses, setAddresses] = useState([...UserInfo.addresses]);
+  const [password, setPassword] = useState(''); // Estado para la contraseña
 
   // Función para guardar los cambios (simulación de guardado)
   const saveChanges = () => {
@@ -17,18 +18,19 @@ const ManageProfile = () => {
       lastName,
       email,
       phone,
-      addresses
+      addresses,
+      password // Agregar la contraseña al objeto updatedUserInfo
     };
     console.log("Guardando cambios:", updatedUserInfo);
     // Lógica para guardar los cambios en el servidor
     // ...
     // Desactivar el modo de edición
     setEditing(false);
+    setPassword(''); // Limpiar el campo de contraseña después de guardar
   };
 
   return (
     <div className="flex flex-col md:flex-row items-start p-8">
-
       <nav className="w-65 p-4 mb-auto md:mb-0 mt-8 md:mr-8 shadow-lg bg-gray-200">
         <div className="relative w-60 h-40 overflow-hidden mb-4 mx-auto">
           <img
@@ -43,7 +45,7 @@ const ManageProfile = () => {
 
         <ul>
           <li className="mb-2">
-            <a href="/information/profile" className="text-gray-700 hover:text-gray-900 ">
+            <a href="/information/profile" className="text-gray-700 hover:text-gray-900">
               Profile
             </a>
           </li>
@@ -58,27 +60,25 @@ const ManageProfile = () => {
             </a>
           </li>
           <li>
-            <a href="#" className="text-gray-700 hover:text-gray-900">
+            <a href="#" className="text-gray-700 hover:text-gray-900 ">
               Log Out
             </a>
           </li>
         </ul>
       </nav>
+     
 
       <div className="bg-white shadow-md rounded-lg overflow-hidden w-full max-w-4xl flex flex-col md:flex-row mt-8">
         <div className="flex-1 p-4 flex flex-col justify-between">
           <section>
             <h2 className="text-xl font-bold mb-4">PERSONAL INFORMATION</h2>
-            <div>
-              <h3 className="text-lg font-bold mb-2">IDENTIFICATION DATA</h3>
-            </div>
             <div className="mt-4">
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid  gap-4">
                 <div>
                   <label className="block font-bold" htmlFor="firstName">
                     Name
                   </label>
-                  {editing ? (
+                  {/*editing ? (
                     <input
                       type="text"
                       id="firstName"
@@ -88,13 +88,13 @@ const ManageProfile = () => {
                     />
                   ) : (
                     <span>{firstName}</span>
-                  )}
-                </div>
+                  )*/}
+                  <span>{firstName}</span>           </div>
                 <div>
                   <label className="block font-bold" htmlFor="lastName">
                     Surname
                   </label>
-                  {editing ? (
+                  {/*editing ? (
                     <input
                       type="text"
                       id="lastName"
@@ -104,9 +104,10 @@ const ManageProfile = () => {
                     />
                   ) : (
                     <span>{lastName}</span>
-                  )}
+                  )*/}
+                  <span>{lastName}</span>
                 </div>
-                <div>
+                 <div>
                   <label className="block font-bold" htmlFor="email">
                     Email
                   </label>
@@ -166,6 +167,18 @@ const ManageProfile = () => {
                   <li key={index}>{address}</li>
                 ))}
               </ul>
+            )}
+            <label className="block font-bold mt-4">Password:</label>
+            {editing ? (
+              <input
+                type="password"
+                id="password"
+                className="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 block w-full sm:text-sm border rounded-md p-1"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+            ) : (
+              <span>********</span>
             )}
           </section>
           <div className="mt-4">
