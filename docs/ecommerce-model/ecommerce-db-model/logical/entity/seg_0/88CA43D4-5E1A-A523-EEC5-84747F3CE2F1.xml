@@ -1,0 +1,102 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Entity class="oracle.dbtools.crest.model.design.logical.Entity" directorySegmentName="seg_0" id="88CA43D4-5E1A-A523-EEC5-84747F3CE2F1" name="review">
+<createdBy>silem</createdBy>
+<createdTime>2024-06-12 21:20:13 UTC</createdTime>
+<ownerDesignName>ecommerce-db-model</ownerDesignName>
+<engineerTo>
+<item key="EEEDED2D-02DD-DF73-451F-3CE255A60EBF" value="true"/>
+</engineerTo>
+<adequatelyNormalized>NO</adequatelyNormalized>
+<expectedVolumes>0</expectedVolumes>
+<fwdEngineeringStrategyName>Single Table</fwdEngineeringStrategyName>
+<growthPercent>0</growthPercent>
+<growthType>Year</growthType>
+<maxVolumes>9999999</maxVolumes>
+<minVolumes>0</minVolumes>
+<normalForm>Third</normalForm>
+<synonymToDisplay>REVIEW</synonymToDisplay>
+<attributes itemClass="oracle.dbtools.crest.model.design.logical.Attribute">
+<Attribute name="user_id" id="436AE3FA-34A2-98C7-D80E-595C35F002B4">
+<createdBy>silem</createdBy>
+<createdTime>2024-06-12 21:30:58 UTC</createdTime>
+<generatorID>69DAD04E-802F-5A04-F448-E56EBA2E9DDD</generatorID>
+<ownerDesignName>ecommerce-db-model</ownerDesignName>
+<engineerTo>
+<item key="EEEDED2D-02DD-DF73-451F-3CE255A60EBF" value="true"/>
+</engineerTo>
+<referedAttribute>48B8013C-6C82-0ED1-A87B-D9B02D7D4498</referedAttribute>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>36 CHAR</dataTypeSize>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="product_id" id="910FED6C-4A9E-E72F-9E09-17A11F2C5500">
+<createdBy>silem</createdBy>
+<createdTime>2024-06-12 21:31:08 UTC</createdTime>
+<generatorID>09C5556C-129A-97A8-B21D-60583E27ACF3</generatorID>
+<ownerDesignName>ecommerce-db-model</ownerDesignName>
+<engineerTo>
+<item key="EEEDED2D-02DD-DF73-451F-3CE255A60EBF" value="true"/>
+</engineerTo>
+<referedAttribute>8F35B7D1-14DE-7E37-235F-C1B58DD3B44B</referedAttribute>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>36 CHAR</dataTypeSize>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="rating" id="BE6FA450-C50E-E6C2-701F-E1F0A2C1FCD4">
+<createdBy>silem</createdBy>
+<createdTime>2024-06-12 21:29:51 UTC</createdTime>
+<ownerDesignName>ecommerce-db-model</ownerDesignName>
+<engineerTo>
+<item key="EEEDED2D-02DD-DF73-451F-3CE255A60EBF" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="comment" id="E3176A94-7261-8A32-8EDB-E5BC8A6B68F1">
+<createdBy>silem</createdBy>
+<createdTime>2024-06-12 21:31:54 UTC</createdTime>
+<ownerDesignName>ecommerce-db-model</ownerDesignName>
+<engineerTo>
+<item key="EEEDED2D-02DD-DF73-451F-3CE255A60EBF" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT040</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="creation_date" id="F14993D4-2CD1-AA0B-7023-819000104DB7">
+<createdBy>silem</createdBy>
+<createdTime>2024-06-12 21:32:10 UTC</createdTime>
+<ownerDesignName>ecommerce-db-model</ownerDesignName>
+<engineerTo>
+<item key="EEEDED2D-02DD-DF73-451F-3CE255A60EBF" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT047</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+</attributes>
+<identifiers itemClass="oracle.dbtools.crest.model.design.logical.CandidateKey">
+<identifier id="666F1495-0074-0A89-4FEA-CC33FDE8CDDF" name="REVIEW PK">
+<createdBy>silem</createdBy>
+<createdTime>2024-06-12 21:32:33 UTC</createdTime>
+<ownerDesignName>ecommerce-db-model</ownerDesignName>
+<engineerTo>
+<item key="EEEDED2D-02DD-DF73-451F-3CE255A60EBF" value="true"/>
+</engineerTo>
+<pk>true</pk>
+<usedAttributes>
+<attributeRef>436AE3FA-34A2-98C7-D80E-595C35F002B4</attributeRef>
+<attributeRef>910FED6C-4A9E-E72F-9E09-17A11F2C5500</attributeRef>
+</usedAttributes>
+</identifier>
+</identifiers>
+</Entity>
