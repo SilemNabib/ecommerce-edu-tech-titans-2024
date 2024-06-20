@@ -9,7 +9,6 @@ import com.sunflowers.ecommerce.product.repository.ProductImageRepository;
 import com.sunflowers.ecommerce.product.repository.ProductRepository;
 import com.sunflowers.ecommerce.product.request.CreateProductRequest;
 import com.sunflowers.ecommerce.product.request.ProductRequest;
-import com.sunflowers.ecommerce.utils.EntitySpecs;
 import com.sunflowers.ecommerce.utils.RepositoryUtils;
 import jakarta.persistence.criteria.Join;
 import jakarta.persistence.criteria.JoinType;
@@ -49,7 +48,7 @@ public class ProductService {
      * @return a Page containing the Product entities that match the search criteria
      */
     public Page<Product> getProducts(ProductRequest request) {
-        Pageable pageable = PageRequest.of(request.getPage(), request.getPageSize(), Sort.by(request.getSortBy()));
+        Pageable pageable = PageRequest.of(request.getPage(), request.getPageSize(), Sort.by(getSortDirection(request.getDirection()), request.getSortBy()));
 
         Specification<Product> spec = (root, query, cb) -> {
             List<Predicate> predicates = new ArrayList<>();
@@ -79,7 +78,7 @@ public class ProductService {
 
             if (request.getColors() != null && !request.getColors().isEmpty()) {
                 Join<Product, Inventory> inventoryJoin = root.join("inventories", JoinType.INNER);
-                Predicate colorPredicate = inventoryJoin.get("color_id").in(request.getColors());
+                Predicate colorPredicate = inventoryJoin.get("color").get("name").in(request.getColors());
                 predicates.add(colorPredicate);
             }
 
@@ -87,6 +86,13 @@ public class ProductService {
         };
 
         return productRepository.findAll(spec, pageable);
+    }
+
+    public Sort.Direction getSortDirection(String direction) {
+        if (direction.equals("desc")) {
+            return Sort.Direction.DESC;
+        }
+        return Sort.Direction.ASC;
     }
 
     /**
@@ -136,10 +142,10 @@ public class ProductService {
                 .name(request.getName())
                 .description(request.getDescription())
                 .price(BigDecimal.valueOf(request.getPrice()))
-                .categories(RepositoryUtils.getSetOfEntities(request.getCategories(), categoryRepository,"Category"))
+                .categories(RepositoryUtils.getListOfEntities(request.getCategories(), categoryRepository,"Category"))
                 .build();
 
-        List<ProductImage> images = RepositoryUtils.getSetOfEntitiesUUID(request.getImageIds(), productImageRepository,"ProductImage");
+        List<ProductImage> images = RepositoryUtils.getListOfEntitiesUUID(request.getImageIds(), productImageRepository,"ProductImage");
 
         for(ProductImage image : images) {
             image.setProduct(product);

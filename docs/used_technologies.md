@@ -14,7 +14,8 @@
 
 **Back-end (Spring Boot):**
 
-1. **spring-boot-starter-security**: This dependency is necessary for implementing user authentication and authorization.
-2. **spring-boot-starter-data-jpa**: This dependency is for integrating Spring Data JPA with PostgreSQL.
-3. **spring-boot-starter-mail**: This dependency is for sending order confirmation emails.
-4. **spring-boot-starter-validation**: This dependency is for validating input data using Bean Validation annotations.
+1. **spring-boot-starter-web**: This dependency is for building web applications.
+2. **spring-boot-starter-security**: This dependency is necessary for implementing user authentication and authorization.
+3. **spring-boot-starter-data-jpa**: This dependency is for integrating Spring Data JPA with PostgreSQL.
+4. **spring-boot-starter-mail**: This dependency is for sending order confirmation emails.
+5. **spring-boot-starter-validation**: This dependency is for validating input data using Bean Validation annotations.

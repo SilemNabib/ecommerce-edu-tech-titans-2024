@@ -2,6 +2,7 @@ package com.sunflowers.ecommerce.order.entity;
 
 import com.sunflowers.ecommerce.auth.entity.User;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.DecimalMin;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -10,7 +11,6 @@ import lombok.NoArgsConstructor;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.List;
-import java.util.Set;
 import java.util.UUID;
 
 @Data
@@ -39,14 +39,16 @@ public class Order {
     private Timestamp creationDate;
 
     @Column(name = "shipping_price", nullable = false, precision = 10, scale = 2)
+    @DecimalMin(value = "0.00", inclusive = false, message = "Shipping Price must be greater than 0.00")
     private BigDecimal shippingPrice;
 
     @Column(name = "total_price", nullable = false, precision = 10, scale = 2)
+    @DecimalMin(value = "0.00", inclusive = false, message = "Total Price must be greater than 0.00")
     private BigDecimal totalPrice;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "order_status_name", nullable = false)
-    private OrderStatus orderStatusName;
+    @Column(name = "order_status", nullable = false)
+    private OrderStatus orderStatus;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<OrderDetail> orderDetails;
