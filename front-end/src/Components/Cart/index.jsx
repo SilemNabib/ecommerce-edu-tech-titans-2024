@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { CartData } from '../../config/CartData';
 
@@ -6,23 +6,24 @@ function Cart() {
   const [carts, setCarts] = useState(CartData.items);
   const [total, setTotal] = useState(CartData.total);
 
+  useEffect(() => {
+    updateTotal();
+  }, [carts]);
+
   const handleInc = (id) => {
     setCarts(carts.map(item => 
       item.id === id ? { ...item, quantity: item.quantity + 1 } : item
     ));
-    updateTotal();
   };
 
   const handleDec = (id) => {
     setCarts(carts.map(item => 
       item.id === id && item.quantity > 1 ? { ...item, quantity: item.quantity - 1 } : item
     ));
-    updateTotal();
   };
 
   const removeProduct = (id) => {
     setCarts(carts.filter(item => item.id !== id));
-    updateTotal();
   };
 
   const updateTotal = () => {
@@ -94,39 +95,6 @@ function Cart() {
             </svg>
             Continue Shopping
           </Link>
-        </div>
-        <div id="summary" className="w-2/4 px-8 py-10 container">
-          <h1 className="font-semibold text-2xl border-b pb-8">Order Summary</h1>
-          <div className="flex flex-wrap justify-between mt-10">
-            <span className="font-semibold text-sm uppercase">Items {carts.length}</span>
-            <span className="font-semibold text-sm">$ {total.toFixed(2)}</span>
-          </div>
-          <div className="py-7 mt-2">
-            <label htmlFor="promo" className="font-semibold inline-block text-sm uppercase">
-              Promo Code
-            </label>
-            <input
-              type="text"
-              id="promo"
-              placeholder="Enter your code"
-              className="p-2 text-sm w-full"
-            />
-          </div>
-          <button className="bg-red-500 hover:bg-red-600 px-3 py-1 text-sm text-white uppercase rounded">
-            Apply
-          </button>
-          <div className="border-t mt-8">
-            <div className="flex font-semibold justify-between py-6 text-sm uppercase">
-              <span>Total cost</span>
-              <span>$ {total.toFixed(2)}</span>
-            </div>
-            <Link
-              to="/checkout/cart"
-              className="bg-indigo-500 font-semibold hover:bg-indigo-600 py-3 p-2 text-sm text-white uppercase w-full rounded"
-            >
-              Checkout
-            </Link>
-          </div>
         </div>
       </div>
     </div>
