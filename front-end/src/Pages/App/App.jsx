@@ -59,7 +59,7 @@ const AppRoutes = () => {
     { path: '/company', element: <Company /> },
     { path: '/cookies', element: <Cookies /> },
     { path: '/privacy', element: <Privacy /> },
-    { path: '/terms', element: <Terms /> }
+    { path: '/terms', element: <Terms /> },
     { path: '/admin/dashboard', element: <AdminDashboard />},
     { path: '/admin/products', element: <ProductManagement />},
     { path: '/admin/products/add', element: <AddProductDetail />},
