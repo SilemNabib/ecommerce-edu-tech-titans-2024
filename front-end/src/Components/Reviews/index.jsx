@@ -27,6 +27,14 @@ const Reviews = ({ product_id, average }) => {
     fetchReviews();
   }, [product_id]);
 
+  const sendReview = async () => {
+    const response = await auth.authFetch(`${ApiConfig.addReview}`, {
+      method: 'POST',
+      data: JSON.stringify({ 
+        productId: product_id, rating, comment }),
+    });
+  };
+
   function timeDifference(current, previous) {
     const msPerMinute = 60 * 1000;
     const msPerHour = msPerMinute * 60;
@@ -57,7 +65,9 @@ const Reviews = ({ product_id, average }) => {
 
   const handleSubmit = () => {
     if (rating > 0 && comment.trim() !== '') {
-      // Submit logic here
+      sendReview();
+      setRating(0);
+      setComment('');
     }
   };
 
