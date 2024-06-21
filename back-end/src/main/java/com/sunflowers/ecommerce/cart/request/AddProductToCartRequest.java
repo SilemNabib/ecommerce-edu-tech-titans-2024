@@ -10,6 +10,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class AddProductToCartRequest {
-    private Long InventoryId;
+    private Long inventoryId;
     private Integer amount;
 }
