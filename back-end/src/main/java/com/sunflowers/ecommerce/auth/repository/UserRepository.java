@@ -11,7 +11,7 @@ import java.util.UUID;
  * Repository interface for performing CRUD operations on User entities.
  */
 @Repository
-public interface UserRepository extends CrudRepository<User, Integer> {
+public interface UserRepository extends CrudRepository<User, UUID> {
 
     /**
      * Finds a user by their email.

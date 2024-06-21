@@ -7,24 +7,24 @@ import com.sunflowers.ecommerce.inventory.repository.InventoryRepository;
 import com.sunflowers.ecommerce.inventory.request.CreateColorRequest;
 import com.sunflowers.ecommerce.inventory.request.CreateInventoryRequest;
 import com.sunflowers.ecommerce.product.repository.ProductRepository;
-import lombok.Builder;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.NoSuchElementException;
 
 @Service
+@RequiredArgsConstructor
 public class InventoryService {
 
-    @Autowired
-    private InventoryRepository inventoryRepository;
+    private final InventoryRepository inventoryRepository;
+    private final ColorRepository colorRepository;
+    private final ProductRepository productRepository;
 
-    @Autowired
-    private ColorRepository colorRepository;
-
-    @Autowired
-    private ProductRepository productRepository;
+    public Inventory getProductInventory(Long inventoryId){
+        return inventoryRepository.findById(inventoryId)
+                .orElseThrow(() -> new NoSuchElementException("Inventory not found"));
+    }
 
     public Iterable<Color> getUniqueColors() {
         return colorRepository.findAll();

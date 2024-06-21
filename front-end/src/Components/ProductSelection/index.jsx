@@ -16,31 +16,42 @@ const ProductSelection = ({ product }) => {
   const sizes = ['S', 'M', 'L', 'XL'];
 
   return (
-    <div className="flex flex-col items-center bg-white shadow-md rounded-lg p-4 mt-8">
-      <h1 className="text-3xl font-bold mb-4">{product.name.toUpperCase()}</h1>
-      <img src={product.productImages[0].url} alt={product.name} className="w-64 h-64 object-cover object-right-top mb-4" />
-      <p className="text-gray-700 mb-4">{product.description}</p>
-      <div className="flex mb-4">
-        {colors.map((color, index) => (
-          <div
-            key={index}
-            onClick={() => setSelectedColor(color)}
-            className={`h-6 w-6 rounded-full bg-${color}-500 ml-2 cursor-pointer ${selectedColor === color ? 'ring-2 ring-black' : ''}`}
-          ></div>
-        ))}
-      </div>
-      <div className="flex mb-4">
-        {sizes.map((size, index) => (
-          <div
-            key={index}
-            onClick={() => setSelectedSize(size)}
-            className={`px-4 py-2 border-2 cursor-pointer ${selectedSize === size ? 'border-black bg-black text-white' : 'border-gray-300'} rounded-lg ml-2`}
-          >
-            {size}
+    <div className="bg-white shadow-lg rounded-lg p-6">
+      <h1 className="text-4xl font-bold mb-6">{product.name.toUpperCase()}</h1>
+      <h2 className="text-md font-bold mb-6">Price: ${product.price}</h2>
+      <div className="flex flex-col md:flex-row items-center mb-6">
+        <img src={product.productImages[0].url} alt={product.name} className="w-64 h-64 object-cover object-right-top mb-4 md:mb-0 md:mr-6" />
+        <div className="flex flex-col md:flex-1">
+          <p className="text-lg text-gray-700 mb-4">{product.description}</p>
+          <div className="flex items-center mb-4">
+            <span className="mr-2">Colors:</span>
+            <div className="flex space-x-2">
+              {colors.map((color, index) => (
+                <div
+                  key={index}
+                  onClick={() => setSelectedColor(color)}
+                  className={`h-8 w-8 rounded-full bg-${color}-500 cursor-pointer ${selectedColor === color ? 'ring-2 ring-black' : ''}`}
+                ></div>
+              ))}
+            </div>
           </div>
-        ))}
+          <div className="flex items-center mb-4">
+            <span className="mr-2">Sizes:</span>
+            <div className="flex space-x-2">
+              {sizes.map((size, index) => (
+                <div
+                  key={index}
+                  onClick={() => setSelectedSize(size)}
+                  className={`px-4 py-2 border-2 cursor-pointer ${selectedSize === size ? 'border-black bg-black text-white' : 'border-gray-300'} rounded-lg`}
+                >
+                  {size}
+                </div>
+              ))}
+            </div>
+          </div>
+          <button className="px-4 py-2 bg-black text-white rounded-lg mt-4 hover:bg-gray-800 transition">Add to cart</button>
+        </div>
       </div>
-      <button className="px-4 py-2 bg-black text-white rounded-lg">Add to cart</button>
     </div>
   );
 };

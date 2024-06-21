@@ -10,7 +10,6 @@ import lombok.*;
 public class CreateReviewRequest {
 
     private Long productId;
-    private String userEmail;
     private String comment;
     private int rating;
 

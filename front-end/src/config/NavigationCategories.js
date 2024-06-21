@@ -98,6 +98,6 @@ export const NavigationCategories = {
     },
   ],
   pages: [
-    { name: 'Company', href: '/category/company' },
+    { name: 'Company', href: '/company' },
   ],
 }

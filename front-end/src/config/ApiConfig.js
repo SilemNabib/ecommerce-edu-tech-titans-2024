@@ -1,4 +1,4 @@
-export const uri = "http://192.168.10.16:8080/api/v1";
+export const uri = "http://localhost:8080/api/v1";
 
 export const ApiConfig = {
   url: uri,

@@ -6,36 +6,20 @@ import Select from "../../Components/Select";
 const ProductSpecification = ({ index, sizes, colors, onRemove }) => {
   const [stock, setStock] = useState('');
 
-  const handleBlur = (event) => {
-    let value = event.target.value;
-
-    // Ensure the value is a positive integer
-    if (value < 0) {
-      value = 0;
-    } else if (!Number.isInteger(value)) {
-      value = Math.floor(value);
-    }
-
-    setStock(value);
-  };
-
   return (
-    <div className="flex items-center space-x-4">
-      <div>#{index}</div>
-      <Select options={sizes} placeholder="Select size" />
-      <Select options={colors} placeholder="Select color" />
+    <div className="flex items-center space-x-4 bg-gray-100 p-4 rounded-md shadow-sm">
+      <div className="text-lg font-medium">#{index}</div>
+      <Select options={sizes} placeholder="Select size" className="flex-1" />
+      <Select options={colors} placeholder="Select color" className="flex-1" />
       <InputText
         value={stock}
-        onBlur={handleBlur}
         options={{
           type: "number",
-          min: 0,
-          step: 1,
           placeholder: "Stock",
         }}
-        className="w-full"
+        className="flex-1"
       />
-      <button onClick={onRemove}>
+      <button onClick={onRemove} className="text-red-600 hover:text-red-800">
         <TrashIcon className="h-5 w-5" />
       </button>
     </div>
