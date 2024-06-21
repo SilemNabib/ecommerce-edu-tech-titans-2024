@@ -1,65 +1,33 @@
-import React, { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { CartData } from '../../config/CartData';
 
 function Cart() {
-  const navigate = useNavigate();
-  const [carts, setCarts] = useState([]);
-  const [total, setTotal] = useState(0);
-
-  useEffect(() => {
-    // Obtener los datos del carrito desde el servidor
-    fetch('/api/cart')
-      .then(response => response.json())
-      .then(data => {
-        setCarts(data);
-        // Calcular el total
-        const total = data.reduce((acc, item) => {
-          return acc + item.price * item.quantity;
-        }, 0);
-        setTotal(total);
-      })
-      .catch(error => {
-        console.error('Error getting the cart:', error);
-      });
-  }, []);
+  const [carts, setCarts] = useState(CartData.items);
+  const [total, setTotal] = useState(CartData.total);
 
   const handleInc = (id) => {
-    // Enviar petición POST al servidor para aumentar la cantidad
-    fetch(`/api/cart/${id}/increment`, { method: 'POST' })
-      .then(response => response.json())
-      .then(data => {
-        setCarts(data);
-        // navigate('/cart');
-      })
-      .catch(error => {
-        console.error('Error increasing the quantity:', error);
-      });
+    setCarts(carts.map(item => 
+      item.id === id ? { ...item, quantity: item.quantity + 1 } : item
+    ));
+    updateTotal();
   };
 
   const handleDec = (id) => {
-    // Enviar petición POST al servidor para disminuir la cantidad
-    fetch(`/api/cart/${id}/decrement`, { method: 'POST' })
-      .then(response => response.json())
-      .then(data => {
-        setCarts(data);
-        // navigate('/cart');
-      })
-      .catch(error => {
-        console.error('Error decreasing the quantity:', error);
-      });
+    setCarts(carts.map(item => 
+      item.id === id && item.quantity > 1 ? { ...item, quantity: item.quantity - 1 } : item
+    ));
+    updateTotal();
   };
 
   const removeProduct = (id) => {
-    // Enviar petición DELETE al servidor para eliminar el producto
-    fetch(`/api/cart/${id}`, { method: 'DELETE' })
-      .then(response => response.json())
-      .then(data => {
-        setCarts(data);
-        // navigate('/cart');
-      })
-      .catch(error => {
-        console.error('Error deleting the product:', error);
-      });
+    setCarts(carts.filter(item => item.id !== id));
+    updateTotal();
+  };
+
+  const updateTotal = () => {
+    const newTotal = carts.reduce((acc, item) => acc + item.price * item.quantity, 0);
+    setTotal(newTotal);
   };
 
   if (carts.length === 0) {
@@ -114,13 +82,13 @@ function Cart() {
                   <path d="M416 208H272V64c0-17.67-14.33-32-32-32h-32c-17.67 0-32 14.33-32 32v144H32c-17.67 0-32 14.33-32 32v32c0 17.67 14.33 32 32 32h144v144c0 17.67 14.33 32 32 32h32c17.67 0 32-14.33 32-32V304h144c17.67 0 32-14.33 32-32v-32c0-17.67-14.33-32-32-32z" />
                 </svg>
               </div>
-              <span className="text-center w-1/5 font-semibold text-sm">${cart.price}</span>
+              <span className="text-center w-1/5 font-semibold text-sm">${cart.price.toFixed(2)}</span>
               <span className="text-center w-1/5 font-semibold text-sm">
                 ${(cart.price * cart.quantity).toFixed(2)}
               </span>
             </div>
           ))}
-          <Link to="/products" className="flex font-semibold text-gray-900 text-sm mt-10">
+          <Link to="/" className="flex font-semibold text-gray-900 text-sm mt-10">
             <svg className="fill-current mr-2 text-gray-900 w-4" viewBox="0 0 448 512">
               <path d="M134.059 296H436c6.627 0 12-5.373 12-12v-56c0-6.627-5.373-12-12-12H134.059v-46.059c0-21.382-25.851-32.09-40.971-16.971L7.029 239.029c-9.373 9.373-9.373 24.569 0 33.941l86.059 86.059c15.119 15.119 40.971 4.411 40.971-16.971V296z" />
             </svg>
@@ -144,7 +112,7 @@ function Cart() {
               className="p-2 text-sm w-full"
             />
           </div>
-          <button className="bg-red-500 hover:bg-red-600 px-3 py-1 text-sm text-white uppercase">
+          <button className="bg-red-500 hover:bg-red-600 px-3 py-1 text-sm text-white uppercase rounded">
             Apply
           </button>
           <div className="border-t mt-8">
@@ -153,8 +121,8 @@ function Cart() {
               <span>$ {total.toFixed(2)}</span>
             </div>
             <Link
-              to="/checkout"
-              className="bg-indigo-500 font-semibold hover:bg-indigo-600 py-3 p-2 text-sm text-white uppercase w-full"
+              to="/checkout/cart"
+              className="bg-indigo-500 font-semibold hover:bg-indigo-600 py-3 p-2 text-sm text-white uppercase w-full rounded"
             >
               Checkout
             </Link>
