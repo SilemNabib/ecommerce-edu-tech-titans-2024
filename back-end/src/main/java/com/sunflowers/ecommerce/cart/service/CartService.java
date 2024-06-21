@@ -9,11 +9,13 @@ import com.sunflowers.ecommerce.cart.request.AddProductToCartRequest;
 import com.sunflowers.ecommerce.inventory.entity.Inventory;
 import com.sunflowers.ecommerce.inventory.service.InventoryService;
 import com.sunflowers.ecommerce.response.GeneralResponse;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -36,7 +38,7 @@ public class CartService {
         return cartItemRepository.existsByUserAndInventory(user, inventory);
     }
 
-    public ResponseEntity<GeneralResponse<CartItem>> addProductToCart(HttpServletRequest servletRequest, AddProductToCartRequest request) {
+    public ResponseEntity<GeneralResponse<CartItem>> addItemToCart(HttpServletRequest servletRequest, AddProductToCartRequest request) {
         User user = getUserFromRequest(servletRequest);
         Inventory inventory = inventoryService.getProductInventory(request.getInventoryId());
 
@@ -83,6 +85,24 @@ public class CartService {
                         .message(message)
                         .success(true)
                         .data(contains)
+                        .build());
+    }
+
+    public ResponseEntity<GeneralResponse<Boolean>> removeItemFromCart(HttpServletRequest servletRequest, Long inventoryId) {
+        User user = getUserFromRequest(servletRequest);
+        Inventory inventory = inventoryService.getProductInventory(inventoryId);
+
+        CartItem cartItem = cartItemRepository.findByUserAndInventory(user, inventory)
+                .orElseThrow(() -> new EntityNotFoundException("Item not found in cart"));
+
+        cartItemRepository.delete(cartItem);
+
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(GeneralResponse.<Boolean>builder()
+                        .statusCode(HttpStatus.OK.value())
+                        .message("Product removed from cart")
+                        .success(true)
+                        .data(true)
                         .build());
     }
 }
