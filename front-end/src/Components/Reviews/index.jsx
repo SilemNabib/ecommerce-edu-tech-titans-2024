@@ -2,6 +2,8 @@ import { StarIcon as OutlineStarIcon } from '@heroicons/react/24/outline';
 import { StarIcon as FilledStarIcon, PaperAirplaneIcon } from '@heroicons/react/24/solid';
 import { CircularProgress } from '@mui/material';
 import { useEffect, useState } from 'react';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { useAuth } from '../../Context/AuthContext';
 import { ApiConfig } from '../../config/ApiConfig';
 
@@ -28,11 +30,26 @@ const Reviews = ({ product_id, average }) => {
   }, [product_id]);
 
   const sendReview = async () => {
-    const response = await auth.authFetch(`${ApiConfig.addReview}`, {
-      method: 'POST',
-      data: JSON.stringify({ 
-        productId: product_id, rating, comment }),
-    });
+    try {
+      const response = await auth.authFetch(`${ApiConfig.addReview}`, {
+        method: 'POST',
+        data: JSON.stringify({
+          productId: product_id,
+          rating,
+          comment,
+        }),
+      });
+
+      if (response.status === 200) {
+        toast.success('Review submitted successfully!');
+        const newReview = await response.data;
+        setReviews((prevReviews) => [...prevReviews, newReview]);
+      } else {
+        toast.error('Failed to submit review.');
+      }
+    } catch (error) {
+      toast.error('An error occurred while submitting the review.');
+    }
   };
 
   function timeDifference(current, previous) {
@@ -73,6 +90,7 @@ const Reviews = ({ product_id, average }) => {
 
   return (
     <div className="mt-8 p-4 bg-white shadow-lg rounded-lg">
+      <ToastContainer />
       <h2 className="text-2xl font-bold mb-4">Reviews</h2>
       {auth.isAuthenticated() && (
         <div className="mb-6 flex flex-col">

@@ -18,6 +18,7 @@ const ProductSelection = ({ product }) => {
   return (
     <div className="bg-white shadow-lg rounded-lg p-6">
       <h1 className="text-4xl font-bold mb-6">{product.name.toUpperCase()}</h1>
+      <h2 className="text-md font-bold mb-6">Price: ${product.price}</h2>
       <div className="flex flex-col md:flex-row items-center mb-6">
         <img src={product.productImages[0].url} alt={product.name} className="w-64 h-64 object-cover object-right-top mb-4 md:mb-0 md:mr-6" />
         <div className="flex flex-col md:flex-1">

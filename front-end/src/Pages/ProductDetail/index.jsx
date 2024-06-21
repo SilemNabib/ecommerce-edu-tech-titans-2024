@@ -22,7 +22,7 @@ const ProductDetail = () => {
       const product = await response.data;
       setProduct(product);
     };
-  
+
     fetchProduct();
   }, [id]);
 
