@@ -18,7 +18,7 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @GetMapping("/{userID}")
+    @GetMapping("/profile")
     public MappingJacksonValue getUserProfile(@RequestHeader(name = "Authorization") String authorizationHeader) {
         return userService.getUserProfile(authorizationHeader);
     }
