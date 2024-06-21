@@ -3,6 +3,7 @@ package com.sunflowers.ecommerce.cart.service;
 import com.sunflowers.ecommerce.auth.entity.User;
 import com.sunflowers.ecommerce.auth.service.JwtService;
 import com.sunflowers.ecommerce.auth.service.UserService;
+import com.sunflowers.ecommerce.cart.dto.UserCartsDto;
 import com.sunflowers.ecommerce.cart.entity.CartItem;
 import com.sunflowers.ecommerce.cart.repository.CartItemRepository;
 import com.sunflowers.ecommerce.cart.request.AddProductToCartRequest;
@@ -17,6 +18,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -103,6 +106,19 @@ public class CartService {
                         .message("Product removed from cart")
                         .success(true)
                         .data(true)
+                        .build());
+    }
+
+    public ResponseEntity<GeneralResponse<List<UserCartsDto>>> getCart(HttpServletRequest servletRequest) {
+        User user = getUserFromRequest(servletRequest);
+        List<UserCartsDto> cartItems = cartItemRepository.findAllInventoriesFromUser(user);
+
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(GeneralResponse.<List<UserCartsDto>>builder()
+                        .statusCode(HttpStatus.OK.value())
+                        .message("Cart items")
+                        .success(true)
+                        .data(cartItems)
                         .build());
     }
 }
