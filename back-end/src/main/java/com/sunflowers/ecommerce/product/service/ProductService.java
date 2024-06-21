@@ -9,7 +9,6 @@ import com.sunflowers.ecommerce.product.repository.ProductImageRepository;
 import com.sunflowers.ecommerce.product.repository.ProductRepository;
 import com.sunflowers.ecommerce.product.request.CreateProductRequest;
 import com.sunflowers.ecommerce.product.request.ProductRequest;
-import com.sunflowers.ecommerce.utils.EntitySpecs;
 import com.sunflowers.ecommerce.utils.RepositoryUtils;
 import jakarta.persistence.criteria.Join;
 import jakarta.persistence.criteria.JoinType;
@@ -81,6 +80,10 @@ public class ProductService {
                 Join<Product, Inventory> inventoryJoin = root.join("inventories", JoinType.INNER);
                 Predicate colorPredicate = inventoryJoin.get("color_id").in(request.getColors());
                 predicates.add(colorPredicate);
+            }
+
+            if (request.getName() != null && !request.getName().isEmpty()) {
+                predicates.add(cb.like(cb.lower(root.get("name")), "%" + request.getName().toLowerCase() + "%"));
             }
 
             return cb.and(predicates.toArray(new Predicate[0]));
