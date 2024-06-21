@@ -1,7 +1,7 @@
 import axios from "axios";
+import * as jwt_decode from "jwt-decode";
 import { createContext, useContext } from "react";
 import { ApiConfig } from "../config/ApiConfig";
-import * as jwt_decode from "jwt-decode";
 
 const token = localStorage.getItem("authToken");
 
@@ -123,7 +123,11 @@ export const AuthProvider = ({ children }) => {
   };
 
   const authFetch = async (url, options = {}) => {
-    return axios(url, options);
+    const headers = {
+      'Content-Type': 'application/json',
+      ...options.headers,
+    };
+    return axios(url, { ...options, headers });
   };
 
   return (

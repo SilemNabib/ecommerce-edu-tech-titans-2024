@@ -1,5 +1,6 @@
 package com.sunflowers.ecommerce.auth.controller;
 
+import com.sunflowers.ecommerce.auth.request.ResetPwdRequest;
 import com.sunflowers.ecommerce.auth.request.VerifyEmailRequest;
 import com.sunflowers.ecommerce.auth.service.PasswordResetService;
 import com.sunflowers.ecommerce.response.GeneralResponse;
@@ -28,8 +29,20 @@ public class PasswordResetController {
      * @return the general response containing the status of the password reset request
      */
     @PostMapping("/verifyMail")
-    public ResponseEntity<GeneralResponse<Void>> verifyEmail(@RequestBody VerifyEmailRequest emailRequest){
+    public ResponseEntity<GeneralResponse<String>> verifyEmail(@RequestBody VerifyEmailRequest emailRequest){
         return ResponseEntity.ok(pwdResetService.verifyEmail(emailRequest));
+    }
+
+    /**
+     * Handles password reset requests.
+     * This method will take a ResetPwdRequest object and return a GeneralResponse object.
+     *
+     * @param resetPwdRequest the password reset request containing the user's email, otp code and new password
+     * @return the general response containing the status of the password reset request
+     */
+    @PostMapping("/resetPwd")
+    public ResponseEntity<GeneralResponse<Void>> resetPassword(@RequestBody ResetPwdRequest resetPwdRequest){
+        return ResponseEntity.ok(pwdResetService.resetPassword(resetPwdRequest));
     }
 
     /**
