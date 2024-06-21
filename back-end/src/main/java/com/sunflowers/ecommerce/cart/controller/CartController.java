@@ -10,10 +10,7 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -24,6 +21,18 @@ public class CartController {
 
     @PostMapping("/add")
     public ResponseEntity<GeneralResponse<CartItem>> addItemToCart(@NonNull HttpServletRequest servletRequest, @RequestBody AddProductToCartRequest request) {
-        return cartService.addProductToCart(servletRequest, request);
+        return cartService.addItemToCart(servletRequest, request);
     }
+
+    @GetMapping("/contains/{inventoryId}")
+    public ResponseEntity<GeneralResponse<Boolean>> containsItem(@NonNull HttpServletRequest servletRequest, @PathVariable Long inventoryId) {
+        return cartService.containsItem(servletRequest, inventoryId);
+    }
+
+    @DeleteMapping("/remove/{inventoryId}")
+    public ResponseEntity<GeneralResponse<Boolean>> removeItemFromCart(@NonNull HttpServletRequest servletRequest, @PathVariable Long inventoryId) {
+        return cartService.removeItemFromCart(servletRequest, inventoryId);
+    }
+
+    //TODO: Agregar exception handlers
 }

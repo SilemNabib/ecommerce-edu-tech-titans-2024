@@ -9,7 +9,6 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class AddProductToCartRequest {
-    private Long inventoryId;
-    private Integer amount;
+public class GetShoppingCartRequest {
+    private String example;
 }
