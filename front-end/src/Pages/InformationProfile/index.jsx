@@ -76,17 +76,19 @@ const Profile = () => {
                   </label>
                   <span>{UserInfo.phone}</span>
                 </div>
+
+                <div>
+                  <label className="block font-bold" htmlFor="registrationDate">
+                    Registration Date
+                  </label>
+                  <span>{UserInfo.registrationDate}</span>
+                </div>
+                
               </div>
+              
             </div>
           </section>
-          <section>
-            <label className="block font-bold mt-4">Addresses:</label>
-            <ul>
-              {UserInfo.addresses.map((address, index) => (
-                <li key={index}>{address}</li>
-              ))}
-            </ul>
-          </section>
+
         </div>
       </div>
     </div>

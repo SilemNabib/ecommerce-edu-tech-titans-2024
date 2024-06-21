@@ -54,9 +54,9 @@ const AppRoutes = () => {
     { path: '/checkout/profile', element: <CheckoutProfile /> },
     { path: '/checkout/shipping', element: <CheckoutShipping /> },
 
-    { path: '/information/profile', element: <Profile />},
-    { path: '/manage-profile', element: <ManageProfile />},
-    { path: '/order-history', element: <OrderHistory/>},
+    { path: '/information/profile', element: isAuthenticated() ? <Profile /> : <Navigate to="/login" /> },
+    { path: '/manage-profile', element: isAuthenticated() ? <ManageProfile /> : <Navigate to="/login" /> },
+    { path: '/order-history', element: isAuthenticated() ? <OrderHistory/> : <Navigate to="/login" /> },
 
     {
       path: '/checkout/payment', element: (
@@ -65,6 +65,7 @@ const AppRoutes = () => {
         </StripeProvider>
       )
     },
+    
     { path: '/company', element: <Company /> },
     { path: '/cookies', element: <Cookies /> },
     { path: '/privacy', element: <Privacy /> },

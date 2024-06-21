@@ -8,4 +8,5 @@ export const UserInfo = {
       "Apt 123",
       "Los Angeles, CA 90000",
     ],
+    registrationDate: "18/11/2021",
 }

@@ -284,11 +284,19 @@ export default function Navigation() {
                 </div>
               )}
                 
-              <div className='flex flex-1 items-center justify-end space-x-6'>
-                <NavLink to='/login' className='text-gray-400 hover:text-gray-500 p-2 sm:p-0'>
-                  <UserIcon className='h-6 w-6' />
-                </NavLink>
-              </div>  
+              {auth.isAuthenticated() ? (
+                <div className='flex flex-1 items-center justify-end space-x-6'>
+                  <NavLink to='/information/profile' className='text-gray-400 hover:text-gray-500 p-2 sm:p-0'>
+                    <UserIcon className='h-6 w-6' />
+                  </NavLink>
+                </div>
+              ) : (
+                <div className='flex flex-1 items-center justify-end space-x-6'>
+                  <NavLink to='/login' className='text-gray-400 hover:text-gray-500 p-2 sm:p-0'>
+                    <UserIcon className='h-6 w-6' />
+                  </NavLink>
+                </div>
+              )}
 
               {/* Search */}
                 <div className='flex items-center lg:ml-6'>
