@@ -1,4 +1,5 @@
-import { PaperAirplaneIcon, StarIcon } from '@heroicons/react/24/solid';
+import { StarIcon as OutlineStarIcon } from '@heroicons/react/24/outline';
+import { StarIcon as FilledStarIcon, PaperAirplaneIcon } from '@heroicons/react/24/solid';
 import { CircularProgress } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useAuth } from '../../Context/AuthContext';
@@ -13,6 +14,7 @@ const Reviews = ({ product_id, average }) => {
   const auth = useAuth();
 
   const [comment, setComment] = useState('');
+  const [rating, setRating] = useState(0);
   const [reviews, setReviews] = useState(null);
 
   useEffect(() => {
@@ -49,19 +51,46 @@ const Reviews = ({ product_id, average }) => {
     }
   }
 
+  const handleRating = (rate) => {
+    setRating(rate);
+  };
+
+  const handleSubmit = () => {
+    if (rating > 0 && comment.trim() !== '') {
+      // Submit logic here
+    }
+  };
+
   return (
     <div className="mt-8 p-4 bg-white shadow-lg rounded-lg">
       <h2 className="text-2xl font-bold mb-4">Reviews</h2>
       {auth.isAuthenticated() && (
         <div className="mb-6 flex flex-col">
+          <div className="flex items-start mb-2">
+            {[1, 2, 3, 4, 5].map((star) => (
+              <button key={star} onClick={() => handleRating(star)}>
+                {star <= rating ? (
+                  <FilledStarIcon className="h-6 w-6 text-yellow-500" />
+                ) : (
+                  <OutlineStarIcon className="h-6 w-6 text-yellow-500" />
+                )}
+              </button>
+            ))}
+          </div>
           <div className="flex items-start">
-          <textarea
-            value={comment}
-            onChange={(e) => setComment(e.target.value)}
-            className="w-full h-24 p-2 border-2 border-gray-300 rounded-l-lg mb-2 resize-none"
-            placeholder="Leave a comment..."
-          ></textarea>
-            <button className="bg-black text-white rounded-r-lg p-2 h-24 mb-2 flex items-center">
+            <textarea
+              value={comment}
+              onChange={(e) => setComment(e.target.value)}
+              className="w-full h-24 p-2 border-2 border-gray-300 rounded-l-lg mb-2 resize-none"
+              placeholder="Leave a comment..."
+            ></textarea>
+            <button
+              onClick={handleSubmit}
+              className={`bg-black text-white rounded-r-lg p-2 h-24 mb-2 flex items-center ${
+                rating > 0 && comment.trim() !== '' ? '' : 'opacity-50 cursor-not-allowed'
+              }`}
+              disabled={rating === 0 || comment.trim() === ''}
+            >
               <PaperAirplaneIcon className="h-6 w-6 text-white" />
             </button>
           </div>
@@ -71,7 +100,7 @@ const Reviews = ({ product_id, average }) => {
         <p className="text-gray-700 mb-4">You need to be logged in to leave a review</p>
       )}
       <div className="flex items-center mb-4">
-        <StarIcon className="h-5 w-5 text-yellow-500" />
+        <FilledStarIcon className="h-5 w-5 text-yellow-500" />
         <span className="ml-2 text-xl font-bold">Average rating: {average}</span>
       </div>
       <div className="space-y-4">
@@ -85,7 +114,7 @@ const Reviews = ({ product_id, average }) => {
               <p className="font-bold text-gray-600">Posted {timeDifference(new Date(), new Date(review.creationDate))}</p>
               <p className="text-gray-700">{review.comment}</p>
               <div className="flex items-center">
-                <StarIcon className="h-5 w-5 text-yellow-500" />
+                <FilledStarIcon className="h-5 w-5 text-yellow-500" />
                 <span className="ml-2 text-gray-700">Rating: {review.rating}</span>
               </div>
             </div>
