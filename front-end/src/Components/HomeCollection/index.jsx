@@ -5,23 +5,35 @@ import Slider from 'react-slick';
 import { toast } from 'react-toastify';
 import 'slick-carousel/slick/slick-theme.css';
 import 'slick-carousel/slick/slick.css';
-
-const HomeSection = ({ category }) => {
+import { ApiConfig } from '../../config/ApiConfig';
+/**
+ * HomeSection component displays a collection of products based on the selected category.
+ * 
+ * @param {Object} props - The component props.
+ * @param {string} props.category - The selected category.
+ * @param {Array} props.categories - The list of categories.
+ * 
+ * @returns {JSX.Element|null} The rendered HomeSection component.
+ */
+const HomeSection = ({ category, categories }) => {
   const [products, setProducts] = useState([]);
 
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await fetch(`https://fakestoreapi.com/products/category/${category}`);
+        const categoriesQuery = categories.map(category => `categories=${category}`).join('&');
+        const response = await fetch(`${ApiConfig.products}?${categoriesQuery}`);
         const data = await response.json();
-        setProducts(data);
+        if(data._embedded){
+          setProducts(data._embedded.productList);
+        }
       } catch (error) {
         toast.error('Failed to fetch products');
       }
     };
 
     fetchProducts();
-  }, [category]);
+  }, [categories]);
 
   const settings = {
     dots: false,
@@ -55,6 +67,10 @@ const HomeSection = ({ category }) => {
       },
     ],
   };
+
+  if(products.length === 0){
+    return null;
+  }
   
   return (
     <section className="bg-gray-100 py-4">
@@ -69,13 +85,13 @@ const HomeSection = ({ category }) => {
             <div key={product.id} className="px-2">
               <div className="group block overflow-hidden bg-white rounded-lg shadow-md">
                 <img
-                  src={product.image}
-                  alt={product.title}
-                  className="h-48 w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  src={product.productImages[0].url}
+                  alt={product.name}
+                  className="h-48 w-full object-cover object-right-top transition-transform duration-500 group-hover:scale-105"
                 />
                 <div className="p-4">
                   <h3 className="text-sm text-gray-700 group-hover:underline overflow-ellipsis overflow-hidden h-12">
-                    {product.title}
+                    {product.name.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')}
                   </h3>
                 </div>
               </div>

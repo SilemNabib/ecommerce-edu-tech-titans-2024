@@ -3,6 +3,11 @@ import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
+/**
+ * This component renders a form where users can enter their email address to receive a password reset link.
+ *
+ * @returns {JSX.Element} The ForgotPassword component.
+ */
 const ForgotPassword = () => {
   const [email, setEmail] = useState('');
   const navigate = useNavigate();

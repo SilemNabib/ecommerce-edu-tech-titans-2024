@@ -1,0 +1,115 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="23C9100F-6A7F-8335-2A1A-8E1612F38C62" name="review">
+<createdBy>silem</createdBy>
+<createdTime>2024-06-13 19:01:38 UTC</createdTime>
+<generatorID>88CA43D4-5E1A-A523-EEC5-84747F3CE2F1</generatorID>
+<ownerDesignName>ecommerce-db-model</ownerDesignName>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="user_id" id="F836F9FB-870E-9144-EF18-6EBF9922D35B">
+<createdBy>silem</createdBy>
+<createdTime>2024-06-13 19:01:38 UTC</createdTime>
+<generatorID>436AE3FA-34A2-98C7-D80E-595C35F002B4</generatorID>
+<ownerDesignName>ecommerce-db-model</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>36 CHAR</dataTypeSize>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="F8AEF5D7-A320-69FC-08C2-B3E44D55B798" referredColumn="4AF0ED40-92AF-28A0-377B-5F1AF5463C84"/>
+</associations>
+</Column>
+<Column name="product_id" id="F3954243-F480-4949-83B8-BA565B0937AF">
+<createdBy>silem</createdBy>
+<createdTime>2024-06-13 19:01:38 UTC</createdTime>
+<generatorID>910FED6C-4A9E-E72F-9E09-17A11F2C5500</generatorID>
+<ownerDesignName>ecommerce-db-model</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>36 CHAR</dataTypeSize>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="68EF292D-ED6D-683F-56AF-F4D1E24C5715" referredColumn="7B02DF80-C54D-05BF-8D82-777287C45490"/>
+</associations>
+</Column>
+<Column name="rating" id="80A9C21D-FF1F-08DD-3949-333AE9BCBBB1">
+<createdBy>silem</createdBy>
+<createdTime>2024-06-13 19:01:38 UTC</createdTime>
+<generatorID>BE6FA450-C50E-E6C2-701F-E1F0A2C1FCD4</generatorID>
+<ownerDesignName>ecommerce-db-model</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="comment" id="D9AD9E5B-3708-78CD-1371-7B971047A793">
+<createdBy>silem</createdBy>
+<createdTime>2024-06-13 19:01:38 UTC</createdTime>
+<generatorID>E3176A94-7261-8A32-8EDB-E5BC8A6B68F1</generatorID>
+<ownerDesignName>ecommerce-db-model</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT040</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="creation_date" id="F775096A-6044-5C91-6473-EDD6C5063937">
+<createdBy>silem</createdBy>
+<createdTime>2024-06-13 19:01:38 UTC</createdTime>
+<generatorID>F14993D4-2CD1-AA0B-7023-819000104DB7</generatorID>
+<ownerDesignName>ecommerce-db-model</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT047</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="765C7C4F-922F-46E2-3B1D-912A8C7465FE" name="REVIEW_PK">
+<createdBy>silem</createdBy>
+<createdTime>2024-06-13 19:01:38 UTC</createdTime>
+<generatorID>666F1495-0074-0A89-4FEA-CC33FDE8CDDF</generatorID>
+<ownerDesignName>ecommerce-db-model</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="F836F9FB-870E-9144-EF18-6EBF9922D35B"/>
+<colUsage columnID="F3954243-F480-4949-83B8-BA565B0937AF"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="3DA8E9B6-24AD-A322-00A0-852D56AB95FD" name="Relation_28">
+<createdBy>silem</createdBy>
+<createdTime>2024-06-13 19:01:38 UTC</createdTime>
+<generatorID>69DAD04E-802F-5A04-F448-E56EBA2E9DDD</generatorID>
+<ownerDesignName>ecommerce-db-model</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="F836F9FB-870E-9144-EF18-6EBF9922D35B"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="F10BCEBD-F25E-09BB-8A57-D1FC8223CF9E" name="Relation_29">
+<createdBy>silem</createdBy>
+<createdTime>2024-06-13 19:01:38 UTC</createdTime>
+<generatorID>09C5556C-129A-97A8-B21D-60583E27ACF3</generatorID>
+<ownerDesignName>ecommerce-db-model</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="F3954243-F480-4949-83B8-BA565B0937AF"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>
