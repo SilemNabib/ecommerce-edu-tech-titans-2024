@@ -17,4 +17,6 @@ public interface UnverifiedUserRepository extends CrudRepository<UnverifiedUser,
      * @return an Optional containing the UnverifiedUser entity if found, or an empty Optional if not found
      */
     Optional<UnverifiedUser> findByAuthToken(String authToken);
+
+    Optional<UnverifiedUser> findByEmail(String email);
 }

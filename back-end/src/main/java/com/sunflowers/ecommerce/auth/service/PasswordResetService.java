@@ -4,13 +4,16 @@ import com.sunflowers.ecommerce.auth.entity.PasswordResetToken;
 import com.sunflowers.ecommerce.auth.entity.User;
 import com.sunflowers.ecommerce.auth.repository.PasswordResetRepository;
 import com.sunflowers.ecommerce.auth.repository.UserRepository;
+import com.sunflowers.ecommerce.auth.request.ResetPwdRequest;
 import com.sunflowers.ecommerce.auth.request.VerifyEmailRequest;
 import com.sunflowers.ecommerce.email.EmailService;
 import com.sunflowers.ecommerce.email.MailBody;
 import com.sunflowers.ecommerce.response.GeneralResponse;
+import com.sunflowers.ecommerce.utils.FrontLinks;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -26,6 +29,7 @@ public class PasswordResetService {
     private final UserRepository userRepository;
     private final EmailService emailService;
     private final PasswordResetRepository passwordResetRepository;
+    private final PasswordEncoder passwordEncoder;
 
     /**
      * This method sends an OTP to the user's email address for password reset.
@@ -33,7 +37,7 @@ public class PasswordResetService {
      * @param emailRequest the email request containing the user's email
      * @return a general response indicating the status of the operation
      */
-    public GeneralResponse<Void> verifyEmail(VerifyEmailRequest emailRequest) {
+    public GeneralResponse<String> verifyEmail(VerifyEmailRequest emailRequest) {
 
         User user = userRepository.findByEmail(emailRequest.getEmail())
                 .orElseThrow(() -> new UsernameNotFoundException("Not user with that email"));
@@ -46,11 +50,16 @@ public class PasswordResetService {
                 .expirationTime(new Date(System.currentTimeMillis() + 70 * 1000))
                 .build();
 
+        String text = "Please use the following code to verify your email: " + otp
+                + "\n\nThis code will expire in 60 minutes."
+                + "\n\nIf you did not request this code, please ignore this email."
+                + "\n\n\n\n" + FrontLinks.RESET_PASSWORD + "?token=" + user.getId().toString();
+
         emailService.sendEmail(
                 MailBody.builder()
                 .to(emailRequest.getEmail())
                 .subject("OTP for Forgot Password request")
-                .text("This is the OTP for your Forgot Password request: " + otp)
+                .text(text)
                 .build()
         );
 
@@ -59,11 +68,48 @@ public class PasswordResetService {
 
         passwordResetRepository.save(prt);
 
-        return GeneralResponse.<Void>builder()
+        return GeneralResponse.<String>builder()
                 .statusCode(HttpStatus.OK.value())
                 .message("The password reset token has been sent to the e-mail address.")
                 .success(true)
+                .data(user.getId().toString())
                 .build();
+    }
+
+    public GeneralResponse<Void> resetPassword(ResetPwdRequest request) {
+        PasswordResetToken prt = passwordResetRepository.findById(
+                userRepository.findByEmail(request.getEmail()).orElseThrow(() -> new UsernameNotFoundException("User not found")).getId())
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+
+        if (!prt.getOtp().toString().equals(request.getOtp())) {
+            return GeneralResponse.<Void>builder()
+                    .statusCode(HttpStatus.BAD_REQUEST.value())
+                    .message("Invalid OTP")
+                    .success(false)
+                    .build();
+        }
+
+        if (!AuthService.validatePassword(request.getPassword()) ) {
+            return GeneralResponse.<Void>builder()
+                    .statusCode(HttpStatus.BAD_REQUEST.value())
+                    .message("Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one number and one special character")
+                    .success(false)
+                    .build();
+        }
+
+        User user = userRepository.findById(prt.getId())
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+
+        user.setPassword(passwordEncoder.encode(request.getPassword()));
+        userRepository.save(user);
+
+        passwordResetRepository.delete(prt);
+
+        return GeneralResponse.<Void>builder()
+                .statusCode(HttpStatus.OK.value())
+                .message("Password reset successful")
+                .success(true)
+                 .build();
     }
 
     //TODO: mejorar el generador de OTP
