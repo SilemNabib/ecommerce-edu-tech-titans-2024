@@ -1,6 +1,7 @@
-package com.sunflowers.ecommerce.order.data;
+package com.sunflowers.ecommerce.order.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.sunflowers.ecommerce.order.data.Link;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -14,9 +15,3 @@ public class PaypalOrderResponse implements Serializable {
     private List<Link> links;
 }
 
-@Data
-class Link {
-    private String href;
-    private String rel;
-    private String method;
-}

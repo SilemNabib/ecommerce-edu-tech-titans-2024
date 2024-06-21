@@ -4,24 +4,18 @@ import com.sunflowers.ecommerce.auth.config.JwtAuthenticationFilter;
 import com.sunflowers.ecommerce.auth.entity.Address;
 import com.sunflowers.ecommerce.auth.entity.User;
 import com.sunflowers.ecommerce.auth.repository.AddressRepository;
-import com.sunflowers.ecommerce.auth.repository.UserRepository;
 import com.sunflowers.ecommerce.auth.service.JwtService;
 import com.sunflowers.ecommerce.auth.service.UserService;
 import com.sunflowers.ecommerce.cart.entity.CartItem;
-import com.sunflowers.ecommerce.inventory.entity.Inventory;
 import com.sunflowers.ecommerce.inventory.repository.InventoryRepository;
 import com.sunflowers.ecommerce.order.entity.Order;
 import com.sunflowers.ecommerce.order.entity.OrderDetail;
 import com.sunflowers.ecommerce.order.entity.OrderStatus;
-import com.sunflowers.ecommerce.order.entity.PaymentMethod;
 import com.sunflowers.ecommerce.order.repository.CartItemRepository;
 import com.sunflowers.ecommerce.order.repository.OrderRepository;
 import com.sunflowers.ecommerce.order.request.GenerateOrderRequest;
 import lombok.Builder;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.query.ParameterOutOfBoundsException;
-import org.springframework.security.access.AuthorizationServiceException;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -53,11 +47,7 @@ public class OrderService {
     public Order createOrder(String authorizationHeader, GenerateOrderRequest request) {
         String token = JwtAuthenticationFilter.getTokenFromHeader(authorizationHeader);
 
-        User user = userService.getUserByEmail(request.getUserEmail());
-
-        if(!jwtService.validateToken(token, user) || !user.getEmail().equalsIgnoreCase(jwtService.extractUsername(token))){
-            throw new AuthorizationServiceException("Unauthorized");
-        }
+        User user = userService.getUserByEmail(jwtService.extractUsername(token));
 
         Address address = addressRepository.findById(UUID.fromString(request.getAddressId()))
                 .orElseThrow(()-> new IllegalArgumentException("Address not found"));
@@ -127,6 +117,11 @@ public class OrderService {
                 .items(details)
                 .totalPrice(total)
                 .build();
+    }
+
+    public Order getOrderById(String orderId) {
+        return orderRepository.findById(UUID.fromString(orderId))
+                .orElseThrow(() -> new IllegalArgumentException("Order not found"));
     }
 }
 

@@ -10,5 +10,4 @@ import lombok.*;
 @AllArgsConstructor
 public class GenerateOrderRequest {
     String addressId;
-    String userEmail;
 }

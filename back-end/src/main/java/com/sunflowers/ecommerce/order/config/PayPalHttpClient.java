@@ -2,7 +2,8 @@ package com.sunflowers.ecommerce.order.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sunflowers.ecommerce.order.data.PaypalOrderRequest;
-import com.sunflowers.ecommerce.order.data.PaypalOrderResponse;
+import com.sunflowers.ecommerce.order.response.PaypalCaptureResponse;
+import com.sunflowers.ecommerce.order.response.PaypalOrderResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -67,5 +68,26 @@ public class PayPalHttpClient {
         var content = response.body();
         return objectMapper.readValue(content, PaypalOrderResponse.class);
 
+    }
+
+    public PaypalCaptureResponse captureOrder(String token) throws Exception {
+        var accessTokenDto = getAccessToken();
+        var captureUrl = createUrl(paypalConfig.getBaseUrl(), CAPTURE_ORDER, token);
+
+        var request = HttpRequest.newBuilder()
+                .uri(URI.create(captureUrl))
+                .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessTokenDto.getAccessToken())
+                .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+                .POST(HttpRequest.BodyPublishers.noBody())
+                .build();
+
+        var response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+        var content = response.body();
+
+        if(response.statusCode() != 201) {
+            throw new Exception("Failed to capture order");
+        }
+
+        return objectMapper.readValue(content, PaypalCaptureResponse.class);
     }
 }
