@@ -29,7 +29,7 @@ public class CartController {
     }
 
     @GetMapping("/contains/{inventoryId}")
-    public ResponseEntity<GeneralResponse<Boolean>> containsItem(@NonNull HttpServletRequest servletRequest, @PathVariable Long inventoryId) {
+        public ResponseEntity<GeneralResponse<Boolean>> containsItem(@NonNull HttpServletRequest servletRequest, @PathVariable Long inventoryId) {
         return cartService.containsItem(servletRequest, inventoryId);
     }
 

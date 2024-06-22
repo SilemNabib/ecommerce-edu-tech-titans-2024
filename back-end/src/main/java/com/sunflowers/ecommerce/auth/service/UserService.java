@@ -3,7 +3,9 @@ package com.sunflowers.ecommerce.auth.service;
 import com.sunflowers.ecommerce.auth.entity.User;
 import com.sunflowers.ecommerce.auth.repository.UserRepository;
 import com.sunflowers.ecommerce.utils.EntityMapping;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.converter.json.MappingJacksonValue;
 import org.springframework.stereotype.Service;
 
@@ -26,8 +28,10 @@ public class UserService {
                 .orElseThrow(() -> new RuntimeException("User not found"));
     }
 
-    public MappingJacksonValue getUserProfile(String authorization) {
-        User user = authService.validateAuthorization(authorization);
+    public MappingJacksonValue getUserProfile(HttpServletRequest servletRequest) {
+        System.out.println("=====================================");
+        System.out.println((servletRequest.getHeader((HttpHeaders.AUTHORIZATION))));
+        User user = authService.validateAuthorization(servletRequest.getHeader((HttpHeaders.AUTHORIZATION)));
         return EntityMapping.getSimpleBeanPropertyFilter(user, "UserFilter", "email", "firstName", "lastName", "phone", "registrationDate");
     }
 
