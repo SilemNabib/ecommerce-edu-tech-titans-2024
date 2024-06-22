@@ -11,6 +11,7 @@ import ProductManagement from '../AdminDashboard/ProductManagement';
 import AddProductDetail from '../AdminDashboard/ProductManagement/AddProductDetail';
 import AddProductImage from '../AdminDashboard/ProductManagement/AddProductImage';
 import AddProductInventory from '../AdminDashboard/ProductManagement/AddProductInventory';
+import UsersManagement from '../AdminDashboard/UsersManagement';
 import Categories from '../Categories';
 import CheckoutCart from '../CheckoutCart';
 import CheckoutPayment from '../CheckoutPayment';
@@ -62,6 +63,7 @@ const AppRoutes = () => {
     { path: '/privacy', element: <Privacy /> },
     { path: '/terms', element: <Terms /> },
     { path: '/admin/dashboard', element: <AdminDashboard />},
+    { path: '/admin/users', element: <UsersManagement />},
     { path: '/admin/products', element: <ProductManagement />},
     { path: '/admin/products/add', element: <AddProductDetail />},
     { path: '/admin/products/add/images', element: <AddProductImage />},
