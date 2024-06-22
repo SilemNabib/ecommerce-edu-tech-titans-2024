@@ -67,6 +67,7 @@ const AppRoutes = () => {
     { path: '/admin/products/add/images', element: <AddProductImage />},
     { path: '/admin/products/add/inventory', element: <AddProductInventory />},
     { path: '/cart', element: <Cart /> },
+    { path: '/search', element: <Categories /> },
 
   ]);
 
