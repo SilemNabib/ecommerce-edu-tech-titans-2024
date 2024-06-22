@@ -36,4 +36,8 @@ public class Address {
     @ManyToOne
     @JoinColumn(name = "country_prefix", nullable = false)
     private Country country;
+
+    public String getStringAddress (){
+        return street + ", " + zipCode + ", " + country.getName() + ". contact: " + country.getPrefix() + " " + phone + ".";
+    }
 }
