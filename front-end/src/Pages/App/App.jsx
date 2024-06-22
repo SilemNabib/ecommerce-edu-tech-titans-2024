@@ -3,7 +3,6 @@ import { BrowserRouter, Outlet, useRoutes } from 'react-router-dom';
 import Cart from "../../Components/Cart";
 import Footer from '../../Components/Footer';
 import Navigation from '../../Components/Navigation';
-import StripeProvider from '../../Components/StripeProvider';
 import { GlobalProvider } from '../../Context';
 import { isAuthenticated } from '../../Context/AuthContext';
 import AdminDashboard from '../AdminDashboard';
@@ -21,8 +20,11 @@ import Company from '../Company';
 import Cookies from '../Cookies';
 import EmailVerification from "../EmailVerification";
 import Home from '../Home';
+import Profile from '../InformationProfile';
 import Login from '../Login';
+import ManageProfile from '../MangeProfile';
 import NotFound from '../NotFound';
+import OrderHistory from '../OrderHistory';
 import Privacy from '../Privacy';
 import ProductDetail from '../ProductDetail';
 import RecoverPassword from '../RecoverPassword';
@@ -30,9 +32,6 @@ import Register from '../Register';
 import Terms from '../Terms';
 import UpdatePassword from '../UpdatePassword';
 import VerificationCode from '../VerificationCode';
-import Profile from '../InformationProfile';
-import ManageProfile from '../MangeProfile';	
-import OrderHistory from '../OrderHistory';
 
 import './App.css';
 
@@ -59,13 +58,7 @@ const AppRoutes = () => {
     { path: '/manage-profile', element: isAuthenticated() ? <ManageProfile /> : <Navigate to="/login" /> },
     { path: '/order-history', element: isAuthenticated() ? <OrderHistory/> : <Navigate to="/login" /> },
 
-    {
-      path: '/checkout/payment', element: (
-        <StripeProvider>
-          <CheckoutPayment />
-        </StripeProvider>
-      )
-    },
+    { path: '/checkout/payment', element: (isAuthenticated() ? <CheckoutPayment /> : <Navigate to="/login" />) },
     
     { path: '/company', element: <Company /> },
     { path: '/cookies', element: <Cookies /> },

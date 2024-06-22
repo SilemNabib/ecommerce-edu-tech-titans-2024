@@ -10,6 +10,10 @@ export const ApiConfig = {
   reviews: uri + "/review/product/",
   banners: uri + "/product/banner",
   cart: uri + "/cart/",
+  checkout: {
+    paypal: uri + "/checkout/paypal",
+    status: uri + "/checkout/status",
+  },
   auth: {
     login: uri + "/auth/login",
     register: uri + "/auth/register",
