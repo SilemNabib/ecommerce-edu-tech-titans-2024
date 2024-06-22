@@ -1,140 +1,91 @@
-import React, { useState, useEffect } from 'react';
-import { UserInfo } from '../../config/UserInfo';
+import { useEffect, useState } from 'react';
 import ProfileNavigation from '../../Components/ProfileNavigation';
-
+import { useAuth } from '../../Context/AuthContext';
+import { ApiConfig } from '../../config/ApiConfig';
 
 const ManageProfile = () => {
   const [editing, setEditing] = useState(false);
-  const [firstName, setFirstName] = useState(UserInfo.firstName);
-  const [lastName, setLastName] = useState(UserInfo.lastName);
-  const [email, setEmail] = useState(UserInfo.email);
-  const [phone, setPhone] = useState(UserInfo.phone);
-  const [addresses, setAddresses] = useState([...UserInfo.addresses]);
-  const [password, setPassword] = useState(''); // Estado para la contraseña
+  const [userInfo, setUserInfo] = useState({
+    firstName: '',
+    lastName: '',
+    email: '',
+    phone: '',
+  });
+  const [password, setPassword] = useState(''); 
+  const auth = useAuth();
 
-  // Función para guardar los cambios (simulación de guardado)
-  const saveChanges = () => {
-    //enviar los datos editados al servidor, simulareción
-    const updatedUserInfo = {
-      firstName,
-      lastName,
-      email,
-      phone,
-      addresses,
-      password // Agregar la contraseña al objeto updatedUserInfo
+  useEffect(() => {
+    const fetchProfile = async () => {
+      try {
+        const response = await auth.authFetch(ApiConfig.profile);
+        setUserInfo(response.data);
+      } catch (error) {
+        console.error("Failed to fetch profile", error);
+      }
     };
-    console.log("Guardando cambios:", updatedUserInfo);
-    // Lógica para guardar los cambios en el servidor
-    // ...
-    // Desactivar el modo de edición
-    setEditing(false);
-    setPassword(''); // Limpiar el campo de contraseña después de guardar
+
+    fetchProfile();
+  }, [auth]);
+
+  const saveChanges = async () => {
+    try {
+      const response = await auth.authFetch(ApiConfig.profile, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ ...userInfo, password }),
+      });
+
+      if (response.ok) {
+        setEditing(false);
+        setPassword('');
+      } else {
+        console.error("Failed to save changes", response.statusText);
+      }
+    } catch (error) {
+      console.error("Error saving changes", error);
+    }
   };
+
+  const handleInputChange = (field, value) => {
+    setUserInfo({ ...userInfo, [field]: value });
+  };
+
+  const renderInputField = (label, field, type = "text") => (
+    <div>
+      <label className="block font-bold" htmlFor={field}>
+        {label}
+      </label>
+      {editing ? (
+        <input
+          type={type}
+          id={field}
+          className="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 block w-full sm:text-sm border rounded-md p-1"
+          value={userInfo[field]}
+          onChange={(e) => handleInputChange(field, e.target.value)}
+        />
+      ) : (
+        <span>{userInfo[field]}</span>
+      )}
+    </div>
+  );
 
   return (
     <div className="flex flex-col md:flex-row items-start p-8">
-      <ProfileNavigation userInfo={UserInfo} />      
-      
+      <ProfileNavigation userInfo={userInfo} />
       <div className="bg-white shadow-md rounded-lg overflow-hidden w-full max-w-4xl flex flex-col md:flex-row mt-8">
         <div className="flex-1 p-4 flex flex-col justify-between">
           <section>
             <h2 className="text-xl font-bold mb-4">PERSONAL INFORMATION</h2>
-            <div className="mt-4">
-              <div className="grid  gap-4">
-                <div>
-                  <label className="block font-bold" htmlFor="firstName">
-                    Name
-                  </label>
-                  {/*editing ? (
-                    <input
-                      type="text"
-                      id="firstName"
-                      className="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 block w-full sm:text-sm border rounded-md p-1"
-                      value={firstName}
-                      onChange={(e) => setFirstName(e.target.value)}
-                    />
-                  ) : (
-                    <span>{firstName}</span>
-                  )*/}
-                  <span>{firstName}</span>           </div>
-                <div>
-                  <label className="block font-bold" htmlFor="lastName">
-                    Surname
-                  </label>
-                  {/*editing ? (
-                    <input
-                      type="text"
-                      id="lastName"
-                      className="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 block w-full sm:text-sm border rounded-md p-1"
-                      value={lastName}
-                      onChange={(e) => setLastName(e.target.value)}
-                    />
-                  ) : (
-                    <span>{lastName}</span>
-                  )*/}
-                  <span>{lastName}</span>
-                </div>
-                 <div>
-                  <label className="block font-bold" htmlFor="email">
-                    Email
-                  </label>
-                  {editing ? (
-                    <input
-                      type="email"
-                      id="email"
-                      className="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 block w-full sm:text-sm border rounded-md p-1"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                    />
-                  ) : (
-                    <span>{email}</span>
-                  )}
-                </div>
-                <div>
-                  <label className="block font-bold" htmlFor="phone">
-                    Phone
-                  </label>
-                  {editing ? (
-                    <input
-                      type="tel"
-                      id="phone"
-                      className="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 block w-full sm:text-sm border rounded-md p-1"
-                      value={phone}
-                      onChange={(e) => setPhone(e.target.value)}
-                    />
-                  ) : (
-                    <span>{phone}</span>
-                  )}
-                </div>
-              </div>
+            <div className="mt-4 grid gap-4">
+              {renderInputField("Name", "firstName")}
+              {renderInputField("Surname", "lastName")}
+              {renderInputField("Email", "email", "email")}
+              {renderInputField("Phone", "phone", "tel")}
             </div>
           </section>
           <section>
-            <label className="block font-bold mt-4">Addresses:</label>
-            {editing ? (
-              <ul>
-                {addresses.map((address, index) => (
-                  <li key={index}>
-                    <input
-                      type="text"
-                      value={address}
-                      onChange={(e) => {
-                        const updatedAddresses = [...addresses];
-                        updatedAddresses[index] = e.target.value;
-                        setAddresses(updatedAddresses);
-                      }}
-                      className="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 block w-full sm:text-sm border rounded-md p-1"
-                    />
-                  </li>
-                ))}
-              </ul>
-            ) : (
-              <ul>
-                {addresses.map((address, index) => (
-                  <li key={index}>{address}</li>
-                ))}
-              </ul>
-            )}
             <label className="block font-bold mt-4">Password:</label>
             {editing ? (
               <input
@@ -150,15 +101,11 @@ const ManageProfile = () => {
           </section>
           <div className="mt-4">
             {editing ? (
-              <button
-                onClick={saveChanges}
-                className="bg-black hover:font-bold text-white  py-2 px-4 rounded">
+              <button onClick={saveChanges} className="bg-black hover:font-bold text-white py-2 px-4 rounded">
                 Save Changes
               </button>
             ) : (
-              <button
-                onClick={() => setEditing(true)}
-                className="bg-black hover:font-bold text-white  py-2 px-4 rounded">
+              <button onClick={() => setEditing(true)} className="bg-black hover:font-bold text-white py-2 px-4 rounded">
                 Edit Profile
               </button>
             )}

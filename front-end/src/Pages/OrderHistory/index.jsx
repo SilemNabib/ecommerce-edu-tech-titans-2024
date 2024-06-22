@@ -1,16 +1,28 @@
-import React from 'react';
-import { orderHistory } from '../../config/OrderHistory';
+import React, { useEffect, useState } from 'react';
 import ProfileNavigation from '../../Components/ProfileNavigation';
-import { UserInfo } from '../../config/UserInfo';
-
-
+import { useAuth } from '../../Context/AuthContext';
+import { ApiConfig } from '../../config/ApiConfig';
 
 const OrderHistory = () => {
+  const [orderHistory, setOrderHistory] = useState([]);
+  const auth = useAuth();
+
+  useEffect(() => {
+    const fetchOrderHistory = async () => {
+      try {
+        const response = await auth.authFetch(ApiConfig.order + 'history');
+        setOrderHistory(response.data);
+      } catch (error) {
+        console.error("Failed to fetch order history", error);
+      }
+    };
+
+    fetchOrderHistory();
+  }, [auth]);
+
   return (
     <div className="flex flex-col md:flex-row items-start p-8">
-
-      <ProfileNavigation userInfo={UserInfo} />      
-      
+      <ProfileNavigation userInfo={{}} />
       <div className="bg-white shadow-md rounded-lg overflow-hidden w-full max-w-4xl flex flex-col md:flex-row mt-8">
         <div className="flex-1 p-4">
           <h2 className="text-xl font-bold mb-4">My Order History</h2>
