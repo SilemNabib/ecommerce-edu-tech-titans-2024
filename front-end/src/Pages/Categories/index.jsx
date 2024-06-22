@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import Card from '../../Components/Card';
 import FilterBy from '../../Components/FilterBy';
 import SortBy from '../../Components/SortBy';
@@ -7,6 +7,7 @@ import { ApiConfig } from '../../config/ApiConfig';
 
 const Categories = () => {
   const { category, section, item } = useParams();
+  const location = useLocation();
   const [products, setProducts] = useState([]);
   const [selectedColor, setSelectedColor] = useState(null);
   const [selectedSize, setSelectedSize] = useState(null);
@@ -19,6 +20,9 @@ const Categories = () => {
       setLoadingQuery(true);
       setProducts([]);
       try {
+        const queryParams = new URLSearchParams(location.search);
+        const searchTerm = queryParams.get('name');
+        
         const categoriesQuery = [category, section, item]
           .filter(value => value !== null && value !== undefined)
           .map(category => `categories=${category}`)
@@ -27,8 +31,9 @@ const Categories = () => {
         const colorQuery = selectedColor ? `&colors=${selectedColor}` : '';
         const sizeQuery = selectedSize ? `&sizes=${selectedSize}` : '';
         const sortQuery = selectedSort ? `&sortBy=${selectedSort}&direction=${selectedOrder}` : '';
+        const searchQuery = searchTerm ? `&name=${searchTerm}` : '';
 
-        const request = `${ApiConfig.products}?${categoriesQuery}${colorQuery}${sizeQuery}${sortQuery}`;
+        const request = `${ApiConfig.products}?${categoriesQuery}${colorQuery}${sizeQuery}${sortQuery}${searchQuery}`;
         const response = await fetch(request);
         
         const data = await response.json();
@@ -37,13 +42,13 @@ const Categories = () => {
         }
       } catch (error) {
         console.error('Error fetching products:', error);
-      }finally{
+      } finally {
         setLoadingQuery(false);
       }
     };
 
     fetchProducts();
-  }, [category, section, item, selectedColor, selectedSize, selectedSort, selectedOrder]);
+  }, [category, section, item, selectedColor, selectedSize, selectedSort, selectedOrder, location.search]);
 
   const [colors, setColors] = useState([]);
   const [sizes, setSizes] = useState([]);

@@ -1,5 +1,6 @@
 import { UserIcon } from '@heroicons/react/24/outline';
 import { TruckIcon } from '@heroicons/react/24/solid';
+import { useCallback, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { NavigationCategories } from '../../config/NavigationCategories.js';
 import SearchBar from '../SearchBar';
@@ -24,7 +25,7 @@ import {
 import { Bars3Icon, MagnifyingGlassIcon, ShoppingBagIcon, XMarkIcon } from '@heroicons/react/24/outline';
 import { Logout } from '@mui/icons-material';
 import { LinearProgress } from '@mui/material';
-import { Fragment, useContext, useState } from 'react';
+import { Fragment, useContext } from 'react';
 import { GlobalContext } from '../../Context';
 import { useAuth } from '../../Context/AuthContext';
 
@@ -40,9 +41,21 @@ function classNames(...classes) {
 export default function Navigation() {
   const context = useContext(GlobalContext);
   const auth = useAuth();
-
   const [open, setOpen] = useState(false)
   const [showSearch, setShowSearch] = useState(false);
+  const [executeSearch, setExecuteSearch] = useState(null);
+
+  const handleSearchCallback = useCallback((searchFunction) => {
+    setExecuteSearch(() => searchFunction);
+  }, []);
+
+  const handleSearchClick = () => {
+    if (showSearch && executeSearch) {
+      executeSearch();
+    } else {
+      setShowSearch(!showSearch);
+    }
+  };
 
   const onLogout = () => {
     context.setLoading(true);
@@ -299,14 +312,17 @@ export default function Navigation() {
               )}
 
               {/* Search */}
-                <div className='flex items-center lg:ml-6'>
-                  <button onClick={() => setShowSearch(!showSearch)} className='p-2 text-gray-400 hover:text-gray-500 lg:block hidden'>
-                    <span className='sr-only'>Search</span>
-                    <MagnifyingGlassIcon className='h-6 w-6' aria-hidden='true' />
-                  </button>
-                  {showSearch && (
-                    <SearchBar className='p-1 ml-1 text-gray-700 bg-white border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-gray-300 focus:border-gray-300 md:w-full sm:w-1/2' />
-                  )}
+              <div className='flex items-center lg:ml-6'>
+                <button onClick={handleSearchClick} className='p-2 text-gray-400 hover:text-gray-500 lg:block hidden'>
+                  <span className='sr-only'>Search</span>
+                  <MagnifyingGlassIcon className='h-6 w-6' aria-hidden='true' />
+                </button>
+                {showSearch && (
+                  <SearchBar 
+                    className='p-1 ml-1 text-gray-700 bg-white border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-gray-300 focus:border-gray-300 md:w-full sm:w-1/2' 
+                    onSearch={handleSearchCallback}
+                  />
+                )}
               </div>
 
               {/* Cart */}

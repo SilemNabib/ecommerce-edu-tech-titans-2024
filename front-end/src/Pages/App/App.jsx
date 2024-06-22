@@ -1,5 +1,6 @@
 import { Navigate } from 'react-router';
 import { BrowserRouter, Outlet, useRoutes } from 'react-router-dom';
+import Cart from "../../Components/Cart";
 import Footer from '../../Components/Footer';
 import Navigation from '../../Components/Navigation';
 import StripeProvider from '../../Components/StripeProvider';
@@ -10,7 +11,7 @@ import ProductManagement from '../AdminDashboard/ProductManagement';
 import AddProductDetail from '../AdminDashboard/ProductManagement/AddProductDetail';
 import AddProductImage from '../AdminDashboard/ProductManagement/AddProductImage';
 import AddProductInventory from '../AdminDashboard/ProductManagement/AddProductInventory';
-import Cart from "../Cart";
+import UsersManagement from '../AdminDashboard/UsersManagement';
 import Categories from '../Categories';
 import CheckoutCart from '../CheckoutCart';
 import CheckoutPayment from '../CheckoutPayment';
@@ -72,11 +73,13 @@ const AppRoutes = () => {
     { path: '/terms', element: <Terms /> },
 
     { path: '/admin/dashboard', element: <AdminDashboard />},
+    { path: '/admin/users', element: <UsersManagement />},
     { path: '/admin/products', element: <ProductManagement />},
     { path: '/admin/products/add', element: <AddProductDetail />},
     { path: '/admin/products/add/images', element: <AddProductImage />},
     { path: '/admin/products/add/inventory', element: <AddProductInventory />},
     { path: '/cart', element: <Cart /> },
+    { path: '/search', element: <Categories /> },
 
   ]);
 
