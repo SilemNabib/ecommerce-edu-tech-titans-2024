@@ -57,7 +57,7 @@ public class AuthService {
      *
      * @return a string representation of a six-digit verification code
      */
-    private String generateVerificationCode() {
+    public String generateVerificationCode() {
         int code = (int) ((Math.random() * (999999 - 100000)) + 100000);
         return String.valueOf(code);
     }
@@ -67,7 +67,7 @@ public class AuthService {
      * @param password the password to validate
      * @return true if the password is valid, false otherwise
      */
-    private boolean validatePassword(String password) {
+    public boolean validatePassword(String password) {
         return password.matches("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!(){}\\[\\]:;,.?/|<>\\-*])(?=\\S+$).{8,}$");
     }
 
