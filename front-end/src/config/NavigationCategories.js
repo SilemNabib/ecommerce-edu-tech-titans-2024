@@ -69,6 +69,7 @@ export const NavigationCategories = {
             { name: 'Sweaters', href: '/category/male/clothing/sweaters' },
             { name: 'T-Shirts', href: '/category/male/clothing/t-shirts' },
             { name: 'Jackets', href: '/category/male/clothing/jackets' },
+            { name: 'Denim', href: '/category/male/clothing/denim'},
           ],
         },
         {
