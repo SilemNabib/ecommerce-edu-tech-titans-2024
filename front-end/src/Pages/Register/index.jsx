@@ -93,7 +93,7 @@ const Register = () => {
               
               <label className="font-bold mb-1 mt-1">Phone number *</label>
               <InputText options={{type: 'text', ...register('phone', { required: true, pattern: /^\d{10}$/ }), placeholder: 'Your surname(s)',}}/>
-              {errors.phone && <span className="text-red-500">Please accept the Privacy Policy</span>}
+              {errors.phone && <span className="text-red-500">This field is mandatory</span>}
               <input type="hidden" value={token} {...register('token')} />
               <div className="mt-2 mb-4 px-4">
                 <label className='block mb font-light text-sm'>
