@@ -24,8 +24,9 @@ public class CartController {
     private final CartService cartService;
 
     @PostMapping("/add")
-    public ResponseEntity<GeneralResponse<CartItem>> addItemToCart(@NonNull HttpServletRequest servletRequest, @RequestBody AddProductToCartRequest request) {
-        return cartService.addItemToCart(servletRequest, request);
+    public ResponseEntity<GeneralResponse<List<UserCartsDto>>> addItemToCart(@NonNull HttpServletRequest servletRequest, @RequestBody AddProductToCartRequest request) {
+        cartService.addItemToCart(servletRequest, request);
+        return cartService.getCart(servletRequest);
     }
 
     @GetMapping("/contains/{inventoryId}")
@@ -34,8 +35,9 @@ public class CartController {
     }
 
     @DeleteMapping("/remove/{inventoryId}")
-    public ResponseEntity<GeneralResponse<Boolean>> removeItemFromCart(@NonNull HttpServletRequest servletRequest, @PathVariable Long inventoryId) {
-        return cartService.removeItemFromCart(servletRequest, inventoryId);
+    public ResponseEntity<GeneralResponse<List<UserCartsDto>>> removeItemFromCart(@NonNull HttpServletRequest servletRequest, @PathVariable Long inventoryId, @RequestParam(required = false) Integer amount){
+        cartService.removeItemFromCart(servletRequest, inventoryId, amount);
+        return cartService.getCart(servletRequest);
     }
 
     @GetMapping("/get")

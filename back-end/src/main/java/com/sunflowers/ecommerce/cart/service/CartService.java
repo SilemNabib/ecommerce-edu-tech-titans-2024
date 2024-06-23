@@ -46,13 +46,17 @@ public class CartService {
         Inventory inventory = inventoryService.getProductInventory(request.getInventoryId());
 
         if (productIsInCart(user, inventory)) {
-            return ResponseEntity.status(HttpStatus.CONFLICT)
+            CartItem cartItem = cartItemRepository.findByUserAndInventory(user, inventory)
+                    .orElseThrow(() -> new EntityNotFoundException("Error adding item"));
+            cartItem.setAmount(cartItem.getAmount() + request.getAmount());
+            cartItemRepository.save(cartItem);
+            return ResponseEntity.status(HttpStatus.OK)
                     .body(GeneralResponse.<CartItem>builder()
-                    .statusCode(HttpStatus.CONFLICT.value())
-                    .message("Product already in cart")
-                    .success(false)
-                    .data(null)
-                    .build());
+                            .statusCode(HttpStatus.OK.value())
+                            .message("product added to cart")
+                            .success(true)
+                            .data(cartItem)
+                            .build());
         }
 
         CartItem cartItem = CartItem.builder()
@@ -91,12 +95,24 @@ public class CartService {
                         .build());
     }
 
-    public ResponseEntity<GeneralResponse<Boolean>> removeItemFromCart(HttpServletRequest servletRequest, Long inventoryId) {
+    public ResponseEntity<GeneralResponse<Boolean>> removeItemFromCart(HttpServletRequest servletRequest, Long inventoryId, Integer amount) {
         User user = getUserFromRequest(servletRequest);
         Inventory inventory = inventoryService.getProductInventory(inventoryId);
 
         CartItem cartItem = cartItemRepository.findByUserAndInventory(user, inventory)
                 .orElseThrow(() -> new EntityNotFoundException("Item not found in cart"));
+
+        if (amount != null && amount < cartItem.getAmount()) {
+            cartItem.setAmount(cartItem.getAmount() - amount);
+            cartItemRepository.save(cartItem);
+            return ResponseEntity.status(HttpStatus.OK)
+                    .body(GeneralResponse.<Boolean>builder()
+                            .statusCode(HttpStatus.OK.value())
+                            .message("Product amount updated")
+                            .success(true)
+                            .data(true)
+                            .build());
+        }
 
         cartItemRepository.delete(cartItem);
 

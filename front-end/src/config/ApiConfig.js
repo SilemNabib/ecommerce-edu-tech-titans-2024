@@ -9,7 +9,11 @@ export const ApiConfig = {
   inventory: uri + "/product/inventory/",
   reviews: uri + "/review/product/",
   banners: uri + "/product/banner",
-  cart: uri + "/cart/",
+  cart: {
+    add: uri + "/cart/add",
+    remove: uri + "/cart/remove/",
+    get: uri + "/cart/get",
+  },
   checkout: {
     paypal: uri + "/checkout/paypal",
     status: uri + "/checkout/status",

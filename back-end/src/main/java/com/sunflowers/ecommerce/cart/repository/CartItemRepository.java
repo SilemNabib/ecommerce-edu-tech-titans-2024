@@ -16,4 +16,6 @@ public interface CartItemRepository  extends JpaRepository<CartItem, Long> {
 
     @Query("SELECT new com.sunflowers.ecommerce.cart.dto.UserCartsDto(ci.id, ci.amount, ci.inventory) FROM CartItem ci WHERE ci.user = ?1")
     List<UserCartsDto> findAllInventoriesFromUser(User user);
+
+    List<CartItem> findAllByUser(User user);
 }

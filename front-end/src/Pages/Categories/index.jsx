@@ -56,7 +56,7 @@ const Categories = () => {
   useEffect(() => {
     const fetchFilters = async () => {
       try {
-        const response = await fetch(`${ApiConfig.inventory}/unique`);
+        const response = await fetch(`${ApiConfig.inventory}unique`);
         const data = await response.json();
         setColors(data.colors || []);
         setSizes(data.sizes || []);

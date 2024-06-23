@@ -2,13 +2,17 @@ import { CheckIcon, PlusIcon } from '@heroicons/react/24/solid';
 import PropTypes from 'prop-types';
 import { useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
 import { GlobalContext } from '../../Context';
+import { useAuth } from '../../Context/AuthContext';
+import { ApiConfig } from '../../config/ApiConfig';
 import SelectColor from '../SelectColor';
 import SelectSize from '../SelectSize';
 
 const Card = ({ data }) => {
   const context = useContext(GlobalContext);
-  const { setProductToShow, cartProducts } = context;
+  const auth = useAuth();
+  const { setProductToShow } = context;
   const [selectedSize, setSelectedSize] = useState('');
   const [selectedColor, setSelectedColor] = useState('');
 
@@ -16,38 +20,45 @@ const Card = ({ data }) => {
     setProductToShow(data);
   };
 
+  const [isInCart, setIsInCart] = useState(JSON.parse(sessionStorage.getItem("cart"))?.some(cartItem => cartItem.inventory.product.id === data.id));
+  
   const addToCart = async () => {
     try {
-      const response = await fetch('/api/v1/cart/add', {
+      if(!selectedColor || !selectedSize){ 
+        toast.error('Please select color and size');
+        return;      
+      }
+
+      const response = await auth.authFetch(ApiConfig.cart.add, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
-        },
-        body: JSON.stringify({
-          inventoryId: data.inventories[0].id, 
-          amount: 1, 
+        data: JSON.stringify({
+          inventoryId: data.inventories.find(inventory => inventory.color.name === selectedColor && inventory.size === selectedSize).id,
+          amount: 1,
         }),
       });
-      
-      const result = await response.json();
-      if (response.ok) {
-        console.log('Product added to cart:', result);
+
+      if (response.status === 200) {
+        const items = response.data.data;
+        sessionStorage.setItem('cart', JSON.stringify(items));
+        setIsInCart(JSON.parse(sessionStorage.getItem("cart"))?.some(cartItem => cartItem.inventory.product.id === data.id));
+        toast.success('Product added to cart');
       } else {
-        console.error('Failed to add product to cart:', result.message);
+        toast.error('Error adding product to cart');
       }
+
     } catch (error) {
-      console.error('Error adding product to cart:', error);
+      console.log(error);
+      toast.error('Error adding product to cart:', error);
     }
   };
 
-  const isInCart = cartProducts?.some(product => product.id === data.id);
   const colors = data?.inventories?.map(inventory => ({ name: inventory.color.name, code: inventory.color.code })) || [];
   const sizes = data?.inventories?.map(inventory => inventory.size) || [];
   const titleCaseName = data.name.replace(/\b(\w)/g, s => s.toUpperCase());
 
   return (
     <div className='bg-white cursor-pointer w-full shadow-lg rounded-lg overflow-hidden flex flex-col'>
+      <ToastContainer />
       <figure className='relative w-full h-2/3'>
         <Link to={`/product-detail/${data.id}`} onClick={showProduct}>
           <img className='w-full h-full object-cover' src={data.productImages[0].url} alt={data.name} />
