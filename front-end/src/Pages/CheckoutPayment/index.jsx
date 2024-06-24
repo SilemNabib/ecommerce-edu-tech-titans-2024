@@ -3,10 +3,10 @@ import PaymentInfo from "../../Components/PaymentInfo";
 import ProgressBar from "../../Components/ProgressBar";
 
 const registerSteps = [
-    <a href={"/checkout/cart"}>Cart</a>,
-    <a href={"/checkout/profile"}>Personal Information</a>,
-    <a href={"/checkout/shipping"}>Shipping</a>,
-    <a href={"/checkout/payment"}>Payment</a>,
+  <a href={"/checkout/profile"}>Select destination</a>,
+  <a href={"/checkout/shipping"}>New address</a>,
+  <a href={"/checkout/cart"}>Summary</a>,
+  <a href={"/checkout/payment"}>Payment</a>,
 ];
 
 const CheckoutPayment = () => {

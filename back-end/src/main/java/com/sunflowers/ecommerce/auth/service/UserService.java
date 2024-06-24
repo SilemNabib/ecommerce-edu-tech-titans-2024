@@ -29,8 +29,6 @@ public class UserService {
     }
 
     public MappingJacksonValue getUserProfile(HttpServletRequest servletRequest) {
-        System.out.println("=====================================");
-        System.out.println((servletRequest.getHeader((HttpHeaders.AUTHORIZATION))));
         User user = authService.validateAuthorization(servletRequest.getHeader((HttpHeaders.AUTHORIZATION)));
         return EntityMapping.getSimpleBeanPropertyFilter(user, "UserFilter", "email", "firstName", "lastName", "phone", "registrationDate");
     }

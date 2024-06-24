@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import com.sunflowers.ecommerce.auth.service.AddressService;
 
 /**
  * Controller for handling user-related HTTP requests.
@@ -20,8 +21,17 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private AddressService addressService;
+
     @GetMapping("/profile")
     public MappingJacksonValue getUserProfile(HttpServletRequest servletRequest) {
         return userService.getUserProfile(servletRequest);
     }
+
+    @GetMapping("/address")
+    public MappingJacksonValue getUserAddress(@NonNull @RequestHeader(name = "Authorization") String authorizationHeader) {
+        return addressService.getUserAddress(authorizationHeader);
+    }
+
 }
