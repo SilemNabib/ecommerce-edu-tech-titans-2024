@@ -80,8 +80,8 @@ function Cart({editable = true}) {
   }
 
   return (
-    <div className="container mx-auto mt-10">
-      <div className="w-3/4 shadow-md my-10 flex-wrap">
+    <div className="container mx-auto">
+      <div className="w-full shadow-md my-10 flex-wrap max-h-96 overflow-y-scroll">
         <div className="bg-white px-10 py-1">
           <div className="flex justify-between border-b pb-8">
             <h1 className="font-semibold text-2xl">Shopping Cart</h1>

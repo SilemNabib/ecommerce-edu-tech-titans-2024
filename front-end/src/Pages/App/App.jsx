@@ -50,15 +50,16 @@ const AppRoutes = () => {
     { path: '/register/verification-code', element: isAuthenticated() ? <Navigate to="/profile" /> : <VerificationCode /> },
     { path: '/register/complete', element: isAuthenticated() ? <Navigate to="/profile" /> : <Register /> },
     { path: '/product-detail/:id', element: <ProductDetail /> },
-    { path: '/checkout/cart', element: <CheckoutCart /> },
-    { path: '/checkout/profile', element: <CheckoutProfile /> },
-    { path: '/checkout/shipping', element: <CheckoutShipping /> },
+    
+    { path: '/checkout/summary', element: (isAuthenticated() ?  <CheckoutCart /> : <Navigate to="/login" />) },
+    { path: '/checkout/address', element: (isAuthenticated() ?  <CheckoutProfile /> : <Navigate to="/login" />) },
+    { path: '/checkout/new-address', element: (isAuthenticated() ?  <CheckoutShipping /> : <Navigate to="/login" />) },
+    { path: '/checkout/payment', element: (isAuthenticated() ? <CheckoutPayment /> : <Navigate to="/login" />) },
 
     { path: '/information/profile', element: isAuthenticated() ? <Profile /> : <Navigate to="/login" /> },
     { path: '/manage-profile', element: isAuthenticated() ? <ManageProfile /> : <Navigate to="/login" /> },
     { path: '/order-history', element: isAuthenticated() ? <OrderHistory/> : <Navigate to="/login" /> },
 
-    { path: '/checkout/payment', element: (isAuthenticated() ? <CheckoutPayment /> : <Navigate to="/login" />) },
     
     { path: '/company', element: <Company /> },
     { path: '/cookies', element: <Cookies /> },

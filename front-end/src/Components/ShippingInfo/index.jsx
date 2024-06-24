@@ -3,6 +3,8 @@ import InputText from '../InputText';
 import { ApiConfig } from '../../config/ApiConfig';
 import { useAuth } from '../../Context/AuthContext';
 import { useNavigate } from 'react-router-dom';
+import { ArrowBack } from "@mui/icons-material";
+
 
 const ShippingInfo = () => {
   const auth = useAuth();
@@ -65,7 +67,10 @@ const ShippingInfo = () => {
   return (
     <div className="bg-white p-4 rounded-md shadow-md">
       <form onSubmit={handleSubmit}>
-        <h2 className="text-lg font-semibold mb-4">Shipping Information</h2>
+        <div className='flex flex-row'>
+          <ArrowBack className="cursor-pointer" onClick={() => window.history.back()} />
+          <h2 className="text-lg font-semibold mb-4 ml-4">Shipping Information</h2>
+        </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
             <label htmlFor="fullName" className="block font-medium mb-1">

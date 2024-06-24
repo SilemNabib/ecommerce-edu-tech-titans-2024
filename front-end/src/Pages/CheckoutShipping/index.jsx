@@ -3,10 +3,10 @@ import ProgressBar from "../../Components/ProgressBar";
 import ShippingInfo from "../../Components/ShippingInfo";
 
 const registerSteps = [
-  <a href={"/checkout/profile"}>Select destination</a>,
-  <a href={"/checkout/shipping"}>New address</a>,
-  <a href={"/checkout/cart"}>Summary</a>,
-  <a href={"/checkout/payment"}>Payment</a>,
+  "Select destination",
+  "New address",
+  "Summary",
+  "Payment",
 ];
 
 const CheckoutShipping = () => {
@@ -16,9 +16,6 @@ const CheckoutShipping = () => {
         <div className="flex flex-col md:flex-row justify-around items-center mt-10 w-full">
           <div className="md:w-3/5 mb-4 md:mb-0 p-4">
             <ShippingInfo />
-          </div>
-          <div className="md:w-2/6">
-            <OrderSummary />
           </div>
         </div>
       </div>

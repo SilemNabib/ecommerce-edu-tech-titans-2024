@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.converter.json.MappingJacksonValue;
 import org.springframework.stereotype.Service;
 
+import java.util.UUID;
+
 @Service
 public class AddressService {
 
@@ -74,5 +76,17 @@ public class AddressService {
         if(address.getPersonId() == null || address.getPersonId().isEmpty()) {
             throw new IllegalArgumentException("Person ID is required");
         }
+    }
+
+    public MappingJacksonValue getUserAddress(String authorizationHeader, String addressId) {
+        User user = authService.validateAuthorization(authorizationHeader);
+        Address address = addressRepository.findById(UUID.fromString(addressId))
+                .orElseThrow(() -> new IllegalArgumentException("Address not found"));
+
+        if(!address.getUser().getId().equals(user.getId())) {
+            throw new IllegalArgumentException("Address not found");
+        }
+
+        return EntityMapping.getSimpleBeanPropertyFilter(address, "AddressFilter", "id", "street", "zipCode", "country", "phone", "city", "fullName", "personId");
     }
 }

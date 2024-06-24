@@ -32,6 +32,11 @@ public class UserController {
         return addressService.getUserAddress(authorizationHeader);
     }
 
+    @GetMapping("/address/{addressId}")
+    public MappingJacksonValue getUserAddress(@NonNull @RequestHeader(name = "Authorization") String authorizationHeader, @PathVariable(name = "addressId") String addressId) {
+        return addressService.getUserAddress(authorizationHeader, addressId);
+    }
+
     @PostMapping("/address")
     public MappingJacksonValue addUserAddress(@NonNull @RequestHeader(name = "Authorization") String authorizationHeader, @RequestBody CreateAddressRequest address) {
         return addressService.createAddress(authorizationHeader, address);
