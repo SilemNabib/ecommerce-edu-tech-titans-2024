@@ -191,9 +191,10 @@ public class AuthService {
     public User validateAuthorization(String authToken) {
         String token = JwtAuthenticationFilter.getTokenFromHeader(authToken);
 
-        User user = userRepository.findById(UUID.fromString(authToken)).orElseThrow(() -> new AuthorizationServiceException("User not found"));
+        User user = userRepository.findByEmail(jwtService.extractUsername(token))
+                .orElseThrow(() -> new AuthorizationServiceException("User not found"));
 
-        if(!jwtService.validateToken(token, user) || !user.getEmail().equalsIgnoreCase(jwtService.extractUsername(token))){
+        if(!jwtService.validateToken(token, user)){
             throw new AuthorizationServiceException("Unauthorized");
         }
         return user;

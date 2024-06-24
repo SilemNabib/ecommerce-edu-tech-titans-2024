@@ -1,4 +1,7 @@
 import { useState } from 'react';
+import { toast, ToastContainer } from 'react-toastify';
+import { ApiConfig } from '../../config/ApiConfig';
+import { useAuth } from '../../Context/AuthContext';
 
 /**
  * Renders a product selection component.
@@ -10,13 +13,43 @@ import { useState } from 'react';
 const ProductSelection = ({ product }) => {
   const [selectedColor, setSelectedColor] = useState('');
   const [selectedSize, setSelectedSize] = useState('');
+  const auth = useAuth();
 
-  // Colores y tallas temporales
-  const colors = ['red', 'blue', 'green'];
-  const sizes = ['S', 'M', 'L', 'XL'];
+  const colors = product?.inventories?.map(inventory => inventory.color);
+  const sizes = product?.inventories?.map(inventory => inventory.size);
+
+  const addToCart = async () => {
+    try {
+      if(!selectedColor || !selectedSize){ 
+        toast.error('Please select color and size');
+        return;      
+      }
+
+      const response = await auth.authFetch(ApiConfig.cart.add, {
+        method: 'POST',
+        data: JSON.stringify({
+          inventoryId: product.inventories.find(inventory => inventory.color.name === selectedColor && inventory.size === selectedSize).id,
+          amount: 1,
+        }),
+      });
+
+      if (response.status === 200) {
+        const items = response.data.data;
+        sessionStorage.setItem('cart', JSON.stringify(items));
+        toast.success('Product added to cart');
+      } else {
+        toast.error('Error adding product to cart');
+      }
+
+    } catch (error) {
+      console.log(error);
+      toast.error('Error adding product to cart:', error);
+    }
+  };
 
   return (
     <div className="bg-white shadow-lg rounded-lg p-6">
+      <ToastContainer />
       <h1 className="text-4xl font-bold mb-6">{product.name.toUpperCase()}</h1>
       <h2 className="text-md font-bold mb-6">Price: ${product.price}</h2>
       <div className="flex flex-col md:flex-row items-center mb-6">
@@ -26,11 +59,12 @@ const ProductSelection = ({ product }) => {
           <div className="flex items-center mb-4">
             <span className="mr-2">Colors:</span>
             <div className="flex space-x-2">
-              {colors.map((color, index) => (
+              {colors?.map((color, index) => (
                 <div
                   key={index}
-                  onClick={() => setSelectedColor(color)}
-                  className={`h-8 w-8 rounded-full bg-${color}-500 cursor-pointer ${selectedColor === color ? 'ring-2 ring-black' : ''}`}
+                  onClick={() => setSelectedColor(color.name)}
+                  style={{ backgroundColor: color.code }}
+                  className={`h-8 w-8 rounded-full cursor-pointer ${selectedColor === color.name ? 'ring-2 ring-black' : ''}`}
                 ></div>
               ))}
             </div>
@@ -38,7 +72,7 @@ const ProductSelection = ({ product }) => {
           <div className="flex items-center mb-4">
             <span className="mr-2">Sizes:</span>
             <div className="flex space-x-2">
-              {sizes.map((size, index) => (
+              {sizes?.map((size, index) => (
                 <div
                   key={index}
                   onClick={() => setSelectedSize(size)}
@@ -49,7 +83,9 @@ const ProductSelection = ({ product }) => {
               ))}
             </div>
           </div>
-          <button className="px-4 py-2 bg-black text-white rounded-lg mt-4 hover:bg-gray-800 transition">Add to cart</button>
+          <button className="px-4 py-2 bg-black text-white rounded-lg mt-4 hover:bg-gray-800 transition"
+          onClick={addToCart}
+          >Add to cart</button>
         </div>
       </div>
     </div>

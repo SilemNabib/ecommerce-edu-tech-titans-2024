@@ -3,7 +3,6 @@ import { BrowserRouter, Outlet, useRoutes } from 'react-router-dom';
 import Cart from "../../Components/Cart";
 import Footer from '../../Components/Footer';
 import Navigation from '../../Components/Navigation';
-import StripeProvider from '../../Components/StripeProvider';
 import { GlobalProvider } from '../../Context';
 import { isAuthenticated } from '../../Context/AuthContext';
 import AdminDashboard from '../AdminDashboard';
@@ -11,6 +10,7 @@ import ProductManagement from '../AdminDashboard/ProductManagement';
 import AddProductDetail from '../AdminDashboard/ProductManagement/AddProductDetail';
 import AddProductImage from '../AdminDashboard/ProductManagement/AddProductImage';
 import AddProductInventory from '../AdminDashboard/ProductManagement/AddProductInventory';
+import UsersManagement from '../AdminDashboard/UsersManagement';
 import Categories from '../Categories';
 import CheckoutCart from '../CheckoutCart';
 import CheckoutPayment from '../CheckoutPayment';
@@ -20,8 +20,11 @@ import Company from '../Company';
 import Cookies from '../Cookies';
 import EmailVerification from "../EmailVerification";
 import Home from '../Home';
+import Profile from '../InformationProfile';
 import Login from '../Login';
+import ManageProfile from '../MangeProfile';
 import NotFound from '../NotFound';
+import OrderHistory from '../OrderHistory';
 import Privacy from '../Privacy';
 import ProductDetail from '../ProductDetail';
 import RecoverPassword from '../RecoverPassword';
@@ -50,23 +53,26 @@ const AppRoutes = () => {
     { path: '/checkout/cart', element: <CheckoutCart /> },
     { path: '/checkout/profile', element: <CheckoutProfile /> },
     { path: '/checkout/shipping', element: <CheckoutShipping /> },
-    {
-      path: '/checkout/payment', element: (
-        <StripeProvider>
-          <CheckoutPayment />
-        </StripeProvider>
-      )
-    },
+
+    { path: '/information/profile', element: isAuthenticated() ? <Profile /> : <Navigate to="/login" /> },
+    { path: '/manage-profile', element: isAuthenticated() ? <ManageProfile /> : <Navigate to="/login" /> },
+    { path: '/order-history', element: isAuthenticated() ? <OrderHistory/> : <Navigate to="/login" /> },
+
+    { path: '/checkout/payment', element: (isAuthenticated() ? <CheckoutPayment /> : <Navigate to="/login" />) },
+    
     { path: '/company', element: <Company /> },
     { path: '/cookies', element: <Cookies /> },
     { path: '/privacy', element: <Privacy /> },
     { path: '/terms', element: <Terms /> },
+
     { path: '/admin/dashboard', element: <AdminDashboard />},
+    { path: '/admin/users', element: <UsersManagement />},
     { path: '/admin/products', element: <ProductManagement />},
     { path: '/admin/products/add', element: <AddProductDetail />},
     { path: '/admin/products/add/images', element: <AddProductImage />},
     { path: '/admin/products/add/inventory', element: <AddProductInventory />},
     { path: '/cart', element: <Cart /> },
+    { path: '/search', element: <Categories /> },
 
   ]);
 

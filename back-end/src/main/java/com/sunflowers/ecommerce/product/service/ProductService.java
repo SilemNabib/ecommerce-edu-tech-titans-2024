@@ -82,6 +82,10 @@ public class ProductService {
                 predicates.add(colorPredicate);
             }
 
+            if (request.getName() != null && !request.getName().isEmpty()) {
+                predicates.add(cb.like(cb.lower(root.get("name")), "%" + request.getName().toLowerCase() + "%"));
+            }
+
             return cb.and(predicates.toArray(new Predicate[0]));
         };
 

@@ -1,37 +1,81 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { CartData } from '../../config/CartData';
+import { useAuth } from '../../Context/AuthContext';
+import { ApiConfig } from '../../config/ApiConfig';
 
 function Cart() {
-  const [carts, setCarts] = useState(CartData.items);
-  const [total, setTotal] = useState(CartData.total);
+  const auth = useAuth();
+  const [carts, setCarts] = useState(null);
+  const [total, setTotal] = useState(null);
+  
+  const setData = (response) => {
+    if (response.status === 200) {
+      const items = response.data.data;
+      setCarts(items);
+      setTotal(items.reduce((acc, item) => acc + item.inventory.product.price * item.cartStock, 0));
+      sessionStorage.setItem('cart', JSON.stringify(items));
+    }
+  }
+
+  const getCart = async () => {
+    const response = await auth.authFetch(ApiConfig.cart.get)
+    setData(response);
+  }
 
   useEffect(() => {
-    updateTotal();
-  }, [carts]);
+    getCart();
+  }, []);
 
-  const handleInc = (id) => {
-    setCarts(carts.map(item => 
-      item.id === id ? { ...item, quantity: item.quantity + 1 } : item
-    ));
+  const handleInc = async (id) => {
+    setCarts(carts.map(cart => {
+      if (cart.inventory.id === id) {
+        return { ...cart, cartStock: cart.cartStock + 1 };
+      }
+      return cart;
+    }));
+
+    const response = await auth.authFetch(ApiConfig.cart.add,
+      {
+        method: 'POST',
+        data: JSON.stringify({
+          inventoryId: id,
+          amount: 1, 
+        }),
+      }
+    )
+    setData(response);
   };
 
-  const handleDec = (id) => {
-    setCarts(carts.map(item => 
-      item.id === id && item.quantity > 1 ? { ...item, quantity: item.quantity - 1 } : item
-    ));
+  const handleDec = async (id) => {
+    setCarts(carts.map(cart => {
+      if (cart.inventory.id === id) {
+        return { ...cart, cartStock: cart.cartStock - 1 };
+      }
+      return cart;
+    }));
+
+    const response = await auth.authFetch(`${ApiConfig.cart.remove}${id}?amount=1`,
+      {
+        method: 'DELETE',
+      }
+    )
+    
+    setData(response);
   };
 
-  const removeProduct = (id) => {
-    setCarts(carts.filter(item => item.id !== id));
+  const removeProduct = async (id) => {
+    setCarts(carts.filter(cart => cart.inventory.id !== id));
+
+    const response = await auth.authFetch(`${ApiConfig.cart.remove}${id}`,
+      {
+        method: 'DELETE',
+      }
+    )
+    
+    setData(response);
   };
 
-  const updateTotal = () => {
-    const newTotal = carts.reduce((acc, item) => acc + item.price * item.quantity, 0);
-    setTotal(newTotal);
-  };
-
-  if (carts.length === 0) {
+  if (carts?.length === 0) {
     return <h1 className="h-[55vh] flex justify-center items-center text-4xl">Cart is Empty</h1>;
   }
 
@@ -41,7 +85,7 @@ function Cart() {
         <div className="bg-white px-10 py-1">
           <div className="flex justify-between border-b pb-8">
             <h1 className="font-semibold text-2xl">Shopping Cart</h1>
-            <h2 className="font-semibold text-2xl">{carts.length} Items</h2>
+            <h2 className="font-semibold text-2xl">{carts?.length} Items</h2>
           </div>
           <div className="flex flex-wrap mt-10 mb-5">
             <h3 className="font-semibold text-gray-600 text-xs uppercase w-2/5">Product Details</h3>
@@ -49,18 +93,17 @@ function Cart() {
             <h3 className="font-semibold text-center text-gray-600 text-xs uppercase w-1/5">Price</h3>
             <h3 className="font-semibold text-center text-gray-600 text-xs uppercase w-1/5">Total</h3>
           </div>
-          {carts.map(cart => (
-            <div key={cart.id} className="flex items-center hover:bg-gray-100 -mx-8 px-6 py-5">
+          {carts?.map(cart => (
+            <div key={cart.cartItemId} className="flex items-center hover:bg-gray-100 -mx-8 px-6 py-5">
               <div className="flex w-2/5">
                 <div className="w-20">
-                  <img className="h-24" src={cart.image} alt={cart.title} />
+                  <img className="h-24" src={cart.inventory.product.productImages[0].url} alt={cart.inventory.product.name} />
                 </div>
                 <div className="flex flex-col justify-between ml-4 flex-grow">
-                  <span className="font-bold text-sm">{cart.title}</span>
-                  <span className="text-red-500 text-xs capitalize">{cart.category}</span>
+                  <span className="font-bold text-sm">{cart.inventory.product.name}</span>
                   <div
                     className="font-semibold hover:text-red-500 text-gray-500 text-xs cursor-pointer"
-                    onClick={() => removeProduct(cart.id)}
+                    onClick={() => removeProduct(cart.inventory.id)}
                   >
                     Remove
                   </div>
@@ -70,22 +113,22 @@ function Cart() {
                 <svg
                   className="fill-current text-gray-600 w-3 cursor-pointer"
                   viewBox="0 0 448 512"
-                  onClick={() => handleDec(cart.id)}
+                  onClick={() => handleDec(cart.inventory.id)}
                 >
                   <path d="M416 208H32c-17.67 0-32 14.33-32 32v32c0 17.67 14.33 32 32 32h384c17.67 0 32-14.33 32-32v-32c0-17.67-14.33-32-32-32z" />
                 </svg>
-                <input className="mx-2 border text-center w-8" type="text" value={cart.quantity} readOnly />
+                <input className="mx-2 border text-center w-8" type="text" value={cart.cartStock} readOnly />
                 <svg
                   className="fill-current text-gray-600 w-3 cursor-pointer"
                   viewBox="0 0 448 512"
-                  onClick={() => handleInc(cart.id)}
+                  onClick={() => handleInc(cart.inventory.id)}
                 >
                   <path d="M416 208H272V64c0-17.67-14.33-32-32-32h-32c-17.67 0-32 14.33-32 32v144H32c-17.67 0-32 14.33-32 32v32c0 17.67 14.33 32 32 32h144v144c0 17.67 14.33 32 32 32h32c17.67 0 32-14.33 32-32V304h144c17.67 0 32-14.33 32-32v-32c0-17.67-14.33-32-32-32z" />
                 </svg>
               </div>
-              <span className="text-center w-1/5 font-semibold text-sm">${cart.price.toFixed(2)}</span>
+              <span className="text-center w-1/5 font-semibold text-sm">${cart.inventory.product.price}</span>
               <span className="text-center w-1/5 font-semibold text-sm">
-                ${(cart.price * cart.quantity).toFixed(2)}
+                ${(cart.inventory.product.price * cart.cartStock)}
               </span>
             </div>
           ))}

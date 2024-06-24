@@ -1,24 +1,31 @@
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import Card from '../../Components/Card';
 import FilterBy from '../../Components/FilterBy';
+import Pagination from '../../Components/Pagination';
 import SortBy from '../../Components/SortBy';
 import { ApiConfig } from '../../config/ApiConfig';
 
 const Categories = () => {
   const { category, section, item } = useParams();
+  const location = useLocation();
   const [products, setProducts] = useState([]);
   const [selectedColor, setSelectedColor] = useState(null);
   const [selectedSize, setSelectedSize] = useState(null);
   const [selectedSort, setSelectedSort] = useState(null);
   const [selectedOrder, setSelectedOrder] = useState("asc");
   const [loadingQuery, setLoadingQuery] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
 
   useEffect(() => {
     const fetchProducts = async () => {
       setLoadingQuery(true);
       setProducts([]);
       try {
+        const queryParams = new URLSearchParams(location.search);
+        const searchTerm = queryParams.get('name');
+        
         const categoriesQuery = [category, section, item]
           .filter(value => value !== null && value !== undefined)
           .map(category => `categories=${category}`)
@@ -27,23 +34,26 @@ const Categories = () => {
         const colorQuery = selectedColor ? `&colors=${selectedColor}` : '';
         const sizeQuery = selectedSize ? `&sizes=${selectedSize}` : '';
         const sortQuery = selectedSort ? `&sortBy=${selectedSort}&direction=${selectedOrder}` : '';
+        const searchQuery = searchTerm ? `&name=${searchTerm}` : '';
+        const pageQuery = `&page=${currentPage - 1}&size=10`;
 
-        const request = `${ApiConfig.products}?${categoriesQuery}${colorQuery}${sizeQuery}${sortQuery}`;
+        const request = `${ApiConfig.products}?${categoriesQuery}${colorQuery}${sizeQuery}${sortQuery}${searchQuery}${pageQuery}`;
         const response = await fetch(request);
         
         const data = await response.json();
-        if(data._embedded) {
+        if (data._embedded) {
           setProducts(data._embedded.productList || []);
+          setTotalPages(data.page.totalPages);
         }
       } catch (error) {
         console.error('Error fetching products:', error);
-      }finally{
+      } finally {
         setLoadingQuery(false);
       }
     };
 
     fetchProducts();
-  }, [category, section, item, selectedColor, selectedSize, selectedSort, selectedOrder]);
+  }, [category, section, item, selectedColor, selectedSize, selectedSort, selectedOrder, location.search, currentPage]);
 
   const [colors, setColors] = useState([]);
   const [sizes, setSizes] = useState([]);
@@ -51,7 +61,7 @@ const Categories = () => {
   useEffect(() => {
     const fetchFilters = async () => {
       try {
-        const response = await fetch(`${ApiConfig.inventory}/unique`);
+        const response = await fetch(`${ApiConfig.inventory}unique`);
         const data = await response.json();
         setColors(data.colors || []);
         setSizes(data.sizes || []);
@@ -63,8 +73,12 @@ const Categories = () => {
     fetchFilters();
   }, []);
 
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
+
   return (
-    <div className="relative flex flex-col sm:flex-row px-4 py-8">
+    <div className="relative flex flex-col sm:flex-row px-4 py-8 mb-20"> {/* Aumenta el margen inferior aquí */}
       <div className="w-full sm:w-1/4 pr-4 mb-4 sm:mb-0 bg-gray-50 rounded-lg m-2">
         <FilterBy
           colors={colors}
@@ -95,10 +109,17 @@ const Categories = () => {
               </div>
             )}
           </div>
+          <div className="flex justify-center m-6">
+            <Pagination
+              currentPage={currentPage}
+              totalPages={totalPages}
+              onPageChange={handlePageChange}
+            />
+          </div>
         </div>
       </div>
     </div>
   );
-}
+};
 
 export default Categories;
