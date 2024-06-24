@@ -2,12 +2,12 @@ package com.sunflowers.ecommerce.order.dto;
 
 import com.sunflowers.ecommerce.order.entity.OrderDetail;
 import com.sunflowers.ecommerce.order.entity.OrderStatus;
+import com.sunflowers.ecommerce.order.entity.PaymentMethod;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 
 import java.math.BigDecimal;
-import java.util.List;
 import java.util.UUID;
 import java.sql.Timestamp;
 
@@ -17,7 +17,7 @@ import java.sql.Timestamp;
 public class OrderDto {
     private UUID id;
     private String address;
-    private String paymentMethod;
+    private PaymentMethod paymentMethod;
     private Timestamp creationDate;
     private BigDecimal shippingPrice;
     private BigDecimal totalPrice;
