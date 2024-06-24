@@ -15,6 +15,7 @@ import com.sunflowers.ecommerce.order.response.PaypalCaptureResponse;
 import com.sunflowers.ecommerce.order.response.PaypalOrderResponse;
 import com.sunflowers.ecommerce.utils.FrontLinks;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -41,6 +42,8 @@ public class PaypalService {
         order.setPaymentMethod(PaymentMethod.PAYPAL);
 
         orderService.saveOrder(order);
+
+        orderResponse.setOrderId(order.getId().toString());
 
         return orderResponse;
     }
@@ -79,13 +82,20 @@ public class PaypalService {
         }
 
 
-        if(order.getPlatformStatus().equals("CREATED")){
+        if (order.getPlatformStatus().equals("CREATED")) {
             PaypalCaptureResponse captureResponse = payPalHttpClient.captureOrder(order.getPlatformId());
 
-            order.setOrderStatus(OrderStatus.PAID);
-            order.setPlatformStatus(captureResponse.getStatus());
+            String newPlatformStatus = captureResponse.getStatus();
+            OrderStatus newOrderStatus = mapPaypalStatusToOrderStatus(newPlatformStatus);
 
-            orderService.saveOrder(order);
+            order.setOrderStatus(newOrderStatus);
+            order.setPlatformStatus(newPlatformStatus);
+
+            try {
+                orderService.saveOrder(order);
+            } catch (DataIntegrityViolationException e) {
+                throw new RuntimeException("Failed to save order due to invalid status", e);
+            }
 
             return OrderStatusResponse.builder()
                     .status(order.getOrderStatus().name())
@@ -102,4 +112,16 @@ public class PaypalService {
                 .paymentId(order.getPlatformId())
                 .build();
     }
+
+    private OrderStatus mapPaypalStatusToOrderStatus(String paypalStatus) {
+        return switch (paypalStatus) {
+            case "COMPLETED" -> OrderStatus.PAID;
+            case "PENDING" -> OrderStatus.PENDING;
+            case "FAILED" -> OrderStatus.FAILED;
+            case "CANCELLED" -> OrderStatus.CANCELLED;
+            case "REFUNDED" -> OrderStatus.REFUNDED;
+            default -> throw new IllegalArgumentException("Invalid PayPal status: " + paypalStatus);
+        };
+    }
+
 }
