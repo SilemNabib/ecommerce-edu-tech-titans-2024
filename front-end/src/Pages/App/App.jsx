@@ -65,13 +65,13 @@ const AppRoutes = () => {
     { path: '/privacy', element: <Privacy /> },
     { path: '/terms', element: <Terms /> },
 
-    { path: '/admin/dashboard', element: <AdminDashboard />},
-    { path: '/admin/users', element: <UsersManagement />},
-    { path: '/admin/products', element: <ProductManagement />},
-    { path: '/admin/products/add', element: <AddProductDetail />},
-    { path: '/admin/products/add/images', element: <AddProductImage />},
-    { path: '/admin/products/add/inventory', element: <AddProductInventory />},
-    { path: '/cart', element: <Cart /> },
+    { path: '/admin/dashboard', element: isAuthenticated()? <AdminDashboard /> : <Navigate to="/login" />},
+    { path: '/admin/users', element: isAuthenticated()? <UsersManagement /> : <Navigate to="/login" />},
+    { path: '/admin/products', element: isAuthenticated()? <ProductManagement /> : <Navigate to="/login" />},
+    { path: '/admin/products/add', element: isAuthenticated()? <AddProductDetail /> : <Navigate to="/login" />},
+    { path: '/admin/products/add/images', element: isAuthenticated()? <AddProductImage /> : <Navigate to="/login" />},
+    { path: '/admin/products/add/inventory', element: isAuthenticated()? <AddProductInventory /> : <Navigate to="/login" />},
+    { path: '/cart', element: isAuthenticated()? <Cart /> : <Navigate to="/login" /> },
     { path: '/search', element: <Categories /> },
 
   ]);
