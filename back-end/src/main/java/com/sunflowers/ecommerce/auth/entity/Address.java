@@ -27,10 +27,10 @@ public class Address {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @Column(name = "street", nullable = false, length = 30)
+    @Column(name = "street", nullable = false, length = 50)
     private String street;
 
-    @Column(name = "city", nullable = false, length = 20)
+    @Column(name = "city", nullable = false, length = 50)
     private String city;
 
     @Column(name = "zip_code", nullable = false, length = 20)

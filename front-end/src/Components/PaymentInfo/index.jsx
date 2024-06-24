@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useAuth } from '../../Context/AuthContext';
 import { ApiConfig } from '../../config/ApiConfig';
+import { CircularProgress } from '@mui/material';
 
 const PaymentInfo = () => {
   const [orderStatus, setOrderStatus] = useState(null);
@@ -51,7 +52,7 @@ const PaymentInfo = () => {
   return (
     <div className="bg-white shadow-md rounded-lg p-8">
       <h2 className="text-xl font-bold mb-4">Payment Information</h2>
-      {loading && <p>Loading...</p>}
+      {loading && <CircularProgress/>}
       {!loading && (
         <div>
           {orderStatus ? (
@@ -63,12 +64,42 @@ const PaymentInfo = () => {
               <p>Payment ID: {orderStatus.paymentId}</p>
             </div>
           ) : (
-            <button
-              onClick={handleCheckout}
-              className="bg-black hover:font-bold text-white py-2 px-4 rounded"
-            >
-              Pay with PayPal
-            </button>
+            <div className="mt-4">
+              <div className="mb-4">
+                <div className="flex items-center">
+                  <input
+                    id="isAgeConfirmed"
+                    type="checkbox"
+                    checked={isAgeConfirmed}
+                    onChange={handleCheckboxChange}
+                    required
+                    className="form-checkbox h-5 w-5 text-black"
+                  />
+                  <label htmlFor="isAgeConfirmed" className="ml-2 block text-sm leading-5 text-gray-900">
+                    I declare that I am of legal age to purchase from Sunflowers.
+                  </label>
+                </div>
+              </div>
+              <div className="mb-4">
+                <div className="flex items-center">
+                  <input
+                    id="isTermsAccepted"
+                    type="checkbox"
+                    checked={isTermsAccepted}
+                    onChange={handleCheckboxChange}
+                    required
+                    className="form-checkbox h-5 w-5 text-black"
+                  />
+                  <label htmlFor="isTermsAccepted" className="ml-2 block text-sm leading-5 text-gray-900">
+                    I accept the data processing and privacy policy of Sunflowers Inc. <a href="#" className="text-gray-600 hover:text-gray-900">View more</a>.
+                  </label>
+                </div>
+              </div>
+              <button onClick={handleCheckout} className="bg-black hover:font-bold text-white py-2 px-4 rounded">
+                Pay with PayPal
+              </button>
+            </div>
+            
           )}
         </div>
       )}

@@ -4,6 +4,7 @@ export const ApiConfig = {
   url: uri,
   profile: uri + "/user/profile",
   addresses: uri + "/user/address",
+  countries: uri + "/country/",
   all: uri + "/admin/user/",
   order: uri + "/user/order/",
   products: uri + "/product/",

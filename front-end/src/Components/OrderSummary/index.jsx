@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../../Context/AuthContext';
 import { ApiConfig } from '../../config/ApiConfig';
+import { useNavigate } from 'react-router-dom';
 
-const OrderSummary = () => {
+const OrderSummary = ({ text, to }) => {
   const auth = useAuth();
+  const navigate = useNavigate();
   const [products, setProducts] = useState(null);
   const [subtotal, setSubtotal] = useState(null);
   const shipping = 0;
@@ -63,8 +65,8 @@ const OrderSummary = () => {
         </div>
       </div>
 
-      <button className="w-full bg-black text-white py-2 rounded-md hover:bg-gray-800 transition-colors duration-300">
-        PLACE ORDER
+      <button onClick={()=>navigate(to)} className="w-full bg-black text-white py-2 rounded-md hover:bg-gray-800 transition-colors duration-300">
+        {text}
       </button>
 
       <div className="mt-4">
