@@ -28,10 +28,8 @@ public class UserService {
                 .orElseThrow(() -> new RuntimeException("User not found"));
     }
 
-    public MappingJacksonValue getUserProfile(HttpServletRequest servletRequest) {
-        System.out.println("=====================================");
-        System.out.println((servletRequest.getHeader((HttpHeaders.AUTHORIZATION))));
-        User user = authService.validateAuthorization(servletRequest.getHeader((HttpHeaders.AUTHORIZATION)));
+    public MappingJacksonValue getUserProfile(String authorizationHeader) {
+        User user = authService.validateAuthorization(authorizationHeader);
         return EntityMapping.getSimpleBeanPropertyFilter(user, "UserFilter", "email", "firstName", "lastName", "phone", "registrationDate");
     }
 

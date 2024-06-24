@@ -21,7 +21,7 @@ public class UserController {
     private UserService userService;
 
     @GetMapping("/profile")
-    public MappingJacksonValue getUserProfile(HttpServletRequest servletRequest) {
-        return userService.getUserProfile(servletRequest);
+    public MappingJacksonValue getUserProfile(@RequestHeader(name = "Authorization") String authorizationHeader) {
+        return userService.getUserProfile(authorizationHeader);
     }
 }
