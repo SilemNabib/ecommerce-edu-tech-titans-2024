@@ -1,14 +1,12 @@
 package com.sunflowers.ecommerce.auth.controller;
 
+import com.sunflowers.ecommerce.auth.request.CreateAddressRequest;
 import com.sunflowers.ecommerce.auth.service.UserService;
 import io.micrometer.common.lang.NonNull;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.converter.json.MappingJacksonValue;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import com.sunflowers.ecommerce.auth.service.AddressService;
 
 /**
@@ -34,4 +32,8 @@ public class UserController {
         return addressService.getUserAddress(authorizationHeader);
     }
 
+    @PostMapping("/address")
+    public MappingJacksonValue addUserAddress(@NonNull @RequestHeader(name = "Authorization") String authorizationHeader, @RequestBody CreateAddressRequest address) {
+        return addressService.createAddress(authorizationHeader, address);
+    }
 }
