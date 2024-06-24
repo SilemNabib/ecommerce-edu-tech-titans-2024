@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
 import Card from '../../Components/Card';
 import FilterBy from '../../Components/FilterBy';
+import Pagination from '../../Components/Pagination';
 import SortBy from '../../Components/SortBy';
 import { ApiConfig } from '../../config/ApiConfig';
 
@@ -14,6 +15,8 @@ const Categories = () => {
   const [selectedSort, setSelectedSort] = useState(null);
   const [selectedOrder, setSelectedOrder] = useState("asc");
   const [loadingQuery, setLoadingQuery] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -32,13 +35,15 @@ const Categories = () => {
         const sizeQuery = selectedSize ? `&sizes=${selectedSize}` : '';
         const sortQuery = selectedSort ? `&sortBy=${selectedSort}&direction=${selectedOrder}` : '';
         const searchQuery = searchTerm ? `&name=${searchTerm}` : '';
+        const pageQuery = `&page=${currentPage - 1}&size=10`;
 
-        const request = `${ApiConfig.products}?${categoriesQuery}${colorQuery}${sizeQuery}${sortQuery}${searchQuery}`;
+        const request = `${ApiConfig.products}?${categoriesQuery}${colorQuery}${sizeQuery}${sortQuery}${searchQuery}${pageQuery}`;
         const response = await fetch(request);
         
         const data = await response.json();
-        if(data._embedded) {
+        if (data._embedded) {
           setProducts(data._embedded.productList || []);
+          setTotalPages(data.page.totalPages);
         }
       } catch (error) {
         console.error('Error fetching products:', error);
@@ -48,7 +53,7 @@ const Categories = () => {
     };
 
     fetchProducts();
-  }, [category, section, item, selectedColor, selectedSize, selectedSort, selectedOrder, location.search]);
+  }, [category, section, item, selectedColor, selectedSize, selectedSort, selectedOrder, location.search, currentPage]);
 
   const [colors, setColors] = useState([]);
   const [sizes, setSizes] = useState([]);
@@ -68,8 +73,12 @@ const Categories = () => {
     fetchFilters();
   }, []);
 
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
+
   return (
-    <div className="relative flex flex-col sm:flex-row px-4 py-8">
+    <div className="relative flex flex-col sm:flex-row px-4 py-8 mb-20"> {/* Aumenta el margen inferior aquí */}
       <div className="w-full sm:w-1/4 pr-4 mb-4 sm:mb-0 bg-gray-50 rounded-lg m-2">
         <FilterBy
           colors={colors}
@@ -100,10 +109,17 @@ const Categories = () => {
               </div>
             )}
           </div>
+          <div className="flex justify-center m-6">
+            <Pagination
+              currentPage={currentPage}
+              totalPages={totalPages}
+              onPageChange={handlePageChange}
+            />
+          </div>
         </div>
       </div>
     </div>
   );
-}
+};
 
 export default Categories;

@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import ProfileNavigation from '../../Components/ProfileNavigation';
 import { useAuth } from '../../Context/AuthContext';
 import { ApiConfig } from '../../config/ApiConfig';
 
 const OrderHistory = () => {
   const [orderHistory, setOrderHistory] = useState([]);
+  const [userInfo, setUserInfo] = useState({}); 
   const auth = useAuth();
 
   useEffect(() => {
@@ -17,12 +18,22 @@ const OrderHistory = () => {
       }
     };
 
+    const fetchUserInfo = async () => { 
+      try {
+        const response = await auth.authFetch(ApiConfig.profile);
+        setUserInfo(response.data); 
+      } catch (error) {
+        console.error("Failed to fetch user info", error);
+      }
+    };
+
     fetchOrderHistory();
+    fetchUserInfo();
   }, [auth]);
 
   return (
     <div className="flex flex-col md:flex-row items-start p-8">
-      <ProfileNavigation userInfo={{}} />
+      <ProfileNavigation userInfo={userInfo} /> 
       <div className="bg-white shadow-md rounded-lg overflow-hidden w-full max-w-4xl flex flex-col md:flex-row mt-8">
         <div className="flex-1 p-4">
           <h2 className="text-xl font-bold mb-4">My Order History</h2>
