@@ -49,21 +49,6 @@ const AdresseeInfo = () => {
     localStorage.setItem('selectedAddress', id);
   };
 
-  const handleCheckboxChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.id]: e.target.checked,
-    });
-  };
-
-  const { isAgeConfirmed, isTermsAccepted } = formData;
-
-  const goToShipping = () => {
-    if (isAgeConfirmed && isTermsAccepted) {
-      navigate('/checkout/shipping');
-    }
-  };
-
   return (
     <div className="bg-white p-4 rounded-md shadow-md">
       <h2 className="text-lg font-semibold mb-4">Saved addresses</h2>

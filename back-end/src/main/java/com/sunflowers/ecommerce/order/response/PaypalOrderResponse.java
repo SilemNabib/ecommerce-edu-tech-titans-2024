@@ -13,5 +13,6 @@ public class PaypalOrderResponse implements Serializable {
     private String status;
     @JsonProperty("links")
     private List<Link> links;
+    private String orderId;
 }
 

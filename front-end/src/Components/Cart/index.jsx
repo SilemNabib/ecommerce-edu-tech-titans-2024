@@ -147,7 +147,7 @@ function Cart({editable = true}) {
           ))}
           { editable &&
             (
-              <Link to="/" className="flex font-semibold text-gray-900 text-sm mt-10">
+              <Link to="/checkout/address" className="flex font-semibold text-gray-900 text-sm mt-10">
                 <button className="w-full py-3 flex justify-center rounded-lg font-bold text-lg bg-black text-white">
                   Buy now
                 </button>

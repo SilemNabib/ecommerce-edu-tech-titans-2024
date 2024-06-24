@@ -32,7 +32,7 @@ public class PayPalController {
                 .build());
     }
 
-    @GetMapping("/checkout/status")
+    @GetMapping("/status")
     public ResponseEntity<OrderStatusResponse> captureOrderStatus(@RequestParam(value = "order") String orderId, @RequestHeader(name = "Authorization") String authorizationHeader) throws Exception {
         return ResponseEntity.ok(paypalService.captureOrder(orderId, authorizationHeader));
     }

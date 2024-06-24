@@ -13,6 +13,7 @@ const OrderSummary = ({ text, to }) => {
   const setData = (response) => {
     if (response.status === 200) {
       const items = response.data.data;
+      if(!items || items.length === 0) navigate('/');
       setProducts(items);
       setSubtotal(items.reduce((acc, item) => acc + item.inventory.product.price * item.cartStock, 0));
       sessionStorage.setItem('cart', JSON.stringify(items));
@@ -65,9 +66,13 @@ const OrderSummary = ({ text, to }) => {
         </div>
       </div>
 
-      <button onClick={()=>navigate(to)} className="w-full bg-black text-white py-2 rounded-md hover:bg-gray-800 transition-colors duration-300">
-        {text}
-      </button>
+      {text &&
+        (
+          <button onClick={()=>navigate(to)} className="w-full bg-black text-white py-2 rounded-md hover:bg-gray-800 transition-colors duration-300">
+          {text}
+          </button>
+        )
+      }
 
       <div className="mt-4">
         <h3 className="text-lg font-semibold mb-2">Products in your order</h3>

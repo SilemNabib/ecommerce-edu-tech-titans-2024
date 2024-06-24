@@ -18,11 +18,22 @@ const ProductSelection = ({ product }) => {
   const colors = product?.inventories?.map(inventory => inventory.color);
   const sizes = product?.inventories?.map(inventory => inventory.size);
 
+  const stockOf = (product) => {
+    const inventory = product.inventories.find(inventory => inventory.color.name === selectedColor && inventory.size === selectedSize);
+    const stock = inventory ? inventory.stock : 0;
+    return stock === 0 ? 'Out of stock' : stock;
+  }
+
   const addToCart = async () => {
     try {
       if(!selectedColor || !selectedSize){ 
         toast.error('Please select color and size');
-        return;      
+        return;
+      }
+
+      if(stockOf(product) === 'Out of stock'){
+        toast.error('Product out of stock');
+        return;
       }
 
       const response = await auth.authFetch(ApiConfig.cart.add, {
@@ -82,6 +93,13 @@ const ProductSelection = ({ product }) => {
                 </div>
               ))}
             </div>
+          </div>
+          <div>
+            {selectedColor && selectedSize &&
+              (
+                <p className="text-gray-700">Stock: {stockOf(product)}</p>
+              )
+            }
           </div>
           <button className="px-4 py-2 bg-black text-white rounded-lg mt-4 hover:bg-gray-800 transition"
           onClick={addToCart}

@@ -1,4 +1,3 @@
-import OrderSummary from "../../Components/OrderSummary";
 import ProgressBar from "../../Components/ProgressBar";
 import ShippingInfo from "../../Components/ShippingInfo";
 
