@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.sunflowers.ecommerce.product.service.ReviewServiceTest" tests="4" skipped="0" failures="0" errors="0" timestamp="2024-06-25T21:00:40" hostname="DESKTOP-81NQ1EO" time="0.282">
+  <properties/>
+  <testcase name="testCreateReview_EmailMismatch()" classname="com.sunflowers.ecommerce.product.service.ReviewServiceTest" time="0.253"/>
+  <testcase name="testCreateReview_ValidRequest()" classname="com.sunflowers.ecommerce.product.service.ReviewServiceTest" time="0.009"/>
+  <testcase name="testCreateReview_InvalidToken()" classname="com.sunflowers.ecommerce.product.service.ReviewServiceTest" time="0.008"/>
+  <testcase name="testGetReviewsByProductId()" classname="com.sunflowers.ecommerce.product.service.ReviewServiceTest" time="0.007"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

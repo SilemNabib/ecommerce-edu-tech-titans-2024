@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.sunflowers.ecommerce.product.service.ProductServiceTest" tests="7" skipped="0" failures="0" errors="0" timestamp="2024-06-25T21:00:40" hostname="DESKTOP-81NQ1EO" time="0.123">
+  <properties/>
+  <testcase name="testCreateProduct_InvalidNumberOfCategories()" classname="com.sunflowers.ecommerce.product.service.ProductServiceTest" time="0.013"/>
+  <testcase name="testCreateProduct_ValidRequest()" classname="com.sunflowers.ecommerce.product.service.ProductServiceTest" time="0.012"/>
+  <testcase name="testGetProductById_ProductNotFound()" classname="com.sunflowers.ecommerce.product.service.ProductServiceTest" time="0.013"/>
+  <testcase name="testCreateProduct_InvalidRequestNullPrice()" classname="com.sunflowers.ecommerce.product.service.ProductServiceTest" time="0.012"/>
+  <testcase name="testCreateProduct_InvalidRequestNullCategories()" classname="com.sunflowers.ecommerce.product.service.ProductServiceTest" time="0.01"/>
+  <testcase name="testCreateProduct_NoImages()" classname="com.sunflowers.ecommerce.product.service.ProductServiceTest" time="0.013"/>
+  <testcase name="testGetProductById_ProductExists()" classname="com.sunflowers.ecommerce.product.service.ProductServiceTest" time="0.013"/>
+  <system-out><![CDATA[2024-06-25T16:00:40.107-05:00  INFO 3088 --- [ecommerce] [    Test worker] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [com.sunflowers.ecommerce.product.service.ProductServiceTest]: ProductServiceTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2024-06-25T16:00:40.111-05:00  INFO 3088 --- [ecommerce] [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration com.sunflowers.ecommerce.EcommerceApplication for test class com.sunflowers.ecommerce.product.service.ProductServiceTest
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

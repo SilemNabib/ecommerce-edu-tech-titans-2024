@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.sunflowers.ecommerce.product.service.ProductImageServiceTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2024-06-25T21:00:40" hostname="DESKTOP-81NQ1EO" time="0.033">
+  <properties/>
+  <testcase name="testGetImage()" classname="com.sunflowers.ecommerce.product.service.ProductImageServiceTest" time="0.017"/>
+  <testcase name="testUploadImage()" classname="com.sunflowers.ecommerce.product.service.ProductImageServiceTest" time="0.012"/>
+  <system-out><![CDATA[2024-06-25T16:00:39.967-05:00  INFO 3088 --- [ecommerce] [    Test worker] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [com.sunflowers.ecommerce.product.service.ProductImageServiceTest]: ProductImageServiceTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2024-06-25T16:00:39.971-05:00  INFO 3088 --- [ecommerce] [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration com.sunflowers.ecommerce.EcommerceApplication for test class com.sunflowers.ecommerce.product.service.ProductImageServiceTest
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
