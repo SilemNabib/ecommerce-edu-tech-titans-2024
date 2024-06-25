@@ -1,6 +1,7 @@
 package com.sunflowers.ecommerce.auth.controller;
 
 import com.sunflowers.ecommerce.auth.request.ChangePasswordRequest;
+import com.sunflowers.ecommerce.auth.request.ChangePhoneRequest;
 import com.sunflowers.ecommerce.auth.service.UserService;
 import com.sunflowers.ecommerce.response.GeneralResponse;
 import io.micrometer.common.lang.NonNull;
@@ -26,10 +27,16 @@ public class UserController {
         return userService.getUserProfile(authorizationHeader);
     }
 
-    @PostMapping("/change")
+    @PostMapping("/change-password")
     public ResponseEntity<GeneralResponse<Void>> changePassword(@RequestHeader(name = "Authorization") String authorizationHeader, @RequestBody ChangePasswordRequest passwordRequest) {
         return userService.changePassword(authorizationHeader, passwordRequest);
     }
+
+    @PostMapping("/change-phone")
+    public ResponseEntity<GeneralResponse<Void>> changePhone(@RequestHeader(name = "Authorization") String authorizationHeader, @RequestBody ChangePhoneRequest phoneRequest) {
+        return userService.changePhone(authorizationHeader, phoneRequest);
+    }
+
 
     @ExceptionHandler
     public ResponseEntity<GeneralResponse<Void>> handleException(Exception e, HttpServletRequest request) {

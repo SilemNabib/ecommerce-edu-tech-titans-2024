@@ -3,6 +3,7 @@ package com.sunflowers.ecommerce.auth.service;
 import com.sunflowers.ecommerce.auth.entity.User;
 import com.sunflowers.ecommerce.auth.repository.UserRepository;
 import com.sunflowers.ecommerce.auth.request.ChangePasswordRequest;
+import com.sunflowers.ecommerce.auth.request.ChangePhoneRequest;
 import com.sunflowers.ecommerce.response.GeneralResponse;
 import com.sunflowers.ecommerce.utils.EntityMapping;
 import lombok.RequiredArgsConstructor;
@@ -83,6 +84,43 @@ public class UserService {
                         .statusCode(200)
                         .success(true)
                         .message("Password changed successfully")
+                        .build()
+        );
+    }
+
+    public ResponseEntity<GeneralResponse<Void>> changePhone(String authorizationHeader, ChangePhoneRequest phoneRequest) {
+        User user = authService.validateAuthorization(authorizationHeader);
+
+        if (!passwordEncoder.matches(phoneRequest.getPassword(), user.getPassword())) {
+            return ResponseEntity.badRequest()
+                    .body(
+                            GeneralResponse.<Void>builder()
+                                    .statusCode(400)
+                                    .success(false)
+                                    .message("user's password is incorrect")
+                                    .build()
+                    );
+        }
+
+        if (!authService.validatePhoneNumberPublic(phoneRequest.getNewPhone())) {
+            return ResponseEntity.badRequest()
+                    .body(
+                            GeneralResponse.<Void>builder()
+                                    .statusCode(400)
+                                    .success(false)
+                                    .message("Phone number is invalid")
+                                    .build()
+                    );
+        }
+
+        user.setPhone(phoneRequest.getNewPhone());
+        userRepository.save(user);
+
+        return ResponseEntity.ok(
+                GeneralResponse.<Void>builder()
+                        .statusCode(200)
+                        .success(true)
+                        .message("Phone number changed successfully")
                         .build()
         );
     }

@@ -264,8 +264,11 @@ public class AuthService {
         return password.matches("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!(){}\\[\\]:;,.?/|<>\\-*])(?=\\S+$).{8,}$");
     }
 
-    // TODO: cambiar metodos static y etc (parra ole, santo remedio que te metiste con esos metodos, alo ? jsjsjs)
+    public boolean validatePhoneNumberPublic(String phone) {
+        return validatePhoneNumber(phone);
+    }
+
     public boolean validatePasswordPublic(String password) {
-        return password.matches("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!(){}\\[\\]:;,.?/|<>\\-*])(?=\\S+$).{8,}$");
+       return validatePassword(password);
     }
 }
