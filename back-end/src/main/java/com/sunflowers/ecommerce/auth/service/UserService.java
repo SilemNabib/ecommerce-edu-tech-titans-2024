@@ -1,15 +1,14 @@
 package com.sunflowers.ecommerce.auth.service;
 
-import com.sunflowers.ecommerce.auth.entity.User;
-import com.sunflowers.ecommerce.auth.repository.UserRepository;
-import com.sunflowers.ecommerce.utils.EntityMapping;
-import jakarta.servlet.http.HttpServletRequest;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.converter.json.MappingJacksonValue;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import com.sunflowers.ecommerce.auth.entity.User;
+import com.sunflowers.ecommerce.auth.repository.UserRepository;
+import com.sunflowers.ecommerce.utils.EntityMapping;
 
 /**
  * Service class for handling user-related operations.
