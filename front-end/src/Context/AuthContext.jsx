@@ -32,6 +32,8 @@ export const isRegisterExpired = (token) => {
 
 if (token && !isTokenExpired(token)) {
   axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+}else{
+  sessionStorage.removeItem("cart");
 }
 
 export const isAuthenticated = () => {

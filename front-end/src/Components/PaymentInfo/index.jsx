@@ -1,77 +1,115 @@
 import { useEffect, useState } from 'react';
 import { useAuth } from '../../Context/AuthContext';
 import { ApiConfig } from '../../config/ApiConfig';
+import { CircularProgress } from '@mui/material';
+import { toast, ToastContainer } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
 
 const PaymentInfo = () => {
-  const [orderStatus, setOrderStatus] = useState(null);
-  const [loading, setLoading] = useState(false);
   const auth = useAuth();
+  const navigate = useNavigate();
 
-  useEffect(() => {
-    // Aquí agregar lógica para manejar el estado inicial, si es necesario
-  }, []);
+  const [loading, setLoading] = useState(false);
+  
+  const [formData, setFormData] = useState({ isAgeConfirmed: false, isTermsAccepted: false });
 
   const handleCheckout = async () => {
     setLoading(true);
+    
+
+    if (!isAgeConfirmed || !isTermsAccepted) {
+      toast.error("You must accept the terms and conditions to continue.");
+      setLoading(false);
+      return;
+    }
+
+    if(!localStorage.getItem("selectedAddress") || localStorage.getItem("selectedAddress") === "" || localStorage.getItem("selectedAddress") === null) {
+      toast.error("You must select an address to continue.");
+      setLoading(false);
+      navigate("/checkout/address");
+      return;
+    }
+    
     try {
       const response = await auth.authFetch(ApiConfig.checkout.paypal, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ /* Aquí puedes agregar los datos necesarios para la orden */ }),
+        data: JSON.stringify({
+          "addressId": localStorage.getItem("selectedAddress"),
+        }),
       });
 
-      if (response.ok) {
-        const data = await response.json();
-        window.location.href = data.data.approveUrl; // Redirige a PayPal
+      if (response.status === 200) {
+        const data = await response.data.data;
+        localStorage.removeItem("selectedAddress");
+        localStorage.setItem("orderId", data.id);
+        window.location.href = data.links[1].href;
       } else {
-        console.error("Failed to create PayPal order", response.statusText);
+        toast.error("Failed to create PayPal order", response.statusText);
+        navigate("/");
       }
     } catch (error) {
-      console.error("Error creating PayPal order", error);
+      console.log(error)
+      toast.error("Error creating PayPal order", error);
     } finally {
       setLoading(false);
     }
   };
 
-  const checkOrderStatus = async (orderId) => {
-    setLoading(true);
-    try {
-      const response = await auth.authFetch(`${ApiConfig.checkout.status}?order=${orderId}`);
-      const data = await response.json();
-      setOrderStatus(data);
-    } catch (error) {
-      console.error("Error fetching order status", error);
-    } finally {
-      setLoading(false);
-    }
-  };
+    const handleCheckboxChange = (e) => {
+      setFormData({
+        ...formData,
+        [e.target.id]: e.target.checked,
+      });
+    };
+
+
+  const { isAgeConfirmed, isTermsAccepted } = formData;
 
   return (
     <div className="bg-white shadow-md rounded-lg p-8">
+      <ToastContainer />
       <h2 className="text-xl font-bold mb-4">Payment Information</h2>
-      {loading && <p>Loading...</p>}
-      {!loading && (
         <div>
-          {orderStatus ? (
-            <div>
-              <h3 className="text-lg font-bold mb-2">Order Status</h3>
-              <p>Status: {orderStatus.status}</p>
-              <p>Platform Status: {orderStatus.platformStatus}</p>
-              <p>Order ID: {orderStatus.orderId}</p>
-              <p>Payment ID: {orderStatus.paymentId}</p>
+          <div className="mt-4">
+            <div className="mb-4">
+              <div className="flex items-center">
+                <input
+                  id="isAgeConfirmed"
+                  type="checkbox"
+                  checked={isAgeConfirmed}
+                  onChange={handleCheckboxChange}
+                  required
+                  className="form-checkbox h-5 w-5 text-black"
+                />
+                <label htmlFor="isAgeConfirmed" className="ml-2 block text-sm leading-5 text-gray-900">
+                  I declare that I am of legal age to purchase from Sunflowers.
+                </label>
+              </div>
             </div>
-          ) : (
-            <button
-              onClick={handleCheckout}
-              className="bg-black hover:font-bold text-white py-2 px-4 rounded"
-            >
+            <div className="mb-4">
+              <div className="flex items-center">
+                <input
+                  id="isTermsAccepted"
+                  type="checkbox"
+                  checked={isTermsAccepted}
+                  onChange={handleCheckboxChange}
+                  required
+                  className="form-checkbox h-5 w-5 text-black"
+                />
+                <label htmlFor="isTermsAccepted" className="ml-2 block text-sm leading-5 text-gray-900">
+                  I accept the data processing and privacy policy of Sunflowers Inc. <a href="#" className="text-gray-600 hover:text-gray-900">View more</a>.
+                </label>
+              </div>
+            </div>
+            <button onClick={handleCheckout} className="bg-black hover:font-bold text-white py-2 px-4 rounded">
               Pay with PayPal
             </button>
-          )}
+          </div>
+          {loading && <CircularProgress className="m-4" />}
         </div>
-      )}
     </div>
   );
 };

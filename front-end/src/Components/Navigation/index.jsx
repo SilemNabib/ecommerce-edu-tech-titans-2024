@@ -1,7 +1,8 @@
 import { UserIcon } from '@heroicons/react/24/outline';
 import { TruckIcon } from '@heroicons/react/24/solid';
 import { useCallback, useState } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
+import { isAuthenticated } from '../../Context/AuthContext';
 import { NavigationCategories } from '../../config/NavigationCategories.js';
 import Cart from '../Cart';
 import SearchBar from '../SearchBar';
@@ -41,11 +42,21 @@ function classNames(...classes) {
  */
 // Dentro de tu función Navigation
 export default function Navigation() {
+  const navigate = useNavigate();
   const context = useContext(GlobalContext);
   const auth = useAuth();
   const [open, setOpen] = useState(false)
   const [showSearch, setShowSearch] = useState(false);
   const [executeSearch, setExecuteSearch] = useState(null);
+
+  const handleClick = (e) => {
+    if (!isAuthenticated()) {
+      e.preventDefault(); 
+      navigate('/login'); 
+    }
+    
+  };
+
 
   const handleSearchCallback = useCallback((searchFunction) => {
     setExecuteSearch(() => searchFunction);
@@ -328,7 +339,7 @@ export default function Navigation() {
                   <Popover className='relative ml-4 flow-root lg:ml-6'>
                     {({ open }) => (
                       <>
-                        <PopoverButton className='group -m-2 flex items-center p-2'>
+                        <PopoverButton className='group -m-2 flex items-center p-2'  onClick={handleClick}>
                           <ShoppingBagIcon className='h-6 w-6 flex-shrink-0 text-gray-400 group-hover:text-gray-500' aria-hidden='true' />
                           <span className='ml-2 text-xs sm:text-sm font-medium text-gray-700 group-hover:text-gray-800 hidden md:block'>
                             {JSON.parse(sessionStorage.getItem("cart"))?.length || 0}

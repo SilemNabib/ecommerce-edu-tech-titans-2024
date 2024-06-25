@@ -50,28 +50,29 @@ const AppRoutes = () => {
     { path: '/register/verification-code', element: isAuthenticated() ? <Navigate to="/profile" /> : <VerificationCode /> },
     { path: '/register/complete', element: isAuthenticated() ? <Navigate to="/profile" /> : <Register /> },
     { path: '/product-detail/:id', element: <ProductDetail /> },
-    { path: '/checkout/cart', element: <CheckoutCart /> },
-    { path: '/checkout/profile', element: <CheckoutProfile /> },
-    { path: '/checkout/shipping', element: <CheckoutShipping /> },
+    
+    { path: '/checkout/summary', element: (isAuthenticated() ?  <CheckoutCart /> : <Navigate to="/login" />) },
+    { path: '/checkout/address', element: (isAuthenticated() ?  <CheckoutProfile /> : <Navigate to="/login" />) },
+    { path: '/checkout/new-address', element: (isAuthenticated() ?  <CheckoutShipping /> : <Navigate to="/login" />) },
+    { path: '/checkout/payment', element: (isAuthenticated() ? <CheckoutPayment /> : <Navigate to="/login" />) },
 
     { path: '/information/profile', element: isAuthenticated() ? <Profile /> : <Navigate to="/login" /> },
     { path: '/manage-profile', element: isAuthenticated() ? <ManageProfile /> : <Navigate to="/login" /> },
     { path: '/order-history', element: isAuthenticated() ? <OrderHistory/> : <Navigate to="/login" /> },
 
-    { path: '/checkout/payment', element: (isAuthenticated() ? <CheckoutPayment /> : <Navigate to="/login" />) },
     
     { path: '/company', element: <Company /> },
     { path: '/cookies', element: <Cookies /> },
     { path: '/privacy', element: <Privacy /> },
     { path: '/terms', element: <Terms /> },
 
-    { path: '/admin/dashboard', element: <AdminDashboard />},
-    { path: '/admin/users', element: <UsersManagement />},
-    { path: '/admin/products', element: <ProductManagement />},
-    { path: '/admin/products/add', element: <AddProductDetail />},
-    { path: '/admin/products/add/images', element: <AddProductImage />},
-    { path: '/admin/products/add/inventory', element: <AddProductInventory />},
-    { path: '/cart', element: <Cart /> },
+    { path: '/admin/dashboard', element: isAuthenticated()? <AdminDashboard /> : <Navigate to="/login" />},
+    { path: '/admin/users', element: isAuthenticated()? <UsersManagement /> : <Navigate to="/login" />},
+    { path: '/admin/products', element: isAuthenticated()? <ProductManagement /> : <Navigate to="/login" />},
+    { path: '/admin/products/add', element: isAuthenticated()? <AddProductDetail /> : <Navigate to="/login" />},
+    { path: '/admin/products/add/images', element: isAuthenticated()? <AddProductImage /> : <Navigate to="/login" />},
+    { path: '/admin/products/add/inventory', element: isAuthenticated()? <AddProductInventory /> : <Navigate to="/login" />},
+    { path: '/cart', element: isAuthenticated()? <Cart /> : <Navigate to="/login" /> },
     { path: '/search', element: <Categories /> },
 
   ]);
