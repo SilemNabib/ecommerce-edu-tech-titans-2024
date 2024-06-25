@@ -1,27 +1,45 @@
 package com.sunflowers.ecommerce.auth.controller;
 
+import com.sunflowers.ecommerce.auth.request.ChangePasswordRequest;
 import com.sunflowers.ecommerce.auth.service.UserService;
+import com.sunflowers.ecommerce.response.GeneralResponse;
 import io.micrometer.common.lang.NonNull;
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.json.MappingJacksonValue;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * Controller for handling user-related HTTP requests.
  */
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/api/v1/user")
 public class UserController {
 
-    @Autowired
-    private UserService userService;
+    private final UserService userService;
 
     @GetMapping("/profile")
     public MappingJacksonValue getUserProfile(@RequestHeader(name = "Authorization") String authorizationHeader) {
         return userService.getUserProfile(authorizationHeader);
+    }
+
+    @PostMapping("/change")
+    public ResponseEntity<GeneralResponse<Void>> changePassword(@RequestHeader(name = "Authorization") String authorizationHeader, @RequestBody ChangePasswordRequest passwordRequest) {
+        return userService.changePassword(authorizationHeader, passwordRequest);
+    }
+
+    @ExceptionHandler
+    public ResponseEntity<GeneralResponse<Void>> handleException(Exception e, HttpServletRequest request) {
+        return ResponseEntity.badRequest()
+                .body(
+                        GeneralResponse.<Void>builder()
+                                .statusCode(400)
+                                .success(false)
+                                .message(e.getMessage())
+                                .build()
+                );
     }
 }
