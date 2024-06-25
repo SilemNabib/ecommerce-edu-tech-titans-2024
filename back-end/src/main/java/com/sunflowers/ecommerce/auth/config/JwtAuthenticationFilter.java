@@ -9,6 +9,8 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -17,6 +19,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.util.List;
 
 /**
  * Filter for handling JWT authentication.
@@ -39,10 +42,6 @@ public class JwtAuthenticationFilter  extends OncePerRequestFilter {
      */
     @Override
     protected void doFilterInternal(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull FilterChain filterChain) throws ServletException, IOException {
-        if (isExcludedPath(request)) {
-            filterChain.doFilter(request, response);
-            return;
-        }
 
         final String token = getTokenFromRequest(request);
         final String username;
@@ -56,11 +55,20 @@ public class JwtAuthenticationFilter  extends OncePerRequestFilter {
 
         if(username != null && userDetailsService.loadUserByUsername(username) != null){
             UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+
+            List<GrantedAuthority> authorityList;
+
+            if(userDetails.getAuthorities().stream().anyMatch(auth -> auth.getAuthority().contains("ADMIN"))){
+                authorityList = AuthorityUtils.createAuthorityList("ROLE_ADMIN");
+            } else {
+                authorityList = AuthorityUtils.createAuthorityList("ROLE_USER");
+            }
+
             if(jwtService.validateToken(token, userDetails)){
                 UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
                         userDetails,
                         null,
-                        userDetails.getAuthorities());
+                        authorityList);
 
                 authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 
@@ -70,23 +78,6 @@ public class JwtAuthenticationFilter  extends OncePerRequestFilter {
 
         filterChain.doFilter(request, response);
     }
-
-    /**
-     * Extracts the JWT token from the HTTP request.
-     *
-     * @param request the HTTP request
-     * @return the extracted JWT token, or null if not found
-     */
-    private boolean isExcludedPath(HttpServletRequest request) {
-        String path = request.getRequestURI();
-        for (String excludedPath : SecurityConfig.PUBLIC_PATHS) {
-            if (path.startsWith(excludedPath.replace("/**", ""))) {
-                return true;
-            }
-        }
-        return false;
-    }
-
 
     /**
      * Extracts the JWT token from the HTTP request.
