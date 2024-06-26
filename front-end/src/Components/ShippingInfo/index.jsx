@@ -60,7 +60,7 @@ const ShippingInfo = () => {
     
     if (response.status === 200) {
       localStorage.setItem("selectedAddress", response.data.id);
-      navigate("/checkout/payment");
+      navigate("/checkout/summary");
     }
   }
 
