@@ -3,6 +3,8 @@ export const uri = "http://localhost:8080/api/v1";
 export const ApiConfig = {
   url: uri,
   profile: uri + "/user/profile",
+  change_phone: uri + "/user/change-phone",
+  change_password: uri + "/user/change-password",
   addresses: uri + "/user/address",
   countries: uri + "/country/",
   all: uri + "/admin/user/",

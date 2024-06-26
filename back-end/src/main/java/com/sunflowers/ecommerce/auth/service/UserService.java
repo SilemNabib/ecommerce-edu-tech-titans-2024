@@ -96,17 +96,6 @@ public class UserService {
     public ResponseEntity<GeneralResponse<Void>> changePhone(String authorizationHeader, ChangePhoneRequest phoneRequest) {
         User user = authService.validateAuthorization(authorizationHeader);
 
-        if (!passwordEncoder.matches(phoneRequest.getPassword(), user.getPassword())) {
-            return ResponseEntity.badRequest()
-                    .body(
-                            GeneralResponse.<Void>builder()
-                                    .statusCode(400)
-                                    .success(false)
-                                    .message("user's password is incorrect")
-                                    .build()
-                    );
-        }
-
         if (!authService.validatePhoneNumberPublic(phoneRequest.getNewPhone())) {
             return ResponseEntity.badRequest()
                     .body(
