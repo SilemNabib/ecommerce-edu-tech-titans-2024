@@ -27,7 +27,7 @@ public class JwtService {
      * @return the generated JWT token
      */
     public String generateToken(String username) {
-        return getToken(new HashMap<>(), username, Timestamp.from(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 24).toInstant()));
+        return getToken(new HashMap<>(), username, Timestamp.from(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 24 * 2).toInstant()));
     }
 
     /**

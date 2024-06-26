@@ -18,7 +18,7 @@ const CheckoutProfile = () => {
             <AddresseeInfo />
           </div>
           <div className="md:w-2/6">
-            <OrderSummary text={"CONTINUE"} to={"/checkout/summary"}/>
+            <OrderSummary text={"CONTINUE"} to={"/checkout/summary"} disabled={!localStorage.getItem('selectedAddress') || localStorage.getItem('selectedAddress') === null} />
           </div>
         </div>
       </div>

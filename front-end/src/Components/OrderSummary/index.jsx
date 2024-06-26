@@ -3,7 +3,7 @@ import { useAuth } from '../../Context/AuthContext';
 import { ApiConfig } from '../../config/ApiConfig';
 import { useNavigate } from 'react-router-dom';
 
-const OrderSummary = ({ text, to }) => {
+const OrderSummary = ({ text, to, disabled }) => {
   const auth = useAuth();
   const navigate = useNavigate();
   const [products, setProducts] = useState(null);
@@ -24,6 +24,12 @@ const OrderSummary = ({ text, to }) => {
     const response = await auth.authFetch(ApiConfig.cart.get)
     setData(response);
   }
+
+  const toTitleCase = (str) => {
+    return str.replace(/\w\S*/g, function (txt) {
+      return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+    });
+  };
 
   useEffect(() => {
     getCart();
@@ -48,13 +54,13 @@ const OrderSummary = ({ text, to }) => {
       <div className="mb-4">
         <div className="flex justify-between mb-2">
           <span className="font-medium">Subtotal</span>
-          <span>{subtotal}</span>
+          <span>$ {subtotal}</span>
         </div>
         <div className="flex justify-between">
           <span className="font-medium">Shipping</span>
           <div>
-            <span>{shipping}</span>
-            <span className="text-green-700 ml-2 font-bold">FREE</span>
+            <span>$ {shipping}</span>
+            <span className="text-green-700 ml-2 font-bold">{shipping === 0?"FREE":""}</span>
           </div>
         </div>
       </div>
@@ -62,13 +68,13 @@ const OrderSummary = ({ text, to }) => {
       <div className="border-t border-gray-300 pt-4 mb-4">
         <div className="flex justify-between font-semibold">
           <span>TOTAL</span>
-          <span>{subtotal + shipping}</span>
+          <span>$ {subtotal + shipping}</span>
         </div>
       </div>
 
       {text &&
         (
-          <button onClick={()=>navigate(to)} className="w-full bg-black text-white py-2 rounded-md hover:bg-gray-800 transition-colors duration-300">
+          <button onClick={()=>navigate(to)} className="w-full bg-black text-white py-2 rounded-md hover:bg-gray-800 transition-colors duration-300" disabled={disabled}>
           {text}
           </button>
         )
@@ -79,7 +85,7 @@ const OrderSummary = ({ text, to }) => {
         {products?.map((product, index) => (
           <div
             key={index}
-            className="flex items-center bg-gray-100 p-4 rounded-md"
+            className="flex items-center bg-gray-100 p-4 rounded-md mt-2"
           >
             <img
               src={product.inventory.product.productImages[0].url}
@@ -87,7 +93,7 @@ const OrderSummary = ({ text, to }) => {
               className="w-16 h-16 object-cover rounded-md mr-4"
             />
             <div>
-              <p className="font-medium">{product.inventory.product.name}</p>
+              <p className="font-medium">{toTitleCase(product.inventory.product.name)}: {product.inventory.size} - {product.inventory.color.name}</p>
               <p>{product.inventory.product.price}</p>
             </div>
           </div>
