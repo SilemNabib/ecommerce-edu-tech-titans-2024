@@ -7,6 +7,7 @@ import com.sunflowers.ecommerce.auth.service.JwtService;
 import com.sunflowers.ecommerce.auth.service.UserService;
 import com.sunflowers.ecommerce.cart.entity.CartItem;
 import com.sunflowers.ecommerce.cart.repository.CartItemRepository;
+import com.sunflowers.ecommerce.inventory.dto.InventoryDTO;
 import com.sunflowers.ecommerce.inventory.repository.InventoryRepository;
 import com.sunflowers.ecommerce.order.entity.OrderDetail;
 import com.sunflowers.ecommerce.order.entity.OrderStatus;
@@ -33,6 +34,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import lombok.RequiredArgsConstructor;
 
@@ -63,6 +65,9 @@ public class OrderService {
                 .shippingPrice(userOrder.getShippingPrice())
                 .totalPrice(userOrder.getTotalPrice())
                 .orderStatus(userOrder.getOrderStatus())
+                .inventory(userOrder.getOrderDetails().stream()
+                        .map(orderDetail -> new InventoryDTO(orderDetail.getInventory(), orderDetail.getAmount()))
+                        .collect(Collectors.toList()))
                 .build());
 
         if (userOrders.isEmpty()) {
@@ -166,6 +171,43 @@ public class OrderService {
     public Order getOrderById(String orderId) {
         return orderRepository.findById(UUID.fromString(orderId))
                 .orElseThrow(() -> new IllegalArgumentException("Order not found"));
+    }
+
+    public ResponseEntity<GeneralResponse<Page<OrderDto>>> getMyOrders(String authorizationHeader, int page) {
+        User user = authService.validateAuthorization(authorizationHeader);
+        Pageable pageable = PageRequest.of(page, 5, Sort.by("creationDate").descending());
+        Page<Order> userOrders = orderPageableRepository.findAllByUser(user, pageable);
+
+        Page<OrderDto> orderDtoPage = userOrders.map(userOrder -> OrderDto.builder()
+                .id(userOrder.getId())
+                .address(userOrder.getAddress())
+                .paymentMethod(userOrder.getPaymentMethod())
+                .creationDate(userOrder.getCreationDate())
+                .shippingPrice(userOrder.getShippingPrice())
+                .totalPrice(userOrder.getTotalPrice())
+                .orderStatus(userOrder.getOrderStatus())
+                .inventory(userOrder.getOrderDetails().stream()
+                        .map(orderDetail -> new InventoryDTO(orderDetail.getInventory(), orderDetail.getAmount()))
+                        .collect(Collectors.toList()))
+                .build());
+
+        if (userOrders.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.OK)
+                    .body(GeneralResponse.<Page<OrderDto>>builder()
+                            .statusCode(HttpStatus.OK.value())
+                            .message("The user has no orders at the moment")
+                            .success(true)
+                            .data(orderDtoPage)
+                            .build());
+        }
+
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(GeneralResponse.<Page<OrderDto>>builder()
+                        .statusCode(HttpStatus.OK.value())
+                        .message("The following user orders were found")
+                        .success(true)
+                        .data(orderDtoPage)
+                        .build());
     }
 }
 

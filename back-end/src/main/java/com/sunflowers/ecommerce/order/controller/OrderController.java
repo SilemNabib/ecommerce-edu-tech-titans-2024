@@ -21,6 +21,11 @@ public class OrderController {
         return orderService.getOrders(authorizationHeader, page);
     }
 
+    @GetMapping("/history")
+    public ResponseEntity<GeneralResponse<Page<OrderDto>>> getMyOrders(@RequestHeader(name = "Authorization") String authorizationHeader, @RequestParam(name="page", defaultValue = "0") int page) {
+        return orderService.getMyOrders(authorizationHeader, page);
+    }
+
     @ExceptionHandler
     public ResponseEntity<GeneralResponse<String>> handleException(Exception e) {
         return ResponseEntity.status(500)
