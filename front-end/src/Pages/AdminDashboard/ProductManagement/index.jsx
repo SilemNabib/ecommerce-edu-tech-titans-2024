@@ -1,12 +1,25 @@
 import { MagnifyingGlassIcon } from '@heroicons/react/24/outline';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import Modal from '../../../Components/Modal';
 import ProductsList from "../../../Components/ProductsList";
 import SearchBar from "../../../Components/SearchBar";
 import Sidebar from "../../../Components/Sidebar";
+import AddProductInventory from './AddProductInventory';
 
 const ProductsManagement = () => {
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
+    const openModal = () => {
+        setIsModalOpen(true);
+    };
+
+    const closeModal = () => {
+        setIsModalOpen(false);
+    };
+
     return (
-        <div className="flex flex-col md:flex-row h-screen">            
+        <div className="flex flex-col md:flex-row h-screen">
             <Sidebar />
             <div className="flex-1 overflow-y-auto m-4 md:m-8">
                 <div className="flex justify-center items-center p-4 sticky top-0 bg-white z-10">
@@ -20,10 +33,15 @@ const ProductsManagement = () => {
                         </button>
                     </Link>
                 </div>
-                <ProductsList />
+                <ProductsList openModal={openModal} />
             </div>
+            {isModalOpen && (
+                <Modal closeModal={closeModal}>
+                    <AddProductInventory />
+                </Modal>
+            )}
         </div>
     );
-}
+};
 
 export default ProductsManagement;
