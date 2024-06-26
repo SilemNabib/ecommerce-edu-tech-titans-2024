@@ -1,5 +1,3 @@
-import React from 'react';
-
 const ImagesList = ({ images, onSelect }) => {
   return (
     <div className="w-1/4 h-full overflow-y-auto border border-gray-200 p-2 rounded-md bg-white shadow-md">
@@ -12,7 +10,7 @@ const ImagesList = ({ images, onSelect }) => {
             className="mb-2 cursor-pointer border border-gray-300 rounded-md overflow-hidden" 
             onClick={() => onSelect(image)}
           >
-            <img src={image} alt={`uploaded-${index}`} className="w-full h-auto" />
+            <img src={image.url} alt={`uploaded-${index}`} className="w-full h-auto" />
           </div>
         ))
       )}
