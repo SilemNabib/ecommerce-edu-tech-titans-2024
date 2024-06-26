@@ -26,5 +26,8 @@ export const ApiConfig = {
     verify: uri + "/auth/verify",
     complete: uri + "/auth/complete",
   },
+  admin: {
+    uploadimg: uri + "/admin/product/image/",
+  },
 };
 

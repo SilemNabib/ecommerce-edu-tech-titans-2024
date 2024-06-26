@@ -80,7 +80,7 @@ const AdresseeInfo = () => {
         ))}
       </div>
       <div className="mt-8 border-t border-gray-300 pt-4">
-        <button onClick={() => navigate("/checkout/shipping")} className="w-full bg-black text-white py-2 rounded-md hover:bg-gray-800 transition-colors duration-300">
+        <button onClick={() => navigate("/checkout/new-address")} className="w-full bg-black text-white py-2 rounded-md hover:bg-gray-800 transition-colors duration-300">
           Add new address
         </button>
       </div>
