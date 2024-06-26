@@ -176,8 +176,13 @@ class AuthServiceTest {
         assertNotNull(response);
         assertEquals(token, response.getToken());
 
+        // Check that the user repository was called to check if the email already exists
         verify(userRepository).existsByEmail(registerRequest.getEmail());
+
+        // Verify that the JWT service generated a token with the email and timestamp
         verify(jwtService).generateToken(eq(registerRequest.getEmail()), any(Timestamp.class));
+
+        // Verify that the unverified user was saved to the repository
         verify(unverifiedUserRepository).save(any(UnverifiedUser.class));
 
     }
