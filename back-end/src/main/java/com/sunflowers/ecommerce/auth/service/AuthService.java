@@ -263,4 +263,12 @@ public class AuthService {
     public static boolean validatePassword(String password) {
         return password.matches("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!(){}\\[\\]:;,.?/|<>\\-*])(?=\\S+$).{8,}$");
     }
+
+    public boolean validatePhoneNumberPublic(String phone) {
+        return validatePhoneNumber(phone);
+    }
+
+    public boolean validatePasswordPublic(String password) {
+       return validatePassword(password);
+    }
 }
