@@ -15,6 +15,7 @@ export const ApiConfig = {
   products: uri + "/product/",
   inventory: uri + "/product/inventory/",
   reviews: uri + "/review/product/",
+  addReview: uri + "/review/create/",
   banners: uri + "/product/banner",
   cart: {
     add: uri + "/cart/add",

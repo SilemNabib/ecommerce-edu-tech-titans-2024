@@ -25,4 +25,9 @@ public class ReviewController {
             @RequestHeader(name = "Authorization") String authorizationHeader) {
         return ResponseEntity.ok(productService.createReview(authorizationHeader, request));
     }
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<String> handleException(Exception e) {
+        return ResponseEntity.badRequest().body(e.getMessage());
+    }
 }
