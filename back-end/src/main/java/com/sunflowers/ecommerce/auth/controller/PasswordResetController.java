@@ -57,7 +57,7 @@ public class PasswordResetController {
             ConstraintViolationException.class,
             IllegalArgumentException.class,
     })
-    public ResponseEntity<GeneralResponse<Void>> handlePwdResetException(Exception e){
+    public ResponseEntity<GeneralResponse<Void>> handlePwdResetException(Exception e) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
                 GeneralResponse.<Void>builder()
                         .statusCode(HttpStatus.BAD_REQUEST.value())

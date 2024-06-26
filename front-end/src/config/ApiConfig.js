@@ -5,6 +5,8 @@ export const ApiConfig = {
   profile: uri + "/user/profile",
   change_phone: uri + "/user/change-phone",
   change_password: uri + "/user/change-password",
+  recover_password: uri + "/auth/forgotPwd/verifyMail",
+  reset_password: uri + "/auth/forgotPwd/resetPwd",
   addresses: uri + "/user/address",
   countries: uri + "/country/",
   all: uri + "/admin/user/",
