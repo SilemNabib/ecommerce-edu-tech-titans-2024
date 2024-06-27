@@ -1,5 +1,6 @@
 package com.sunflowers.ecommerce.product.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -27,6 +28,7 @@ public class Banner {
     @Column(name = "image_url")
     private String imageUrl;
 
+    @JsonIgnore
     @Column(name = "deleted")
     private Timestamp deleted;
 }

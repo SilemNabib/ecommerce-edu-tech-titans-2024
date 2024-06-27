@@ -1,33 +1,36 @@
 package com.sunflowers.ecommerce.auth.entity;
 
-import com.sunflowers.ecommerce.cart.entity.Cart;
-import com.sunflowers.ecommerce.order.entity.Order;
-import com.sunflowers.ecommerce.product.entity.Review;
-import jakarta.persistence.*;
-import jakarta.validation.constraints.Email;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import java.sql.Timestamp;
+import java.util.Collection;
+import java.util.List;
+import java.util.UUID;
+
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.sql.Timestamp;
-import java.util.Collection;
-import java.util.List;
-import java.util.Set;
-import java.util.UUID;
+import com.fasterxml.jackson.annotation.JsonFilter;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * Entity class representing a user in the system.
  */
 @Data
+@Entity
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
-@Table(name = "users", uniqueConstraints = @UniqueConstraint(columnNames = "email"))
+@Table(name = "users")
+@JsonIgnoreProperties({"addresses", "cart", "orders", "reviews"})
+@JsonFilter("UserFilter")
 public class User implements UserDetails {
 
     @Id
@@ -35,19 +38,23 @@ public class User implements UserDetails {
     private UUID id;
 
     @Column(name = "first_name", nullable = false)
+    @NotBlank(message = "User First Name is mandatory")
     private String firstName;
 
     @Column(name = "last_name", nullable = false)
+    @NotBlank(message = "User Last Name is mandatory")
     private String lastName;
 
-    @Email
-    @Column(name="email", nullable = false)
+    @Column(name = "email", nullable = false, unique = true)
+    @Email(message = "User Email is not valid")
     private String email;
 
     @Column(name = "password", nullable = false)
+    @NotBlank(message = "User Password is mandatory")
     private String password;
 
-    @Column(name = "phone_number")
+    @Column(name = "phone", nullable = false)
+    @NotBlank(message = "User Phone is mandatory")
     private String phone;
 
     @Column(name = "registration_date", nullable = false)
@@ -60,17 +67,8 @@ public class User implements UserDetails {
     @Column(name = "deleted")
     private Timestamp deleted;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<Address> addresses;
-
-    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Cart cart;
-
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<Order> orders;
-
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<Review> reviews;
+    @OneToMany(mappedBy = "user")
+    private List<Address> addresses;
 
     /**
      * Returns the authorities granted to the user.
@@ -101,5 +99,4 @@ public class User implements UserDetails {
     public String getUsername() {
         return this.email;
     }
-
 }

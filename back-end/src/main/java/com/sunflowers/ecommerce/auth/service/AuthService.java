@@ -1,5 +1,6 @@
 package com.sunflowers.ecommerce.auth.service;
 
+import com.sunflowers.ecommerce.auth.config.JwtAuthenticationFilter;
 import com.sunflowers.ecommerce.auth.entity.Role;
 import com.sunflowers.ecommerce.auth.entity.UnverifiedUser;
 import com.sunflowers.ecommerce.auth.entity.User;
@@ -12,17 +13,26 @@ import com.sunflowers.ecommerce.auth.request.LoginRequest;
 import com.sunflowers.ecommerce.auth.request.RegisterRequest;
 import com.sunflowers.ecommerce.email.EmailService;
 import com.sunflowers.ecommerce.email.MailBody;
+import com.sunflowers.ecommerce.utils.FrontLinks;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.AuthorizationServiceException;
+import org.springframework.security.authentication.AccountExpiredException;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.Date;
 import java.sql.Timestamp;
 import java.time.Instant;
+import java.util.UUID;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 /**
  * Service class for handling authentication and user registration.
@@ -42,27 +52,6 @@ public class AuthService {
     private PasswordEncoder passwordEncoder;
     @Autowired
     AuthenticationManager authenticationManager;
-
-    /**
-     * Generates a six-digit verification code.
-     * This method generates a random six-digit integer and converts it to a string.
-     * The generated code is used for user verification purposes.
-     *
-     * @return a string representation of a six-digit verification code
-     */
-    private String generateVerificationCode() {
-        int code = (int) ((Math.random() * (999999 - 100000)) + 100000);
-        return String.valueOf(code);
-    }
-
-    /**
-     * Validates a password.
-     * @param password the password to validate
-     * @return true if the password is valid, false otherwise
-     */
-    private boolean validatePassword(String password) {
-        return password.matches("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!(){}\\[\\]:;,.?/|<>\\-*])(?=\\S+$).{8,}$");
-    }
 
     /**
      * Authenticates a user and generates a JWT token.
@@ -91,7 +80,7 @@ public class AuthService {
      */
     public AuthResponse register(RegisterRequest registerRequest) {
         if (userRepository.existsByEmail(registerRequest.getEmail()))  {
-            throw new RuntimeException("Email already registered");
+            throw new BadCredentialsException("Email already registered");
         }
 
         String token = jwtService.generateToken(registerRequest.getEmail(), Timestamp.from(new Date(System.currentTimeMillis() + 1000 * 60 * 15).toInstant()));
@@ -105,13 +94,21 @@ public class AuthService {
                 .expiration(Timestamp.from(new Date(System.currentTimeMillis() + 1000 * 60 * 60).toInstant()))
                 .build();
 
+        unverifiedUserRepository.findByEmail(registerRequest.getEmail())
+                .ifPresent(unverifiedUserRepository::delete);
+
         unverifiedUserRepository.save(user);
+
+        String text = "Please use the following code to verify your email: " + verificationCode
+                + "\n\nThis code will expire in 15 minutes."
+                + "\n\nIf you did not request this code, please ignore this email."
+                + "\n\n\n\n" + FrontLinks.VERIFICATION_CODE + "?token=" + token;
 
         emailService.sendEmail(
                 MailBody.builder()
                 .to(registerRequest.getEmail())
                 .subject("Email Verification")
-                .text("Please use the following code to verify your email: " + verificationCode)
+                .text(text)
                 .build()
         );
 
@@ -131,17 +128,17 @@ public class AuthService {
      */
     public AuthResponse verify(VerificationRequest verificationRequest) {
         UnverifiedUser user = unverifiedUserRepository.findByAuthToken(verificationRequest.getToken())
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new BadCredentialsException("User not found"));
 
         if(jwtService.isTokenExpired(user.getAuthToken())) {
-            throw new RuntimeException("Session expired");
+            throw new AccountExpiredException("Session expired");
         }
 
         if (user.getVerificationCode().equals(verificationRequest.getVerificationCode())) {
             user.setVerified(true);
             unverifiedUserRepository.save(user);
         } else {
-            throw new RuntimeException("Invalid verification code");
+            throw new AccountExpiredException("Invalid verification code");
         }
 
         return AuthResponse.builder()
@@ -159,20 +156,24 @@ public class AuthService {
      */
     public AuthResponse completeRegistration(CompleteRegistrationRequest registerRequest) {
         UnverifiedUser unverifiedUser = unverifiedUserRepository.findByAuthToken(registerRequest.getToken())
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new BadCredentialsException("User not found"));
 
         if (!unverifiedUser.isVerified()) {
-            throw new RuntimeException("User not verified");
+            throw new IllegalArgumentException("User not verified");
         }
 
         if (!validatePassword(registerRequest.getPassword())) {
-            throw new RuntimeException("Invalid password");
+            throw new IllegalArgumentException("Invalid password");
+        }
+
+        if(!validatePhoneNumber(registerRequest.getPhone())) {
+            throw new IllegalArgumentException("Invalid phone number");
         }
 
         User user = User.builder()
-                .firstName(registerRequest.getFirstName())
-                .lastName(registerRequest.getLastName())
-                .email(unverifiedUser.getEmail())
+                .firstName(toNameCase(removeDoubleBlanks(registerRequest.getFirstName())))
+                .lastName(toNameCase(removeDoubleBlanks(registerRequest.getLastName())))
+                .email(unverifiedUser.getEmail().toLowerCase())
                 .password(passwordEncoder.encode(registerRequest.getPassword()))
                 .phone(registerRequest.getPhone())
                 .registrationDate(Timestamp.from(Instant.now()))
@@ -185,5 +186,89 @@ public class AuthService {
         return AuthResponse.builder()
                 .token(jwtService.generateToken(user.getEmail()))
                 .build();
+    }
+
+    public User validateAuthorization(String authToken) {
+        String token = JwtAuthenticationFilter.getTokenFromHeader(authToken);
+
+        User user = userRepository.findByEmail(jwtService.extractUsername(token))
+                .orElseThrow(() -> new AuthorizationServiceException("User not found"));
+
+        if(!jwtService.validateToken(token, user)){
+            throw new AuthorizationServiceException("Unauthorized");
+        }
+        return user;
+    }
+
+    public User validateAuthorization(String authToken, String email) {
+        String token = JwtAuthenticationFilter.getTokenFromHeader(authToken);
+
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new AuthorizationServiceException("User not found"));
+
+        if(!jwtService.validateToken(token, user) || !user.getEmail().equalsIgnoreCase(jwtService.extractUsername(token))){
+            throw new AuthorizationServiceException("Unauthorized - invalid session or email");
+        }
+        return user;
+    }
+
+    public static boolean validatePhoneNumber(String phone) {
+        Pattern pattern = Pattern.compile("\\d*");
+        Matcher matcher = pattern.matcher(phone);
+        return matcher.matches() && phone.length() == 10;
+    }
+
+    /**
+     * Converts a string to name case.
+     * This method converts a string to name case by capitalizing the first letter of each word given in the name.
+     *
+     * @param text the text to convert
+     * @return the text in name case
+     */
+    public static String toNameCase(String text) {
+        return Arrays.stream(text.split("\\s"))
+                .map(word -> Character.toTitleCase(word.charAt(0)) + word.substring(1))
+                .collect(Collectors.joining(" "));
+    }
+
+    /**
+     * Removes double blanks from a string.
+     * This method removes double blanks from a string by replacing all occurrences of two or more consecutive spaces with a single space.
+     *
+     * @param text the text to process
+     * @return the text with double blanks removed
+     */
+    public static String removeDoubleBlanks(String text) {
+        return text.replaceAll("\\s+", " ");
+    }
+
+
+    /**
+     * Generates a six-digit verification code.
+     * This method generates a random six-digit integer and converts it to a string.
+     * The generated code is used for user verification purposes.
+     *
+     * @return a string representation of a six-digit verification code
+     */
+    public static String generateVerificationCode() {
+        int code = (int) ((Math.random() * (999999 - 100000)) + 100000);
+        return String.valueOf(code);
+    }
+
+    /**
+     * Validates a password.
+     * @param password the password to validate
+     * @return true if the password is valid, false otherwise
+     */
+    public static boolean validatePassword(String password) {
+        return password.matches("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!(){}\\[\\]:;,.?/|<>\\-*])(?=\\S+$).{8,}$");
+    }
+
+    public boolean validatePhoneNumberPublic(String phone) {
+        return validatePhoneNumber(phone);
+    }
+
+    public boolean validatePasswordPublic(String password) {
+       return validatePassword(password);
     }
 }

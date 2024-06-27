@@ -1,5 +1,11 @@
 package com.sunflowers.ecommerce.order.entity;
 
 public enum OrderStatus {
-    COMPLETED, PENDING, FAILED, CANCELLED, REFUNDED, SHIPPED
+    COMPLETED,
+    PAID,
+    PENDING,
+    FAILED,
+    CANCELLED,
+    REFUNDED,
+    SHIPPED
 }

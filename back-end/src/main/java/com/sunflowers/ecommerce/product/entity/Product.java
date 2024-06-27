@@ -1,5 +1,7 @@
 package com.sunflowers.ecommerce.product.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.sunflowers.ecommerce.inventory.entity.Inventory;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
@@ -8,6 +10,7 @@ import org.hibernate.annotations.Formula;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -22,14 +25,17 @@ public class Product {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    private Integer id;
 
+    @JsonIgnore
     @Column(name = "creation_date", nullable = false)
     private Timestamp creationDate;
 
+    @JsonIgnore
     @Column(name = "last_update", nullable = false)
     private Timestamp lastUpdate;
 
+    @JsonIgnore
     @Column(name = "deleted")
     private Timestamp deleted;
 
@@ -51,25 +57,33 @@ public class Product {
     @DecimalMin(value = "0.00", message = "Price must be greater than or equal to 0.00")
     private BigDecimal price;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<Review> reviews;
+    private List<Review> reviews;
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<Inventory> inventories;
+    private List<Inventory> inventories;
 
+    @JsonIgnore
     @ManyToMany
     @JoinTable(
             name = "product_category",
             joinColumns = @JoinColumn(name = "product_id"),
             inverseJoinColumns = @JoinColumn(name = "category_id")
     )
-    private Set<Category> categories;
+    private List<Category> categories;
+
+    @JsonIgnore
+    @ManyToMany
+    @JoinTable(
+            name = "product_clothing_set",
+            joinColumns = @JoinColumn(name = "product_id"),
+            inverseJoinColumns = @JoinColumn(name = "clothing_set_id")
+    )
+    private List<ClothingSet> clothingSets;
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<ClothingSetProduct> clothingSetProducts;
-
-    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<ProductImage> productImages;
+    private List<ProductImage> productImages;
 
     @Formula("(select avg(r.rating) from Review r where r.product_id = id)")
     private Double rating;

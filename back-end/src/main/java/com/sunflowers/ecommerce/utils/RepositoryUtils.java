@@ -2,9 +2,7 @@ package com.sunflowers.ecommerce.utils;
 
 import org.springframework.data.repository.CrudRepository;
 
-import java.util.HashSet;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 public class RepositoryUtils {
 
@@ -16,10 +14,10 @@ public class RepositoryUtils {
      * @param entityName the name of the entity to be shown in the exception message
      * @param <T> the type of the entity
      * @param <Y> the type of the key
-     * @return a set of entities
+     * @return a list of entities
      */
-    public static <T, Y> Set<T> getSetOfEntities(Iterable<Y> keys, CrudRepository<T,Y> repository, String entityName) {
-        Set<T> entities = new HashSet<>();
+    public static <T, Y> List<T> getListOfEntities(Iterable<Y> keys, CrudRepository<T,Y> repository, String entityName) {
+        List<T> entities = new ArrayList<>();
         for (Y key : keys) {
             T entity = repository.findById(key)
                     .orElseThrow(() -> new IllegalArgumentException(entityName + " not found " + key));
@@ -35,10 +33,10 @@ public class RepositoryUtils {
      * @param repository the repository to retrieve the entities from
      * @param entityName the name of the entity to be shown in the exception message
      * @param <T> the type of the entity
-     * @return a set of entities
+     * @return a list of entities
      */
-    public static <T> Set<T> getSetOfEntitiesUUID(Iterable<String> keys, CrudRepository<T,UUID> repository, String entityName) {
-        Set<T> entities = new HashSet<>();
+    public static <T> List<T> getListOfEntitiesUUID(Iterable<String> keys, CrudRepository<T,UUID> repository, String entityName) {
+        List<T> entities = new ArrayList<>();
         for (String key : keys) {
             T entity = repository.findById(UUID.fromString(key))
                     .orElseThrow(() -> new IllegalArgumentException(entityName + " not found " + key));
