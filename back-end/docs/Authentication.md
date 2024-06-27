@@ -168,8 +168,212 @@ Content-Type: application/json
 
 ---
 
-### Summary of Auth Service Endpoints
-1. **Login** - `POST /api/v1/auth/login`: Handles user login.
-2. **Register** - `POST /api/v1/auth/register`: Registers a new user and sends a verification email.
-3. **Verify Email** - `POST /api/v1/auth/verify`: Verifies the user's email using a verification code.
-4. **Complete Registration** - `POST /api/v1/auth/complete`: Completes the registration process.
+## Country Endpoints
+
+Below are the available endpoints in the Country API, along with request examples. Each endpoint is designed to handle different operations related to country data.
+
+### 1. Get All Countries
+Endpoint: GET `/api/v1/country/`
+
+This endpoint retrieves all countries.
+
+**URL:** `/api/v1/country/`  
+**Method:** `GET`  
+**Authentication:** Required for this endpoint.
+
+**Example Request:**
+```http
+GET http://127.0.0.1/api/v1/country/ HTTP/1.1
+```
+
+**Response:**
+```json
+{
+  "statusCode": 200,
+  "message": "Countries retrieved successfully",
+  "success": true,
+  "data": [
+    {
+      "prefix": "+1",
+      "name": "United States"
+    },
+    {
+      "prefix": "+44",
+      "name": "United Kingdom"
+    }
+  ]
+}
+
+```
+
+---
+
+### 2. Get Country by Code
+Endpoint: GET `/api/v1/country/{countryCode}`
+
+This endpoint retrieves a country by its code.
+
+**URL:** `/api/v1/country/{countryCode}`  
+**Method:** `GET`  
+**Authentication:** Required for this endpoint.
+
+**Example Request:**
+```http
+GET http://127.0.0.1/api/v1/country/1 HTTP/1.1
+```
+
+**Response:**
+```json
+{
+  "statusCode": 200,
+  "message": "Country retrieved successfully",
+  "success": true,
+  "data": {
+    "prefix": "+1",
+    "name": "United States"
+  }
+}
+
+
+
+```
+
+---
+
+## Password Reset Endpoints
+
+Below are the available endpoints in the Password Reset API, along with request examples. Each endpoint is designed to facilitate different stages of the password reset process.
+
+### 1. Verify Email for Password Reset
+Endpoint: POST `/api/v1/auth/forgotPwd/verifyMail`
+
+This endpoint verifies the user's email for password reset.
+
+**URL:** `/api/v1/auth/forgotPwd/verifyMail`  
+**Method:** `POST`  
+**Authentication:** Required for this endpoint.
+
+**Headers:**
+- `Content-Type: application/json`
+
+**Body:**
+```json
+{
+  "prefix": "+33",
+  "name": "France"
+}
+```
+
+**Example Request:**
+```http
+POST http://127.0.0.1/api/v1/auth/forgotPwd/verifyMail HTTP/1.1
+Content-Type: application/json
+
+{
+  "email": "user@example.com"
+}
+
+```
+
+**Response:**
+```json
+{
+  "statusCode": 201,
+  "message": "Country added successfully",
+  "success": true,
+  "data": {
+    "prefix": "+33",
+    "name": "France"
+  }
+}
+
+```
+
+---
+
+### 2. Reset Password
+Endpoint: POST `/api/v1/auth/forgotPwd/resetPwd`
+
+This endpoint resets the user's password.
+
+**URL:** `/api/v1/auth/forgotPwd/resetPwd`  
+**Method:** `POST`  
+**Authentication:** Required for this endpoint.
+
+**Headers:**
+- `Content-Type: application/json`
+
+**Body:**
+```json
+{
+  "email": "user@example.com",
+  "otpCode": "123456",
+  "newPassword": "newpassword123"
+}
+
+```
+
+**Example Request:**
+```http
+POST http://127.0.0.1/api/v1/auth/forgotPwd/resetPwd HTTP/1.1
+Content-Type: application/json
+
+{
+  "email": "user@example.com",
+  "otpCode": "123456",
+  "newPassword": "newpassword123"
+}
+
+
+```
+
+**Response:**
+```json
+{
+  "statusCode": 200,
+  "message": "Password reset successful",
+  "success": true
+}
+
+```
+
+---
+
+
+## Admin User Endpoints
+
+Below are the available endpoints in the Admin User API, along with request examples. Each endpoint is designed to facilitate different stages of the user administration process.
+
+### 1. Get All Admin Users
+Endpoint: GET `/api/v1/admin/user/`
+
+This endpoint retrieves all admin users.
+
+**URL:** `/api/v1/admin/user/`  
+**Method:** `GET`  
+**Authentication:** Administrator access required
+
+**Example Request:**
+```http
+GET http://127.0.0.1/api/v1/admin/user/ HTTP/1.1
+```
+
+**Response:**
+```json
+[
+  {
+    "userId": "1",
+    "username": "admin1",
+    "role": "admin"
+  },
+  {
+    "userId": "2",
+    "username": "admin2",
+    "role": "admin"
+  }
+]
+```
+
+---
+
+
