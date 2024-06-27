@@ -23,8 +23,8 @@ public class UserController {
     private AddressService addressService;
 
     @GetMapping("/profile")
-    public MappingJacksonValue getUserProfile(HttpServletRequest servletRequest) {
-        return userService.getUserProfile(servletRequest);
+    public MappingJacksonValue getUserProfile(@RequestHeader(name = "Authorization") String authorizationHeader) {
+        return userService.getUserProfile(authorizationHeader);
     }
 
     @GetMapping("/address")
