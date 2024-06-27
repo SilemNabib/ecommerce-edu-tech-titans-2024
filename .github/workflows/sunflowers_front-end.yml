@@ -27,8 +27,8 @@ jobs:
 
       - name: Install dependencies, build, and test
         run: |
-          cd ./front-end && npm install
-          cd ./front-end && npm run build
+          cd {{ github.workspace }}/front-end && npm install
+          cd {{ github.workspace }}/front-end && npm run build
           
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v3
