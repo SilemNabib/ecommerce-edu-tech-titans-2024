@@ -37,7 +37,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: build
     environment:
-      name: 'front-end-production'
+      name: 'production'
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
     permissions:
       id-token: write #This is required for requesting the JWT
@@ -60,6 +60,6 @@ jobs:
         uses: azure/webapps-deploy@v2
         with:
           app-name: 'sunflowers-ecommerce'
-          slot-name: 'front-end-production'
+          slot-name: 'production'
           package: .
           
