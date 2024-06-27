@@ -83,7 +83,7 @@ const Categories = () => {
   };
 
   return (
-    <div className="relative flex flex-col sm:flex-row px-4 py-8 mb-20"> {/* Aumenta el margen inferior aquí */}
+    <div className="relative flex flex-col sm:flex-row px-4 py-8 mb-20"> 
       <div className="w-full sm:w-1/4 pr-4 mb-4 sm:mb-0 bg-gray-50 rounded-lg m-2">
         <FilterBy
           colors={colors}
