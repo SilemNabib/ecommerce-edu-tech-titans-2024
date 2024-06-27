@@ -56,7 +56,6 @@ jobs:
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v2
         with:
-          app-name: 'sunflowers-ecommerce'
-          slot-name: 'Production'
+          app-name: 'sunflowers'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_FRONTEND_PUBLISHPROFILE }} # Publish profile should always be stored as secrets in your repository Settings - Secrets and variables - Actions - secrets
           package: .
