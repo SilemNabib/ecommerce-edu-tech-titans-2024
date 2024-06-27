@@ -1,5 +1,12 @@
 import ReactDOM from 'react-dom';
 
+/**
+ * Modal component that renders a modal overlay with a close button and content.
+ * @param {Object} props - The component props.
+ * @param {ReactNode} props.children - The content to be rendered inside the modal.
+ * @param {Function} props.closeModal - The function to be called when the close button is clicked.
+ * @returns {ReactNode} The rendered modal component.
+ */
 const Modal = ({ children, closeModal }) => {
     return ReactDOM.createPortal(
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">

@@ -1,7 +1,17 @@
+import { BarsArrowUpIcon } from '@heroicons/react/20/solid';
 import { useState } from 'react';
 import SortByOptions from './SortByOptions';
-import { BarsArrowUpIcon } from '@heroicons/react/20/solid';
 
+/**
+ * SortBy component displays a dropdown menu for sorting options and a button for changing the sort order.
+ *
+ * @param {Object} props - The component props.
+ * @param {string} props.sortBy - The currently selected sort option.
+ * @param {string} props.order - The current sort order.
+ * @param {function} props.setSortBy - The function to set the sort option.
+ * @param {function} props.setSelectedOrder - The function to set the sort order.
+ * @returns {JSX.Element} The SortBy component.
+ */
 const SortBy = ({sortBy, order, setSortBy, setSelectedOrder}) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const orderFilters = ["rating", "price", "discount"]

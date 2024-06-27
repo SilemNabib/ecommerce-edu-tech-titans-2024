@@ -3,6 +3,13 @@ import { useEffect, useState } from 'react';
 import { ApiConfig } from '../../config/ApiConfig';
 import ProductInfo from '../ProductInfo';
 
+/**
+ * Renders a list of products.
+ *
+ * @param {Object} props - The component props.
+ * @param {Function} props.openModal - The function to open the modal.
+ * @returns {JSX.Element} The rendered component.
+ */
 const ProductsList = ({ openModal }) => {
     const [products, setProducts] = useState(null);
 

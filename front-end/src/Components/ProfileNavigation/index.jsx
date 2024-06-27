@@ -1,9 +1,15 @@
-import React, { useContext } from 'react';
+import { useContext } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { Logout } from '@mui/icons-material';
 import { GlobalContext } from '../../Context';
 import { useAuth } from '../../Context/AuthContext';
 
+/**
+ * Renders the profile navigation component.
+ *
+ * @component
+ * @param {Object} userInfo - The user information.
+ * @returns {JSX.Element} The profile navigation component.
+ */
 const ProfileNavigation = ({ userInfo }) => {
     
   const location = useLocation();

@@ -1,9 +1,15 @@
+import { CircularProgress } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../../Context/AuthContext';
 import { ApiConfig } from '../../config/ApiConfig';
-import { CircularProgress } from '@mui/material';
 
+/**
+ * Renders the shopping cart component.
+ * @param {Object} props - The component props.
+ * @param {boolean} props.editable - Indicates whether the cart is editable or not. Defaults to true.
+ * @returns {JSX.Element} The rendered cart component.
+ */
 function Cart({editable = true}) {
   const auth = useAuth();
   const [carts, setCarts] = useState(null);

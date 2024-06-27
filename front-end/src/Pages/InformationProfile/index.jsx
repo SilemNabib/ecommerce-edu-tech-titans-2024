@@ -3,6 +3,11 @@ import ProfileNavigation from '../../Components/ProfileNavigation';
 import { useAuth } from '../../Context/AuthContext';
 import { ApiConfig } from '../../config/ApiConfig';
 
+/**
+ * Renders the profile page with user information.
+ *
+ * @returns {JSX.Element} The profile page component.
+ */
 const Profile = () => {
   const [userInfo, setUserInfo] = useState({
     firstName: '',

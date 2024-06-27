@@ -1,3 +1,12 @@
+/**
+ * Renders a list of images.
+ *
+ * @component
+ * @param {Object} props - The component props.
+ * @param {Array} props.images - The array of images to be rendered.
+ * @param {Function} props.onSelect - The function to be called when an image is selected.
+ * @returns {JSX.Element} The rendered ImagesList component.
+ */
 const ImagesList = ({ images, onSelect }) => {
   return (
     <div className="w-1/4 h-full overflow-y-auto border border-gray-200 p-2 rounded-md bg-white shadow-md">

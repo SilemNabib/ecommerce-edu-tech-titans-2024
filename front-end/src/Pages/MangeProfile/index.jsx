@@ -3,6 +3,13 @@ import ProfileNavigation from '../../Components/ProfileNavigation';
 import { useAuth } from '../../Context/AuthContext';
 import { ApiConfig } from '../../config/ApiConfig';
 
+/**
+ * Component for managing user profile information.
+ *
+ * return (
+ *   <ManageProfile />
+ * )
+ */
 const ManageProfile = () => {
   const [editingField, setEditingField] = useState(null);
   const [userInfo, setUserInfo] = useState({

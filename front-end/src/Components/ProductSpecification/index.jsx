@@ -3,6 +3,16 @@ import { useState } from 'react';
 import InputText from "../../Components/InputText";
 import Select from "../../Components/Select";
 
+/**
+ * Renders a product specification component.
+ *
+ * @param {Object} props - The component props.
+ * @param {number} props.index - The index of the product specification.
+ * @param {Array} props.sizes - The available sizes for the product.
+ * @param {Array} props.colors - The available colors for the product.
+ * @param {Function} props.onRemove - The function to call when the remove button is clicked.
+ * @returns {JSX.Element} The product specification component.
+ */
 const ProductSpecification = ({ index, sizes, colors, onRemove }) => {
   const [stock, setStock] = useState('');
 

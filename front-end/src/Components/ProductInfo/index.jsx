@@ -1,5 +1,13 @@
 import { Cog6ToothIcon } from '@heroicons/react/24/outline';
 
+/**
+ * Renders the product information component.
+ *
+ * @param {Object} props - The component props.
+ * @param {Object} props.product - The product object.
+ * @param {Function} props.openModal - The function to open the modal.
+ * @returns {JSX.Element} The rendered component.
+ */
 const ProductInfo = ({ product, openModal }) => {
 
     return (

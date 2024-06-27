@@ -1,5 +1,14 @@
 import PropTypes from 'prop-types';
 
+/**
+ * SelectSize component displays a list of sizes and allows the user to select a size.
+ *
+ * @param {Object} props - The component props.
+ * @param {Array} props.sizes - The array of available sizes.
+ * @param {string} props.selectedSize - The currently selected size.
+ * @param {Function} props.onSelectSize - The function to call when a size is selected.
+ * @returns {JSX.Element} - The rendered SelectSize component.
+ */
 const SelectSize = ({ sizes, selectedSize, onSelectSize }) => {
 
   const handleSelectSize = (event, size) => {
