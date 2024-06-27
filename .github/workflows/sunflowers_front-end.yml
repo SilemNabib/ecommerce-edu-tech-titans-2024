@@ -27,7 +27,8 @@ jobs:
 
       - name: Install dependencies and build
         run: |
-          ls
+          cd 'front-end' && npm install
+
           
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v3
