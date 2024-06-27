@@ -27,9 +27,10 @@ jobs:
 
       - name: Install dependencies and build
         run: |
-          pwd
-          cd "{{ github.workspace }}/front-end" && npm install
-          cd "{{ github.workspace }}/front-end" && npm run build
+          ls
+          cd "front-end" && pwd
+          cd "front-end" && npm install
+          cd "front-end" && npm run build
           
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v3
