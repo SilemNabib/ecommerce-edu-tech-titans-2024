@@ -43,7 +43,7 @@ public class Product {
     @NotBlank(message = "Product name is mandatory")
     private String name;
 
-    @Column(name = "description")
+    @Column(name = "description", length = 1000, nullable = false)
     @Size(max = 1000, message = "Description must be less than 1000 characters")
     private String description;
 

@@ -34,6 +34,7 @@ export const ApiConfig = {
   },
   admin: {
     uploadimg: uri + "/admin/product/image/",
+    create_product: uri + "/admin/product/",
   },
 };
 

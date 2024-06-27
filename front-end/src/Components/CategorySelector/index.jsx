@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
-const CategorySelector = ({ categories, onCategorySelect }) => {
+const CategorySelector = ({ categories, onCategorySelect, initCategories }) => {
   const [selectedCategories, setSelectedCategories] = useState([]);
   const [expandedParent, setExpandedParent] = useState(null);
 
@@ -8,8 +8,22 @@ const CategorySelector = ({ categories, onCategorySelect }) => {
     return `${parentCategory.id}_${section.id}_${category.name}`;
   };
 
+  useEffect(() => {
+    if (initCategories && initCategories.length > 0) {
+      const initialCategoryIds = initCategories.map(([parentCategory, section, category]) =>
+        generateCategoryId(parentCategory, section, category)
+      );
+      setSelectedCategories(initialCategoryIds);
+
+      onCategorySelect(initCategories.map(([parentCategory, section, category]) => [parentCategory.name.toLowerCase(), section.name.toLowerCase(), category.name.toLowerCase()]));
+
+      const [firstParentCategory] = initCategories[0];
+      setExpandedParent(firstParentCategory.id);
+    }
+  }, []);
+
   const handleCategorySelect = (parentCategory, section, category) => {
-    const newSelectedCategories = [parentCategory.name, section.name, category.name];
+    const newSelectedCategories = [parentCategory.name.toLowerCase(), section.name.toLowerCase(), category.name.toLowerCase()];
     const categoryId = generateCategoryId(parentCategory, section, category);
     setSelectedCategories([categoryId]);
     onCategorySelect(newSelectedCategories);
