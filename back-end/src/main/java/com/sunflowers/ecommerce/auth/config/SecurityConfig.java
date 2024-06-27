@@ -41,8 +41,8 @@ public class SecurityConfig {
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
     private final AuthenticationProvider authProvider;
 
-    private static final String[] PUBLIC_PATHS = new String[] {"/api/v1/auth/**", "/api/v1/country/**", "/api/v1/auth/forgotPwd/**"};
-    private static final String[] USER_PATHS = new String[]{"/api/v1/user/**", "/api/v1/cart/**", "/api/v1/product/inventory/**", "/api/v1/order/**", "/api/v1/checkout/**", "/api/v1/product/**", "/api/v1/review/**" };
+    private static final String[] PUBLIC_PATHS = new String[] {"/api/v1/auth/**", "/api/v1/country/**", "/api/v1/auth/forgotPwd/**", "/api/v1/review/product/**", "/api/v1/product/**"};
+    private static final String[] USER_PATHS = new String[]{"/api/v1/user/**", "/api/v1/cart/**", "/api/v1/product/inventory/**", "/api/v1/order/**", "/api/v1/checkout/**", "/api/v1/review/create/" };
     private static final String[] ADMIN_PATHS = new String[]{"api/v1/admin/**"};
     /**
      * Configures the security filter chain for HTTP security.

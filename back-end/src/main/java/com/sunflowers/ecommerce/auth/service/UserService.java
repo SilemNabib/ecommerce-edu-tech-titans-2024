@@ -35,14 +35,12 @@ public class UserService {
                 .orElseThrow(() -> new RuntimeException("User not found"));
     }
 
-    public MappingJacksonValue getUserProfile(String authorizationHeader) {
-        User user = authService.validateAuthorization(authorizationHeader);
-        return EntityMapping.getSimpleBeanPropertyFilter(user, "UserFilter", "email", "firstName", "lastName", "phone", "registrationDate");
+    public User getUserProfile(String authorizationHeader) {
+        return authService.validateAuthorization(authorizationHeader);
     }
 
-    public MappingJacksonValue getAllUsers() {
-        List<User> users = (List<User>) userRepository.findAll();
-        return EntityMapping.getSimpleBeanPropertyFilter(users, "UserFilter", "email", "firstName", "lastName", "phone", "registrationDate");
+    public List<User> getAllUsers() {
+        return (List<User>) userRepository.findAll();
     }
 
     public ResponseEntity<GeneralResponse<Void>> changePassword(String authorizationHeader, ChangePasswordRequest passwordRequest) {

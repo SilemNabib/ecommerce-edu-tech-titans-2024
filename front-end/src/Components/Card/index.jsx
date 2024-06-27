@@ -23,16 +23,27 @@ const Card = ({ data }) => {
   const [isInCart, setIsInCart] = useState(JSON.parse(sessionStorage.getItem("cart"))?.some(cartItem => cartItem.inventory.product.id === data.id));
   
   const addToCart = async () => {
+    context.setLoading(true);
     try {
       if(!selectedColor || !selectedSize){ 
         toast.error('Please select color and size');
         return;      
       }
+      const inventory = data.inventories.find(
+        (inventory) =>
+          inventory.color.name === selectedColor &&
+          inventory.size === selectedSize
+      );
+
+      if (!inventory || inventory.stock === 0) {
+        toast.error('Variant out of stock');
+        return;
+      }
 
       const response = await auth.authFetch(ApiConfig.cart.add, {
         method: 'POST',
         data: JSON.stringify({
-          inventoryId: data.inventories.find(inventory => inventory.color.name === selectedColor && inventory.size === selectedSize).id,
+          inventoryId: inventory.id,
           amount: 1,
         }),
       });
@@ -50,6 +61,7 @@ const Card = ({ data }) => {
       console.log(error);
       toast.error('Error adding product to cart:', error);
     }
+    context.setLoading(false);
   };
 
   const colors = data?.inventories?.map(inventory => ({ name: inventory.color.name, code: inventory.color.code })) || [];
@@ -67,7 +79,7 @@ const Card = ({ data }) => {
           className={`absolute top-0 right-0 flex justify-center items-center w-8 h-8 rounded-full m-2 p-1 ${isInCart ? 'bg-green-500' : 'bg-white'}`}
           onClick={isInCart ? undefined : addToCart}
         >
-          {isInCart ? <CheckIcon className="size-8 text-white" /> : <PlusIcon className="size-8 text-black" />}
+          {context.loading ? null: isInCart ? <CheckIcon className="size-8 text-white" /> : <PlusIcon className="size-8 text-black" />}
         </div>
       </figure>
       <div className='p-4 h-44'>
