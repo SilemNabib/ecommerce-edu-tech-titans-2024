@@ -1,11 +1,18 @@
-import { useEffect, useState } from 'react';
-import InputText from '../InputText';
-import { ApiConfig } from '../../config/ApiConfig';
-import { useAuth } from '../../Context/AuthContext';
-import { useNavigate } from 'react-router-dom';
 import { ArrowBack } from "@mui/icons-material";
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../../Context/AuthContext';
+import { ApiConfig } from '../../config/ApiConfig';
+import InputText from '../InputText';
 
 
+/**
+ * Component for capturing shipping information.
+ *
+ * return (
+ *   <ShippingInfo />
+ * )
+ */
 const ShippingInfo = () => {
   const auth = useAuth();
   const navigate = useNavigate();
@@ -60,7 +67,7 @@ const ShippingInfo = () => {
     
     if (response.status === 200) {
       localStorage.setItem("selectedAddress", response.data.id);
-      navigate("/checkout/payment");
+      navigate("/checkout/summary");
     }
   }
 

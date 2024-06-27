@@ -1,6 +1,13 @@
 import { Bar, BarChart, CartesianGrid, Legend, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 import SalesData from '../../config/SalesData';
 
+/**
+ * Renders the Income Summary component.
+ * This component displays monthly sales and sales by product using LineChart and BarChart components.
+ *
+ * @component
+ * @returns {JSX.Element} The rendered IncomeSummary component.
+ */
 const IncomeSummary = () => {
   return (
     <div className="p-4 bg-white shadow-md rounded-lg mb-4">

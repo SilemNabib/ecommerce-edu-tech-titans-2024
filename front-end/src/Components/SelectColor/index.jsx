@@ -1,5 +1,15 @@
 import PropTypes from 'prop-types';
 
+/**
+ * A component for selecting a color from a list of options.
+ *
+ * @param {Object[]} colors - The list of color options.
+ * @param {string} colors[].name - The name of the color.
+ * @param {string} colors[].code - The color code in hexadecimal format.
+ * @param {string} selectedColor - The currently selected color.
+ * @param {Function} onSelectColor - A function to handle the selection of a color.
+ * @returns {JSX.Element} The SelectColor component.
+ */
 const SelectColor = ({ colors, selectedColor, onSelectColor }) => {
 
   const handleSelectColor = (event, color) => {

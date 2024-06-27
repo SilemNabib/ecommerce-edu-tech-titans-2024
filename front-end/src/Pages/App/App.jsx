@@ -72,7 +72,6 @@ const AppRoutes = () => {
     { path: '/admin/products/add', element: isAuthenticated()? <AddProductDetail /> : <Navigate to="/login" />},
     { path: '/admin/products/add/images', element: isAuthenticated()? <AddProductImage /> : <Navigate to="/login" />},
     { path: '/admin/products/add/inventory', element: isAuthenticated()? <AddProductInventory /> : <Navigate to="/login" />},
-    { path: '/cart', element: isAuthenticated()? <Cart /> : <Navigate to="/login" /> },
     { path: '/search', element: <Categories /> },
 
   ]);

@@ -8,6 +8,12 @@ const registerSteps = [
   "Payment",
 ];
 
+/**
+ * Renders the CheckoutShipping component.
+ * This component displays the shipping information section of the checkout process.
+ *
+ * @returns {JSX.Element} The rendered CheckoutShipping component.
+ */
 const CheckoutShipping = () => {
     return (
       <div className="flex flex-col items-center">

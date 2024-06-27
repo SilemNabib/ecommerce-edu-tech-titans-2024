@@ -2,11 +2,18 @@ import { CurrencyDollarIcon } from '@heroicons/react/24/solid';
 import { useEffect, useState } from 'react';
 import OrderData from '../../config/OrderData';
 
+/**
+ * Renders a card displaying the order status information.
+ *
+ * return (
+ *   <OrderStatusCard />
+ * )
+ */
 const OrderStatusCard = () => {
   const [order, setOrder] = useState({ date: '', status: '', total: 0 });
 
   useEffect(() => {
-    // Aquí iría la lógica para traer los datos del backend
+    // Here would go the logic to fetch the data from the backend
     setOrder(OrderData);
   }, []);
 

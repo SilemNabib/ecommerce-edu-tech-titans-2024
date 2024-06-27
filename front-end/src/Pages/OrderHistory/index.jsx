@@ -3,6 +3,13 @@ import ProfileNavigation from '../../Components/ProfileNavigation';
 import { useAuth } from '../../Context/AuthContext';
 import { ApiConfig } from '../../config/ApiConfig';
 
+/**
+ * Renders the Order History page.
+ *
+ * return (
+ *   <OrderHistory />
+ * )
+ */
 const OrderHistory = () => {
   const [orderHistory, setOrderHistory] = useState([]);
   const [userInfo, setUserInfo] = useState({}); 

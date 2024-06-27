@@ -3,6 +3,13 @@ import { Logout } from '@mui/icons-material';
 import { Link } from 'react-router-dom';
 import SidebarItem from '../SiderItem';
 
+/**
+ * SidebarContent component displays the content of the sidebar.
+ *
+ * @param {Object} props - The props of the component.
+ * @param {boolean} props.isOpen - Indicates whether the sidebar is open or not.
+ * @returns {JSX.Element} The JSX element representing the SidebarContent component.
+ */
 const SidebarContent = ({ isOpen }) => (
   <>
     <div className="flex-1 mt-5 space-y-3">

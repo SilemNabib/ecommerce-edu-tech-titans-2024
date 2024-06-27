@@ -9,6 +9,13 @@ import { ApiConfig } from '../../config/ApiConfig';
 import SelectColor from '../SelectColor';
 import SelectSize from '../SelectSize';
 
+/**
+ * Card component displays a product card with image, name, price, color selection, and size selection.
+ *
+ * @component
+ * @param {Object} data - The data object containing information about the product.
+ * @returns {JSX.Element} The rendered Card component.
+ */
 const Card = ({ data }) => {
   const context = useContext(GlobalContext);
   const auth = useAuth();
