@@ -28,6 +28,7 @@ jobs:
       - name: Install dependencies and build
         run: |
           cd 'front-end' && npm install
+          cd 'front-end' && npm run build
 
           
       - name: Upload artifact for deployment job
