@@ -21,6 +21,13 @@ public class ProductImageService {
     @Autowired
     private ImageService imageService;
 
+    /**
+     * Uploads a product image.
+     *
+     * @param file the image file to upload
+     * @return the saved ProductImage entity
+     * @throws IOException if an error occurs during file upload
+     */
     @Transactional
     public ProductImage uploadImage(MultipartFile file) throws IOException {
         ProductImage image = productImageRepository.save(ProductImage.builder()
@@ -32,7 +39,4 @@ public class ProductImageService {
         return productImageRepository.save(image);
     }
 
-    public List<ProductImage> getImage(String id) {
-        return RepositoryUtils.getListOfEntitiesUUID(List.of("719a1e9d-e700-424e-84b5-bceb0022c46f","6b939fb1-b337-4cf7-8d45-e551efe48b2b", "34df6711-ecfc-414c-b92b-619f9b87f94c"), productImageRepository, "ProductImage");
-    }
 }

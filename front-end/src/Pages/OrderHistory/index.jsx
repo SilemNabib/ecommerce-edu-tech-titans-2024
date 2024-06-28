@@ -69,7 +69,7 @@ const OrderHistory = () => {
                   </tr>
                 )}
                 {orderHistory?.map((order, index) => (
-                  <tr key={index} className="border-b border-gray-200 hover:bg-gray-100 cursor-pointer" onClick={()=> window.location.href = `/checkout/payment?order=${order.id}`}>
+                  <tr key={index} className="border-b border-gray-200 hover:bg-gray-100 cursor-pointer" onClick={()=> window.location.href = `/bootcamp-tech-titans-2024_ecommerce/checkout/payment?order=${order.id}`}>
                     <td className="py-3 px-6 text-left whitespace-nowrap">{`${new Date(order.creationDate).getDate()}/${new Date(order.creationDate).getMonth() + 1}/${new Date(order.creationDate).getFullYear()}`}</td>
                     <td className="py-3 px-6 text-left">
                       <ul>

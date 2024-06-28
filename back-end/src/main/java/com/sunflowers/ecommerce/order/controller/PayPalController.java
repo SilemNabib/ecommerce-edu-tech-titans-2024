@@ -37,21 +37,4 @@ public class PayPalController {
         return ResponseEntity.ok(paypalService.captureOrder(orderId, authorizationHeader));
     }
 
-    @ExceptionHandler({IllegalArgumentException.class})
-    public ResponseEntity<GeneralResponse<Void>> handleIllegalArgumentException(IllegalArgumentException e) {
-        return ResponseEntity.badRequest().body(GeneralResponse.<Void>builder()
-                .statusCode(HttpStatus.BAD_REQUEST.value())
-                .message(e.getMessage())
-                .success(false)
-                .build());
-    }
-
-    @ExceptionHandler({Exception.class})
-    public ResponseEntity<GeneralResponse<Void>> handleException(Exception e) {
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(GeneralResponse.<Void>builder()
-                .statusCode(HttpStatus.INTERNAL_SERVER_ERROR.value())
-                .message(e.getMessage())
-                .success(false)
-                .build());
-    }
 }
