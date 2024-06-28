@@ -1,5 +1,18 @@
 package com.sunflowers.ecommerce.auth.entity;
 
+import java.sql.Timestamp;
+import java.util.Collection;
+import java.util.List;
+import java.util.UUID;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
+import com.fasterxml.jackson.annotation.JsonFilter;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -7,14 +20,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
-
-import java.sql.Timestamp;
-import java.util.Collection;
-import java.util.List;
-import java.util.UUID;
 
 /**
  * Entity class representing a user in the system.
@@ -25,6 +30,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "users")
+@JsonIgnoreProperties({"addresses", "cart", "orders", "reviews"})
 public class User implements UserDetails {
 
     @Id
@@ -45,6 +51,7 @@ public class User implements UserDetails {
 
     @Column(name = "password", nullable = false)
     @NotBlank(message = "User Password is mandatory")
+    @JsonIgnore
     private String password;
 
     @Column(name = "phone", nullable = false)
@@ -62,6 +69,7 @@ public class User implements UserDetails {
     private Timestamp deleted;
 
     @OneToMany(mappedBy = "user")
+    @JsonIgnore
     private List<Address> addresses;
 
     /**

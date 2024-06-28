@@ -1,5 +1,6 @@
 package com.sunflowers.ecommerce.cart.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sunflowers.ecommerce.auth.entity.User;
 import com.sunflowers.ecommerce.inventory.entity.Inventory;
 import jakarta.persistence.*;
@@ -22,6 +23,7 @@ public class CartItem {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @JsonIgnore
     @ManyToOne()
     @JoinColumn(name = "user_id", nullable = false)
     private User user;

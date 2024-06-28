@@ -1,5 +1,7 @@
 package com.sunflowers.ecommerce.inventory.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
@@ -16,6 +18,7 @@ import java.util.List;
 @AllArgsConstructor
 @Entity
 @Table(name = "color")
+@JsonIgnoreProperties({"inventories"})
 public class Color {
 
     @Id

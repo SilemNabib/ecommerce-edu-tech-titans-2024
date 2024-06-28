@@ -35,11 +35,7 @@ public class ReviewService {
     public Review createReview(String authorizationHeader, CreateReviewRequest request) {
         String token = JwtAuthenticationFilter.getTokenFromHeader(authorizationHeader);
 
-        User user = userService.getUserByEmail(request.getUserEmail());
-
-        if(!jwtService.validateToken(token, user) || !user.getEmail().equalsIgnoreCase(jwtService.extractUsername(token))){
-            throw new AuthorizationServiceException("Unauthorized");
-        }
+        User user = userService.getUserByEmail(jwtService.extractUsername(token));
 
         Review review = Review.builder()
                 .user(user)

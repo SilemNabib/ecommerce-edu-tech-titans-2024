@@ -2,94 +2,113 @@ import { CheckIcon, PlusIcon } from '@heroicons/react/24/solid';
 import PropTypes from 'prop-types';
 import { useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
 import { GlobalContext } from '../../Context';
+import { useAuth } from '../../Context/AuthContext';
+import { ApiConfig } from '../../config/ApiConfig';
+import SelectColor from '../SelectColor';
+import SelectSize from '../SelectSize';
 
-/**
- * Card component represents a card item in the UI.
- *
- * @param {Object} data - The data object containing information about the card.
- * @returns {JSX.Element} - The rendered Card component.
- */
 const Card = ({ data }) => {
   const context = useContext(GlobalContext);
-
-  const { openProductDetail, setProductToShow, cartProducts, closeProductDetail } = useContext(GlobalContext);
-
+  const auth = useAuth();
+  const { setProductToShow } = context;
   const [selectedSize, setSelectedSize] = useState('');
   const [selectedColor, setSelectedColor] = useState('');
 
   const showProduct = () => {
-    openProductDetail();
     setProductToShow(data);
   };
 
-  const addProductsToCart = (event) => {
-    event.stopPropagation();
-    // Agregar: envio de petición POST a la API para agregar el producto al carrito y recibimiento de la información para actualizar el estado de cartProducts
-    closeProductDetail();
+  const [isInCart, setIsInCart] = useState(JSON.parse(sessionStorage.getItem("cart"))?.some(cartItem => cartItem.inventory.product.id === data.id));
+  
+  const addToCart = async () => {
+    context.setLoading(true);
+    try {
+      if(!selectedColor || !selectedSize){ 
+        toast.error('Please select color and size');
+        return;      
+      }
+      const inventory = data.inventories.find(
+        (inventory) =>
+          inventory.color.name === selectedColor &&
+          inventory.size === selectedSize
+      );
+
+      if (!inventory || inventory.stock === 0) {
+        toast.error('Variant out of stock');
+        return;
+      }
+
+      const response = await auth.authFetch(ApiConfig.cart.add, {
+        method: 'POST',
+        data: JSON.stringify({
+          inventoryId: inventory.id,
+          amount: 1,
+        }),
+      });
+
+      if (response.status === 200) {
+        const items = response.data.data;
+        sessionStorage.setItem('cart', JSON.stringify(items));
+        setIsInCart(JSON.parse(sessionStorage.getItem("cart"))?.some(cartItem => cartItem.inventory.product.id === data.id));
+        toast.success('Product added to cart');
+      } else {
+        toast.error('Error adding product to cart');
+      }
+
+    } catch (error) {
+      console.log(error);
+      toast.error('Error adding product to cart:', error);
+    }
+    context.setLoading(false);
   };
 
-  const isInCart = cartProducts?.some(product => product.id === data.id);
-
-  // Colores temporales
-  const colors = [
-    { name: 'red', class: 'bg-red-500' },
-    { name: 'blue', class: 'bg-blue-500' },
-    { name: 'green', class: 'bg-green-500' },
-  ];
-
-  // Tallas temporales
-  const sizes = ['S', 'M', 'L', 'XL'];
+  const colors = data?.inventories?.map(inventory => ({ name: inventory.color.name, code: inventory.color.code })) || [];
+  const sizes = data?.inventories?.map(inventory => inventory.size) || [];
+  const titleCaseName = data.name.replace(/\b(\w)/g, s => s.toUpperCase());
 
   return (
-    <Link to={`/product-detail/${data.id}`}>
-    <div className='bg-white cursor-pointer w-full sm:w-64 h-100 shadow-lg rounded-lg overflow-hidden mb-4 flex flex-col' onClick={showProduct}>
+    <div className='bg-white cursor-pointer w-full shadow-lg rounded-lg overflow-hidden flex flex-col'>
+      <ToastContainer />
       <figure className='relative w-full h-2/3'>
-        <img className='w-full h-full object-cover' src={data.image} alt={data.title} />
+        <Link to={`/product-detail/${data.id}`} onClick={showProduct}>
+          <img className='w-full h-full object-cover' src={data.productImages[0].url} alt={data.name} />
+        </Link>
         <div
           className={`absolute top-0 right-0 flex justify-center items-center w-8 h-8 rounded-full m-2 p-1 ${isInCart ? 'bg-green-500' : 'bg-white'}`}
-          onClick={isInCart ? undefined : addProductsToCart}>
-          {isInCart ? <CheckIcon className="size-8 text-white" /> : <PlusIcon className="size-8 text-black" />}
+          onClick={isInCart ? undefined : addToCart}
+        >
+          {context.loading ? null: isInCart ? <CheckIcon className="size-8 text-white" /> : <PlusIcon className="size-8 text-black" />}
         </div>
       </figure>
-      <div className='p-4 flex-grow'>
-        <span className='block text-gray-900 font-semibold text-lg mb-2 overflow-ellipsis overflow-hidden whitespace-nowrap'>{data.title}</span>
+      <div className='p-4 h-44'>
+        <span className='block text-center text-gray-900 font-semibold text-lg mb-2 overflow-ellipsis overflow-hidden whitespace-nowrap'>{titleCaseName}</span>
         <span className='block text-gray-900 font-bold text-sm mt-2 mb-2'>${data.price}</span>
-        <div className='flex justify-center mt-2 mb-4'>
-          {colors.map((color, index) => (
-            <span 
-              key={index} 
-              onClick={() => setSelectedColor(color.name)}
-              className={`h-6 w-6 rounded-full ${color.class} ml-2 ${selectedColor === color.name ? 'ring-2 ring-black' : ''}`}
-            ></span>
-          ))}
-        </div>
-        <div className='mt-2 flex justify-center items-center'>
-          <label htmlFor="size-select" className="block text-sm font-medium text-gray-700 mr-2">Size:</label>
-          {sizes.map((size, index) => (
-            <div 
-              key={index} 
-              onClick={() => setSelectedSize(size)}
-              className={`cursor-pointer px-2 py-1 border-2 ${selectedSize === size ? 'border-black bg-black text-white' : 'border-gray-300'} rounded-lg ml-2 mr-2`}
-            >
-              {size}
-            </div>
-          ))}
-        </div>
+        <SelectColor colors={colors} selectedColor={selectedColor} onSelectColor={setSelectedColor} />
+        <SelectSize sizes={sizes} selectedSize={selectedSize} onSelectSize={setSelectedSize} />
       </div>
     </div>
-    </Link>
-  )
-}
+  );
+};
 
 Card.propTypes = {
-    data: PropTypes.shape({
+  data: PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    productImages: PropTypes.arrayOf(PropTypes.shape({
+      url: PropTypes.string.isRequired
+    })).isRequired,
+    name: PropTypes.string.isRequired,
+    price: PropTypes.number.isRequired,
+    inventories: PropTypes.arrayOf(PropTypes.shape({
       id: PropTypes.number.isRequired,
-      category: PropTypes.string.isRequired,
-      image: PropTypes.string.isRequired,
-      title: PropTypes.string.isRequired,
-      price: PropTypes.number.isRequired,
-    }).isRequired,
-  };
+      color: PropTypes.shape({
+        name: PropTypes.string.isRequired,
+        code: PropTypes.string.isRequired,
+      }).isRequired,
+      size: PropTypes.string.isRequired,
+    })).isRequired,
+  }).isRequired,
+};
 
 export default Card;

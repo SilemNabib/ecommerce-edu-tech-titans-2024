@@ -1,6 +1,7 @@
 package com.sunflowers.ecommerce.inventory.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.sunflowers.ecommerce.product.entity.Product;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
@@ -17,6 +18,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "inventory", uniqueConstraints = {
         @UniqueConstraint(columnNames = {"product_id", "color_name", "size"})
 })
+@JsonIgnoreProperties({"product"})
 public class Inventory {
 
     @Id
@@ -25,14 +27,13 @@ public class Inventory {
 
     @ManyToOne()
     @JoinColumn(name = "product_id", nullable = false)
-    @JsonIgnore
     private Product product;
 
     @ManyToOne()
     @JoinColumn(name = "color_name", nullable = false)
     private Color color;
 
-    @Column(name = "size", nullable = false, length = 32)
+    @Column(name = "size", nullable = false, length = 5)
     private String size;
 
     @Column(name = "stock", nullable = false)

@@ -1,3 +1,4 @@
+import { CircularProgress } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import ProductSelection from '../../Components/ProductSelection';
@@ -21,16 +22,16 @@ const ProductDetail = () => {
       const product = await response.data;
       setProduct(product);
     };
-  
+
     fetchProduct();
   }, [id]);
 
   if (!product) {
-    return <div>Loading...</div>;
+    return <div className="flex justify-center items-center h-screen"><CircularProgress /></div>;
   }
 
   return (
-    <div className="container mx-auto px-4">
+    <div className="container mx-auto p-4">
       <ProductSelection product={product} />
       <Reviews product_id={product.id} average={product.rating}/>
     </div>

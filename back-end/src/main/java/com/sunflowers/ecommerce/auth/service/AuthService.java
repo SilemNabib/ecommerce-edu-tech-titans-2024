@@ -1,5 +1,6 @@
 package com.sunflowers.ecommerce.auth.service;
 
+import com.sunflowers.ecommerce.auth.config.JwtAuthenticationFilter;
 import com.sunflowers.ecommerce.auth.entity.Role;
 import com.sunflowers.ecommerce.auth.entity.UnverifiedUser;
 import com.sunflowers.ecommerce.auth.entity.User;
@@ -12,9 +13,11 @@ import com.sunflowers.ecommerce.auth.request.LoginRequest;
 import com.sunflowers.ecommerce.auth.request.RegisterRequest;
 import com.sunflowers.ecommerce.email.EmailService;
 import com.sunflowers.ecommerce.email.MailBody;
+import com.sunflowers.ecommerce.utils.EntityMapping;
 import com.sunflowers.ecommerce.utils.FrontLinks;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.AuthorizationServiceException;
 import org.springframework.security.authentication.AccountExpiredException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -27,6 +30,7 @@ import java.util.Arrays;
 import java.util.Date;
 import java.sql.Timestamp;
 import java.time.Instant;
+import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -51,27 +55,6 @@ public class AuthService {
     AuthenticationManager authenticationManager;
 
     /**
-     * Generates a six-digit verification code.
-     * This method generates a random six-digit integer and converts it to a string.
-     * The generated code is used for user verification purposes.
-     *
-     * @return a string representation of a six-digit verification code
-     */
-    private String generateVerificationCode() {
-        int code = (int) ((Math.random() * (999999 - 100000)) + 100000);
-        return String.valueOf(code);
-    }
-
-    /**
-     * Validates a password.
-     * @param password the password to validate
-     * @return true if the password is valid, false otherwise
-     */
-    private boolean validatePassword(String password) {
-        return password.matches("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!(){}\\[\\]:;,.?/|<>\\-*])(?=\\S+$).{8,}$");
-    }
-
-    /**
      * Authenticates a user and generates a JWT token.
      *
      * @param loginRequest the login request containing email and password
@@ -79,11 +62,12 @@ public class AuthService {
      */
     public AuthResponse login(LoginRequest loginRequest) {
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
-        UserDetails user = userRepository.findByEmail(loginRequest.getEmail())
+        User user = userRepository.findByEmail(loginRequest.getEmail())
                 .orElseThrow(() -> new RuntimeException("User not found"));
         String token = jwtService.generateToken(user.getUsername());
         return AuthResponse.builder()
                 .token(token)
+                .user(user)
                 .build();
     }
 
@@ -111,6 +95,9 @@ public class AuthService {
                 .verificationCode(verificationCode)
                 .expiration(Timestamp.from(new Date(System.currentTimeMillis() + 1000 * 60 * 60).toInstant()))
                 .build();
+
+        unverifiedUserRepository.findByEmail(registerRequest.getEmail())
+                .ifPresent(unverifiedUserRepository::delete);
 
         unverifiedUserRepository.save(user);
 
@@ -200,7 +187,32 @@ public class AuthService {
 
         return AuthResponse.builder()
                 .token(jwtService.generateToken(user.getEmail()))
+                .user(user)
                 .build();
+    }
+
+    public User validateAuthorization(String authToken) {
+        String token = JwtAuthenticationFilter.getTokenFromHeader(authToken);
+
+        User user = userRepository.findByEmail(jwtService.extractUsername(token))
+                .orElseThrow(() -> new AuthorizationServiceException("User not found"));
+
+        if(!jwtService.validateToken(token, user)){
+            throw new AuthorizationServiceException("Unauthorized");
+        }
+        return user;
+    }
+
+    public User validateAuthorization(String authToken, String email) {
+        String token = JwtAuthenticationFilter.getTokenFromHeader(authToken);
+
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new AuthorizationServiceException("User not found"));
+
+        if(!jwtService.validateToken(token, user) || !user.getEmail().equalsIgnoreCase(jwtService.extractUsername(token))){
+            throw new AuthorizationServiceException("Unauthorized - invalid session or email");
+        }
+        return user;
     }
 
     public static boolean validatePhoneNumber(String phone) {
@@ -231,5 +243,35 @@ public class AuthService {
      */
     public static String removeDoubleBlanks(String text) {
         return text.replaceAll("\\s+", " ");
+    }
+
+
+    /**
+     * Generates a six-digit verification code.
+     * This method generates a random six-digit integer and converts it to a string.
+     * The generated code is used for user verification purposes.
+     *
+     * @return a string representation of a six-digit verification code
+     */
+    public static String generateVerificationCode() {
+        int code = (int) ((Math.random() * (999999 - 100000)) + 100000);
+        return String.valueOf(code);
+    }
+
+    /**
+     * Validates a password.
+     * @param password the password to validate
+     * @return true if the password is valid, false otherwise
+     */
+    public static boolean validatePassword(String password) {
+        return password.matches("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!(){}\\[\\]:;,.?/|<>\\-*])(?=\\S+$).{8,}$");
+    }
+
+    public boolean validatePhoneNumberPublic(String phone) {
+        return validatePhoneNumber(phone);
+    }
+
+    public boolean validatePasswordPublic(String password) {
+       return validatePassword(password);
     }
 }
