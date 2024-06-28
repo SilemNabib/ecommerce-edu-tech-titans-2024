@@ -11,8 +11,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Select file
-        run: cd 'front-end'
+      - name: Show files
+        run: ls
     
       - name: Checkout repo
         uses: actions/checkout@v2
