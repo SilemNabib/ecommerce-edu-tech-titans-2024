@@ -1,10 +1,13 @@
 import { useState } from 'react';
 
-const Select = ({ options, placeholder, className }) => {
-  const [selectedOption, setSelectedOption] = useState('');
+const Select = ({ options, placeholder, className, onChange, value }) => {
+  const [selectedOption, setSelectedOption] = useState(value);
 
   const handleChange = (event) => {
     setSelectedOption(event.target.value);
+    if (onChange) {
+      onChange(event.target.value);
+    }
   };
 
   return (

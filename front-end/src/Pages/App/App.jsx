@@ -70,7 +70,7 @@ const AppRoutes = () => {
     { path: '/admin/products', element: isAdmin()? <ProductManagement /> : <Navigate to="/login" />},
     { path: '/admin/products/add', element: isAdmin()? <AddProductDetail /> : <Navigate to="/login" />},
     { path: '/admin/products/add/images', element: isAdmin()? <AddProductImage /> : <Navigate to="/login" />},
-    { path: '/admin/products/add/inventory', element: isAdmin()? <AddProductInventory /> : <Navigate to="/login" />},
+    { path: '/admin/product/:id/inventories', element: isAdmin()? <AddProductInventory /> : <Navigate to="/login" />},
     { path: '/search', element: <Categories /> },
 
   ]);

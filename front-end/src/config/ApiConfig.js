@@ -14,6 +14,7 @@ export const ApiConfig = {
   order_history: uri + "/order/history",
   products: uri + "/product/",
   inventory: uri + "/product/inventory/",
+  add_product_inventory: uri + "/admin/product/inventory/",
   reviews: uri + "/review/product/",
   addReview: uri + "/review/create/",
   banners: uri + "/product/banner",
