@@ -9,7 +9,7 @@ const SidebarContent = ({ isOpen }) => {
 
   const onLogout = () => {
     auth.requestLogout();
-    window.location.href = "/login";
+    window.location.href = "/bootcamp-tech-titans-2024_ecommerce/login";
   };
 
   return (<>

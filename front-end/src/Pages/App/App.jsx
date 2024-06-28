@@ -102,8 +102,8 @@ const FootRoutes = () => {
 const App = () => {
   return (
     <GlobalProvider>
-      <BrowserRouter>
-        <div className='flex flex-col min-h-screen justify-between'>
+      <BrowserRouter basename="/bootcamp-tech-titans-2024_ecommerce">
+        <div className="flex flex-col min-h-screen justify-between">
           <NavRoutes />
           <AppRoutes />
           <FootRoutes />

@@ -82,7 +82,7 @@ const Login = () => {
               )}
 
               <div className="mt-4 mb-4 flex items-center justify-center">
-                <a href="/recover-password" className="text-gray-500 hover:underline">
+                <a href="/bootcamp-tech-titans-2024_ecommerce/recover-password" className="text-gray-500 hover:underline">
                   Have you forgotten your password?
                 </a>
               </div>
@@ -115,7 +115,7 @@ const Login = () => {
             </ul>
 
             <button
-              onClick={() => window.location.href="/register/email-verification"}
+              onClick={() => window.location.href="/bootcamp-tech-titans-2024_ecommerce/register/email-verification"}
               className="mb-6 bg-gray-300 text-black py-2 px-4 rounded-lg hover:font-bold"
             >
               Sign up
