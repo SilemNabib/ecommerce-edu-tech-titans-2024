@@ -1,3 +1,12 @@
+/**
+ * Pagination component for navigating through pages.
+ *
+ * @component
+ * @param {number} currentPage - The current page number.
+ * @param {number} totalPages - The total number of pages.
+ * @param {function} onPageChange - The function to be called when a page is clicked.
+ * @returns {JSX.Element} The Pagination component.
+ */
 const Pagination = ({ currentPage, totalPages, onPageChange }) => {
   const pages = [...Array(totalPages).keys()].map(num => num + 1);
 

@@ -132,6 +132,18 @@ export const AuthProvider = ({ children }) => {
     return axios(url, { ...options, headers });
   };
 
+  const authFetchFile = async (url, options = {}) => {
+    const headers = {
+      ...options.headers,
+    };
+
+    if (options.data instanceof FormData) {
+      delete headers['Content-Type'];
+    }
+
+    return axios(url, { ...options, headers });
+  };
+
   return (
     <AuthContext.Provider
       value={{
@@ -144,6 +156,7 @@ export const AuthProvider = ({ children }) => {
         setAuthHeader,
         authFetch,
         isTokenExpired,
+        authFetchFile,
       }}
     >
       {children}

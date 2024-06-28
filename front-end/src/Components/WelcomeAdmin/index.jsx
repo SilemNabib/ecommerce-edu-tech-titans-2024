@@ -2,6 +2,10 @@ import { useEffect, useState } from 'react';
 import { useAuth } from '../../Context/AuthContext';
 import { ApiConfig } from '../../config/ApiConfig';
 
+/**
+ * Renders the WelcomeAdmin component.
+ * This component displays a welcome message and provides a list of actions that can be performed in the admin dashboard.
+ */
 const WelcomeAdmin = () => {
   const [adminInfo, setAdminInfo] = useState({ firstName: '', lastName: '' });
   const auth = useAuth();

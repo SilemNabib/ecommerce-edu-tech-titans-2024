@@ -6,6 +6,11 @@ import Pagination from '../../Components/Pagination';
 import SortBy from '../../Components/SortBy';
 import { ApiConfig } from '../../config/ApiConfig';
 
+/**
+ * Renders the Categories page.
+ * 
+ * @returns {JSX.Element} The Categories component.
+ */
 const Categories = () => {
   const { category, section, item } = useParams();
   const location = useLocation();

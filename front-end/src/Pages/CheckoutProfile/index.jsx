@@ -9,6 +9,12 @@ const registerSteps = [
   "Payment",
 ];
 
+/**
+ * Renders the CheckoutProfile component.
+ * This component displays the checkout progress bar, addressee information, and order summary.
+ *
+ * @returns {JSX.Element} The rendered CheckoutProfile component.
+ */
 const CheckoutProfile = () => {
     return (
       <div className="flex flex-col items-center w-full">
