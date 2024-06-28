@@ -35,13 +35,13 @@ const ProductSpecification = ({ index, sizes, colors, selectedColor, selectedSiz
     <div className="flex flex-col md:flex-row md:items-center space-y-4 md:space-y-0 md:space-x-4 bg-gray-100 p-4 rounded-md shadow-sm">
       <div className="text-lg font-medium">#{index}</div>
       <Select
-        options={[...sizes, 'Custom']}
+        options={[...sizes, "Custom"]}
         value={selectedSize}
         onChange={handleSizeChange}
         placeholder="Select size"
-        className="flex-1"
+        className="flex md:flex-auto w-1/5"
       />
-      {selectedSize === 'Custom' && (
+      {selectedSize === "Custom" && (
         <InputText
           value={customSize}
           onChange={handleCustomSizeChange}
@@ -49,15 +49,15 @@ const ProductSpecification = ({ index, sizes, colors, selectedColor, selectedSiz
             type: "text",
             placeholder: "Custom size",
           }}
-          className="flex-1"
+          className="flex-1 md:flex-auto w-1/5"
         />
       )}
       <Select
-        options={colors.map(color => color.name)}
+        options={colors.map((color) => color.name)}
         value={selectedColor?.name}
         onChange={handleColorChange}
         placeholder="Select color"
-        className="flex-1"
+        className="flex md:w-1/"
       />
       <InputText
         value={stock}
@@ -66,7 +66,7 @@ const ProductSpecification = ({ index, sizes, colors, selectedColor, selectedSiz
           type: "number",
           placeholder: "Stock",
         }}
-        className="w-full md:w-24"
+        className="w-1/5"
       />
     </div>
   );

@@ -9,13 +9,6 @@ import OrderData from '../../config/OrderData';
  *   <OrderStatusCard />
  * )
  */
-const OrderStatusCard = () => {
-  const [order, setOrder] = useState({ date: '', status: '', total: 0 });
-
-  useEffect(() => {
-    // Here would go the logic to fetch the data from the backend
-    setOrder(OrderData);
-  }, []);
 const OrderStatusCard = ({ order }) => {
 
   return (

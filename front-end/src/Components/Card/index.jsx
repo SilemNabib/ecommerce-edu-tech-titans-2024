@@ -47,11 +47,6 @@ const Card = ({ data }) => {
         toast.error('Selected combination is not available', { toastId: 'inventoryError' });
         return;
       }
-      const inventory = data.inventories.find(
-        (inventory) =>
-          inventory.color.name === selectedColor &&
-          inventory.size === selectedSize
-      );
 
       if (!inventory || inventory.stock === 0) {
         toast.error('Variant out of stock');

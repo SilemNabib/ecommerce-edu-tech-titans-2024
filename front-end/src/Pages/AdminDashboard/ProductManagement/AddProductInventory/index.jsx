@@ -10,11 +10,10 @@ import { useAuth } from "../../../../Context/AuthContext";
 import { CircularProgress } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
-const AddProductInventory = () => {
+const AddProductInventory = ( { id } ) => {
     const auth = useAuth();
     const navigate = useNavigate();
 
-    const { id } = useParams();
     const [product, setProduct] = useState(null);
     const [colors, setColors] = useState([]);
     const [sizes, setSizes] = useState([]);
@@ -48,7 +47,7 @@ const AddProductInventory = () => {
 
       fetchProduct();
       fetchFilters();
-    }, []);
+    }, [id]);
 
   const handleAdd = () => {
     setSpecifications([...specifications, {}]);
