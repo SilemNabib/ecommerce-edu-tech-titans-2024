@@ -1,5 +1,14 @@
 import PropTypes from 'prop-types';
 
+/**
+ * Renders a component that displays a list of sort options.
+ *
+ * @param {Object} props - The component props.
+ * @param {string} props.selectedOption - The currently selected sort option.
+ * @param {Function} props.onSelectOption - The function to call when a sort option is selected.
+ * @param {string[]} props.options - The list of available sort options.
+ * @returns {JSX.Element} The rendered component.
+ */
 const SortByOptions = ({ selectedOption, onSelectOption, options }) => {
 
   const toTitleCase = (str) => {

@@ -3,6 +3,14 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ApiConfig } from '../../config/ApiConfig';
 
+/**
+ * SearchBar component for searching products.
+ *
+ * @param {Object} props - The component props.
+ * @param {string} props.className - The CSS class name for the component.
+ * @param {Function} props.onSearch - The callback function to execute when the search is performed.
+ * @returns {JSX.Element} The rendered SearchBar component.
+ */
 const SearchBar = ({ className, onSearch }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [searchResults, setSearchResults] = useState([]);

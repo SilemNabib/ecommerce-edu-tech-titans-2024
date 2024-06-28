@@ -10,6 +10,12 @@ const registerSteps = [
   "Payment",
 ];
 
+/**
+ * Renders the CheckoutProfile component.
+ * This component displays the checkout progress bar, addressee information, and order summary.
+ *
+ * @returns {JSX.Element} The rendered CheckoutProfile component.
+ */
 const CheckoutProfile = () => {
 
   const [dissabledState, setDissabledState] = useState(!localStorage.getItem('selectedAddress') || localStorage.getItem('selectedAddress') === null);

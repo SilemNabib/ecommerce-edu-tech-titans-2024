@@ -2,6 +2,13 @@ import { useEffect, useState } from 'react';
 import { useAuth } from '../../Context/AuthContext';
 import { ApiConfig } from '../../config/ApiConfig';
 
+/**
+ * Renders a list of users with their email, fullname, and registration date.
+ *
+ * return (
+ *   <UsersList />
+ * )
+ */
 const UsersList = () => {
   const [users, setUsers] = useState([]);
   const auth = useAuth();

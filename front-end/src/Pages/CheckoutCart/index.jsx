@@ -1,10 +1,10 @@
+import { CircularProgress } from "@mui/material";
+import { useEffect, useState } from "react";
+import Cart from "../../Components/Cart";
 import OrderSummary from "../../Components/OrderSummary";
 import ProgressBar from "../../Components/ProgressBar";
-import Cart from "../../Components/Cart";
-import { useState, useEffect } from "react";
 import { useAuth } from "../../Context/AuthContext";
 import { ApiConfig } from "../../config/ApiConfig";
-import { CircularProgress } from "@mui/material";
 
 const registerSteps = [
   "Select destination",
@@ -12,6 +12,11 @@ const registerSteps = [
   "Summary",
   "Payment",
 ];
+/**
+ * Renders the checkout cart page.
+ * 
+ * @returns {JSX.Element} The rendered component.
+ */
 const CheckoutCart = () => {
   const [address, setAddress] = useState(null);
   const auth = useAuth();

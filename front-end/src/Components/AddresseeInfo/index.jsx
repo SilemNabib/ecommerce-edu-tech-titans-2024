@@ -1,19 +1,25 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../Context/AuthContext';
 import { ApiConfig } from '../../config/ApiConfig';
 
-
+/**
+ * Component for displaying and managing saved addresses.
+ */
 const AdresseeInfo = ({setDissabledState}) => {
 
   const auth = useAuth();
   const [addresses, setAddresses] = useState(null);
   const [selectedAddress, setSelectedAddress] = useState(null);
   
+  /**
+   * Sets the addresses data and updates the selected address.
+   * @param {Object} response - The response object from the API.
+   */
   const setData = (response) => {
     if (response.status === 200) {
       const items = response.data;
-      // poner primero la dirección selecicionada si es que hay
+      // Put the selected address first if there is one
       items.sort((a, b) => {
         if (a.id === localStorage.getItem('selectedAddress')) {
           return -1;
@@ -30,6 +36,9 @@ const AdresseeInfo = ({setDissabledState}) => {
     }
   }
 
+  /**
+   * Fetches the addresses data from the API.
+   */
   const getAddresses = async () => {
     const response = await auth.authFetch(ApiConfig.addresses)
     setData(response);
@@ -45,6 +54,10 @@ const AdresseeInfo = ({setDissabledState}) => {
     isTermsAccepted: false,
   });
 
+  /**
+   * Handles the change event when a radio button is selected.
+   * @param {string} id - The ID of the selected address.
+   */
   const handleChange = (id) => {
     setSelectedAddress(id);
     localStorage.setItem('selectedAddress', id);

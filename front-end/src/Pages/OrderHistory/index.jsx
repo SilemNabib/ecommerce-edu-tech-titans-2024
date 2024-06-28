@@ -6,6 +6,13 @@ import { ToastContainer, toast } from 'react-toastify';
 import Pagination from '../../Components/Pagination';
 import { CircularProgress } from '@mui/material';
 
+/**
+ * Renders the Order History page.
+ *
+ * return (
+ *   <OrderHistory />
+ * )
+ */
 const OrderHistory = () => {
   const [orderHistory, setOrderHistory] = useState(null);
   const [page, setPage] = useState(1);

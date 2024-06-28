@@ -1,33 +1,51 @@
 import { CheckIcon, PlusIcon } from '@heroicons/react/24/solid';
 import PropTypes from 'prop-types';
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { GlobalContext } from '../../Context';
 import { useAuth } from '../../Context/AuthContext';
 import { ApiConfig } from '../../config/ApiConfig';
 import SelectColor from '../SelectColor';
 import SelectSize from '../SelectSize';
 
+/**
+ * Card component displays a product card with image, name, price, color selection, and size selection.
+ *
+ * @param {Object} data - The data object containing information about the product.
+ * @returns {JSX.Element} The rendered Card component.
+ */
 const Card = ({ data }) => {
   const context = useContext(GlobalContext);
   const auth = useAuth();
   const { setProductToShow } = context;
   const [selectedSize, setSelectedSize] = useState('');
   const [selectedColor, setSelectedColor] = useState('');
+  const [isInCart, setIsInCart] = useState(false);
+
+  useEffect(() => {
+    const cart = JSON.parse(sessionStorage.getItem('cart')) || [];
+    const productInCart = cart.some(cartItem => cartItem.inventory.product.id === data.id);
+    setIsInCart(productInCart);
+  }, [data.id]);
 
   const showProduct = () => {
     setProductToShow(data);
   };
 
-  const [isInCart, setIsInCart] = useState(JSON.parse(sessionStorage.getItem("cart"))?.some(cartItem => cartItem.inventory.product.id === data.id));
-  
   const addToCart = async () => {
     context.setLoading(true);
     try {
-      if(!selectedColor || !selectedSize){ 
-        toast.error('Please select color and size');
-        return;      
+      if (!selectedColor || !selectedSize) {
+        toast.error('Please select color and size', { toastId: 'selectError' });
+        return;
+      }
+
+      const inventory = data.inventories.find(inventory => inventory.color.name === selectedColor && inventory.size === selectedSize);
+      if (!inventory) {
+        toast.error('Selected combination is not available', { toastId: 'inventoryError' });
+        return;
       }
       const inventory = data.inventories.find(
         (inventory) =>
@@ -51,15 +69,15 @@ const Card = ({ data }) => {
       if (response.status === 200) {
         const items = response.data.data;
         sessionStorage.setItem('cart', JSON.stringify(items));
-        setIsInCart(JSON.parse(sessionStorage.getItem("cart"))?.some(cartItem => cartItem.inventory.product.id === data.id));
-        toast.success('Product added to cart');
+        setIsInCart(true);
       } else {
-        toast.error('Error adding product to cart');
+        setIsInCart(false);
+        toast.error('Error adding product to cart', { toastId: 'apiError' });
       }
-
     } catch (error) {
-      console.log(error);
-      toast.error('Error adding product to cart:', error);
+      console.error('Error adding product to cart:', error);
+      setIsInCart(false);
+      toast.error(`Error adding product to cart. Please log in to add products to cart.`, { toastId: 'authError' });
     }
     context.setLoading(false);
   };
@@ -70,7 +88,6 @@ const Card = ({ data }) => {
 
   return (
     <div className='bg-white cursor-pointer w-full shadow-lg rounded-lg overflow-hidden flex flex-col'>
-      <ToastContainer />
       <figure className='relative w-full h-2/3'>
         <Link to={`/product-detail/${data.id}`} onClick={showProduct}>
           <img className='w-full h-full object-cover' src={data.productImages[0].url} alt={data.name} />
@@ -88,6 +105,7 @@ const Card = ({ data }) => {
         <SelectColor colors={colors} selectedColor={selectedColor} onSelectColor={setSelectedColor} />
         <SelectSize sizes={sizes} selectedSize={selectedSize} onSelectSize={setSelectedSize} />
       </div>
+      <ToastContainer limit={1} />
     </div>
   );
 };

@@ -1,5 +1,13 @@
 import PropTypes from 'prop-types';
 
+/**
+ * SortByRating component displays a list of checkboxes for selecting ratings.
+ *
+ * @param {Object} props - The component props.
+ * @param {string} props.selectedOption - The currently selected rating option.
+ * @param {Function} props.onSelectOption - The function to call when a rating option is selected.
+ * @returns {JSX.Element} The rendered SortByRating component.
+ */
 const SortByRating = ({ selectedOption, onSelectOption }) => {
   return (
     <div className="mb-4">

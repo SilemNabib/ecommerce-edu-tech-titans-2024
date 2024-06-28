@@ -1,8 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../Context/AuthContext';
 import { ApiConfig } from '../../config/ApiConfig';
-import { useNavigate } from 'react-router-dom';
 
+/**
+ * Renders the order summary component.
+ * 
+ * @param {Object} props - The component props.
+ * @param {string} props.text - The text to display on the button.
+ * @param {string} props.to - The URL to navigate to when the button is clicked.
+ * @returns {JSX.Element} The rendered OrderSummary component.
+ */
 const OrderSummary = ({ text, to, disabled }) => {
   const auth = useAuth();
   const navigate = useNavigate();

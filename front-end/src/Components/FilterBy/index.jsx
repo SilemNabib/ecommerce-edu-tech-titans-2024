@@ -2,6 +2,18 @@ import { useState } from 'react';
 import SelectColor from '../SelectColor';
 import SelectSize from '../SelectSize';
 
+/**
+ * FilterBy component displays filter options for colors and sizes.
+ *
+ * @param {Object} props - The component props.
+ * @param {Array} props.colors - The available colors for filtering.
+ * @param {Array} props.sizes - The available sizes for filtering.
+ * @param {string} props.selectedColor - The currently selected color.
+ * @param {Function} props.setSelectedColor - The function to set the selected color.
+ * @param {string} props.selectedSize - The currently selected size.
+ * @param {Function} props.setSelectedSize - The function to set the selected size.
+ * @returns {JSX.Element} The rendered FilterBy component.
+ */
 const FilterBy = ({ colors, sizes, selectedColor, setSelectedColor, selectedSize, setSelectedSize }) => {
   const [isColorDropdownOpen, setIsColorDropdownOpen] = useState(false);
   const [isSizeDropdownOpen, setIsSizeDropdownOpen] = useState(false);

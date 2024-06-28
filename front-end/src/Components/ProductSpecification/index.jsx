@@ -3,6 +3,16 @@ import { useState } from 'react';
 import InputText from "../../Components/InputText";
 import Select from "../../Components/Select";
 
+/**
+ * Renders a product specification component.
+ *
+ * @param {Object} props - The component props.
+ * @param {number} props.index - The index of the product specification.
+ * @param {Array} props.sizes - The available sizes for the product.
+ * @param {Array} props.colors - The available colors for the product.
+ * @param {Function} props.onRemove - The function to call when the remove button is clicked.
+ * @returns {JSX.Element} The product specification component.
+ */
 const ProductSpecification = ({ index, sizes, colors, selectedColor, selectedSize, customSize, stock, onChange }) => {
 
   const handleSizeChange = (value) => {
@@ -22,7 +32,7 @@ const ProductSpecification = ({ index, sizes, colors, selectedColor, selectedSiz
   }
 
   return (
-    <div className="flex items-center space-x-4 bg-gray-100 p-4 rounded-md shadow-sm">
+    <div className="flex flex-col md:flex-row md:items-center space-y-4 md:space-y-0 md:space-x-4 bg-gray-100 p-4 rounded-md shadow-sm">
       <div className="text-lg font-medium">#{index}</div>
       <Select
         options={[...sizes, 'Custom']}
@@ -56,7 +66,7 @@ const ProductSpecification = ({ index, sizes, colors, selectedColor, selectedSiz
           type: "number",
           placeholder: "Stock",
         }}
-        className="flex-1"
+        className="w-full md:w-24"
       />
     </div>
   );

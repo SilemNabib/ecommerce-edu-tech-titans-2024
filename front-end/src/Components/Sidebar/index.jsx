@@ -3,6 +3,11 @@ import { useState } from 'react';
 import SidebarContent from './SidebarContent';
 import SidebarHeader from './SidebarHeader';
 
+/**
+ * Sidebar component.
+ *
+ * @returns {JSX.Element} The rendered Sidebar component.
+ */
 const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(false);
 

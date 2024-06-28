@@ -1,12 +1,20 @@
 import { CheckBadgeIcon } from "@heroicons/react/24/outline";
 import React from "react";
 
+/**
+ * ProgressBar component displays a progress bar with steps and current step indicator.
+ *
+ * @component
+ * @param {Object} props - The component props.
+ * @param {Array} props.steps - An array of steps.
+ * @param {number} props.currentStep - The current step index.
+ * @param {string} props.title - The title of the progress bar.
+ * @returns {JSX.Element} - The rendered ProgressBar component.
+ */
 const ProgressBar = ({ steps, currentStep, title }) => {
 
   const percentage = ((currentStep / (steps.length - 1)) * 100) + "%";
   
-  
-
   return (
     <div className="w-full p-4">
       <div className="font-bold text-xl mb-2">{title}</div>

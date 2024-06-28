@@ -1,5 +1,13 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
+/**
+ * Renders a category selector component.
+ *
+ * @component
+ * @param {Object[]} categories - The list of categories.
+ * @param {Function} onCategorySelect - The function to handle category selection.
+ * @returns {JSX.Element} The category selector component.
+ */
 const CategorySelector = ({ categories, onCategorySelect, initCategories }) => {
   const [selectedCategories, setSelectedCategories] = useState([]);
   const [expandedParent, setExpandedParent] = useState(null);
