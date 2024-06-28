@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { GlobalContext } from '../../Context';
 import { useAuth } from '../../Context/AuthContext';
 import { ApiConfig } from '../../config/ApiConfig';
@@ -31,11 +32,13 @@ const Card = ({ data }) => {
   
   const addToCart = async () => {
     try {
-      if(!selectedColor || !selectedSize){ 
-        toast.error('Please select color and size');
-        return;      
+      if (!selectedColor || !selectedSize) {
+        toast.error('Please select color and size', { toastId: 'selectError' });
+        return;
       }
-
+  
+      setIsInCart(true);
+  
       const response = await auth.authFetch(ApiConfig.cart.add, {
         method: 'POST',
         data: JSON.stringify({
@@ -43,19 +46,20 @@ const Card = ({ data }) => {
           amount: 1,
         }),
       });
-
+  
       if (response.status === 200) {
         const items = response.data.data;
         sessionStorage.setItem('cart', JSON.stringify(items));
         setIsInCart(JSON.parse(sessionStorage.getItem("cart"))?.some(cartItem => cartItem.inventory.product.id === data.id));
-        toast.success('Product added to cart');
+        toast.success('Product added to cart', { toastId: 'successCart' });
       } else {
-        toast.error('Error adding product to cart');
+        setIsInCart(false);
+        toast.error('Error adding product to cart', { toastId: 'apiError' });
       }
-
     } catch (error) {
       console.log(error);
-      toast.error('Error adding product to cart:', error);
+      setIsInCart(false);
+      toast.error(`Error adding product to cart: ${error}`, { toastId: 'exceptionError' });
     }
   };
 
@@ -65,7 +69,6 @@ const Card = ({ data }) => {
 
   return (
     <div className='bg-white cursor-pointer w-full shadow-lg rounded-lg overflow-hidden flex flex-col'>
-      <ToastContainer />
       <figure className='relative w-full h-2/3'>
         <Link to={`/product-detail/${data.id}`} onClick={showProduct}>
           <img className='w-full h-full object-cover' src={data.productImages[0].url} alt={data.name} />
@@ -83,6 +86,7 @@ const Card = ({ data }) => {
         <SelectColor colors={colors} selectedColor={selectedColor} onSelectColor={setSelectedColor} />
         <SelectSize sizes={sizes} selectedSize={selectedSize} onSelectSize={setSelectedSize} />
       </div>
+      <ToastContainer limit={1} />
     </div>
   );
 };
