@@ -209,6 +209,26 @@ public class OrderService {
                         .data(orderDtoPage)
                         .build());
     }
+
+    public ResponseEntity<Page<OrderDto>> getOrders(int page, String state) {
+        Pageable pageable = PageRequest.of(page, 5, Sort.by("creationDate").descending());
+        Page<Order> orders = orderPageableRepository.findAllByOrderStatus(OrderStatus.valueOf(state), pageable);
+
+        Page<OrderDto> orderDtoPage = orders.map(order -> OrderDto.builder()
+                .id(order.getId())
+                .address(order.getAddress())
+                .paymentMethod(order.getPaymentMethod())
+                .creationDate(order.getCreationDate())
+                .shippingPrice(order.getShippingPrice())
+                .totalPrice(order.getTotalPrice())
+                .orderStatus(order.getOrderStatus())
+                .inventory(order.getOrderDetails().stream()
+                        .map(orderDetail -> new InventoryDTO(orderDetail.getInventory(), orderDetail.getAmount()))
+                        .collect(Collectors.toList()))
+                .build());
+
+        return ResponseEntity.ok(orderDtoPage);
+    }
 }
 
 @Builder

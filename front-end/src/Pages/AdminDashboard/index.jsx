@@ -1,22 +1,47 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import IncomeSummary from '../../Components/IncomeSummary';
 import OrderType from '../../Components/OrderType';
 import Sidebar from "../../Components/Sidebar";
 import WelcomeAdmin from '../../Components/WelcomeAdmin';
-
-const ordersData = {
-  newOrders: [{ date: '2023-04-01', status: 'NEW', total: 100 }],
-  preparedOrders: [{ date: '2023-04-02', status: 'PREPARED', total: 200 }],
-  sentOrders: [{ date: '2023-04-03', status: 'SENT', total: 300 }],
-  completedOrders: [{ date: '2023-04-04', status: 'COMPLETED', total: 400 }],
-};
+import { ToastContainer, toast } from 'react-toastify';
+import { useAuth } from '../../Context/AuthContext';
+import { ApiConfig } from '../../config/ApiConfig';
 
 const AdminDashboard = () => {
+  const auth = useAuth();
+
   const [showIncomeSummary, setShowIncomeSummary] = useState(false);
   const [showOrders, setShowOrders] = useState(false);
+  const [ordersData, setOrdersData] = useState({});
+
+  useEffect(() => {
+    const fetchOrders = async () => {
+      try {
+        const newOrders = await auth.authFetch(`${ApiConfig.admin_orders}PAID`);
+        const preparedOrders = await auth.authFetch(`${ApiConfig.admin_orders}PREPARED`);
+        const sentOrders = await auth.authFetch(`${ApiConfig.admin_orders}SHIPPED`);
+        const completedOrders = await auth.authFetch(`${ApiConfig.admin_orders}COMPLETED`);
+        
+        console.log(newOrders, preparedOrders, sentOrders, completedOrders);
+
+        setOrdersData({
+          newOrders: newOrders.data.content,
+          preparedOrders: preparedOrders.data.content,
+          sentOrders: sentOrders.data.content,
+          completedOrders: completedOrders.data.content,
+        });
+
+      } catch (error) {
+        toast.error('Error fetching orders:', error);
+      }
+    };
+
+    fetchOrders();
+  });
 
   return (
     <div className="flex flex-col md:flex-row h-screen bg-gray-100"> {/* Updated layout classes */}
+    <ToastContainer />
       <Sidebar />
       <div className="flex-1 p-4 md:p-8 overflow-y-auto"> {/* Updated padding for consistency */}
         <WelcomeAdmin />
@@ -42,7 +67,7 @@ const AdminDashboard = () => {
           </button>
           {showOrders && (
             <div className="mt-4 p-4 bg-white shadow rounded-lg">
-              <div className="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4">
+              <div className="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4 overflow-x-auto max-h-96">
                 <OrderType title="New Orders" orders={ordersData.newOrders} className="md:w-1/4" />
                 <OrderType title="Prepared Orders" orders={ordersData.preparedOrders} className="md:w-1/4" />
                 <OrderType title="Sent Orders" orders={ordersData.sentOrders} className="md:w-1/4" />

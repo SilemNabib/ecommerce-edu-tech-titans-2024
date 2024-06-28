@@ -16,11 +16,6 @@ public class OrderController {
 
     private final OrderService orderService;
 
-    @GetMapping("/get/{page}")
-    public ResponseEntity<GeneralResponse<Page<OrderDto>>> getOrders(@RequestHeader(name = "Authorization") String authorizationHeader, @PathVariable int page) {
-        return orderService.getOrders(authorizationHeader, page);
-    }
-
     @GetMapping("/history")
     public ResponseEntity<GeneralResponse<Page<OrderDto>>> getMyOrders(@RequestHeader(name = "Authorization") String authorizationHeader, @RequestParam(name="page", defaultValue = "0") int page) {
         return orderService.getMyOrders(authorizationHeader, page);
