@@ -12,7 +12,7 @@ jobs:
 
     steps:
       - name: Select file
-        run: cd front-end
+        run: cd 'front-end'
     
       - name: Checkout repo
         uses: actions/checkout@v2
