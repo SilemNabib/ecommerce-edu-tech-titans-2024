@@ -8,8 +8,8 @@ import { useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 
 const registerSteps = [
-  <a  href={"/admin/products/add"}>Product Details</a>,
-  <a  href={"/admin/products/add/images"}>Product Images</a>,
+  <a  href={"/bootcamp-tech-titans-2024_ecommerce/admin/products/add"}>Product Details</a>,
+  <a  href={"/bootcamp-tech-titans-2024_ecommerce/admin/products/add/images"}>Product Images</a>,
 ];
 
 const AddProductDetail = () => {
