@@ -17,7 +17,7 @@ const CheckoutCart = () => {
   const auth = useAuth();
 
   if(!localStorage.getItem('selectedAddress') || localStorage.getItem('selectedAddress') === null){
-    window.location.href = "/checkout/address";
+    window.location.href = "/bootcamp-tech-titans-2024_ecommerce/checkout/address";
   }
 
   useEffect(() => {
@@ -27,7 +27,7 @@ const CheckoutCart = () => {
       if(response.status === 200){
         setAddress(response.data);
       } else {
-        window.location.href = "/checkout/address";
+        window.location.href = "/bootcamp-tech-titans-2024_ecommerce/checkout/address";
       }
     }
 

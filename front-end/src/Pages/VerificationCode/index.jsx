@@ -27,13 +27,13 @@ const VerificationCode = () => {
   if (!token || isTokenExpired(token)) {
     localStorage.removeItem("registerToken");
     localStorage.removeItem("email-validated");
-    window.location.href='/register/email-verification';
+    window.location.href='/bootcamp-tech-titans-2024_ecommerce/register/email-verification';
   }else{
     localStorage.setItem("registerToken", token);
   }
 
   if(localStorage.getItem("email-validated")){
-    window.location.href='/register/complete';
+    window.location.href='/bootcamp-tech-titans-2024_ecommerce/register/complete';
   }
 
   const [error, setError] = useState(null);
@@ -75,7 +75,7 @@ const VerificationCode = () => {
       <div className="absolute inset-0 bg-black opacity-50"></div>
       <div className="relative max-w-4xl mx-auto mt-8 mb-8 p-8 bg-gray-100 rounded-lg shadow-md">
         <button>
-          <a href="/register/email-verification">
+          <a href="/bootcamp-tech-titans-2024_ecommerce/register/email-verification">
             <ArrowBack />
           </a>
         </button>

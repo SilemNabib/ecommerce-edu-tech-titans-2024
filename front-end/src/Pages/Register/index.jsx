@@ -23,7 +23,7 @@ const Register = () => {
   if (!token || isRegisterExpired(token) || !localStorage.getItem("email-validated")) {
     localStorage.removeItem("registerToken");
     localStorage.removeItem("email-validated");
-    window.location.href = "/register/verification-code"
+    window.location.href = "/bootcamp-tech-titans-2024_ecommerce/register/verification-code"
   }else{
     localStorage.setItem("registerToken", token);
   }

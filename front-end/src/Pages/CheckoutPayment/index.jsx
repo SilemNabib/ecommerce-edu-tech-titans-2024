@@ -26,7 +26,7 @@ const CheckoutPayment = () => {
     const [orderStatus, setOrderStatus] = useState(null);
 
     if(!localStorage.getItem('selectedAddress') || localStorage.getItem('selectedAddress') === null){
-      window.location.href = "/checkout/address";
+      window.location.href = "/bootcamp-tech-titans-2024_ecommerce/checkout/address";
     }
 
     const checkOrderStatus = async (orderId) => {

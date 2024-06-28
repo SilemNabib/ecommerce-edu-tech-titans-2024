@@ -12,8 +12,8 @@ import { ImageFormatValidator } from '../../../../utils/ImageFormatValidator';
 import { CircularProgress } from '@mui/material';
 
 const registerSteps = [
-  <a  href={"/admin/products/add"}>Product Details</a>,
-  <a  href={"/admin/products/add/images"}>Product Images</a>,
+  <a  href={"/bootcamp-tech-titans-2024_ecommerce/admin/products/add"}>Product Details</a>,
+  <a  href={"/bootcamp-tech-titans-2024_ecommerce/admin/products/add/images"}>Product Images</a>,
 ];
 
 const AddProductImage = () => {
@@ -98,7 +98,7 @@ const AddProductImage = () => {
       sessionStorage.removeItem("newProductDetails");
       setLoading(false);
       setTimeout(() => {
-        window.location.href = "/admin/products";
+        window.location.href = "/bootcamp-tech-titans-2024_ecommerce/admin/products";
         setLoading(false);
       }, 2000);
     }

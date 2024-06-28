@@ -150,7 +150,7 @@ export default function Navigation() {
                               >
                                 {section.items.map((item) => (
                                   <li key={item.name} className='flow-root'>
-                                    <a href={item.href} className='-m-2 block p-2 text-gray-500'>
+                                    <a href={`/bootcamp-tech-titans-2024_ecommerce${item.href}`} className='-m-2 block p-2 text-gray-500'>
                                       {item.name}
                                     </a>
                                   </li>
@@ -166,7 +166,7 @@ export default function Navigation() {
                   <div className='space-y-6 border-t border-gray-200 px-4 py-6'>
                     {NavigationCategories.pages.map((page) => (
                       <div key={page.name} className='flow-root'>
-                        <a href={page.href} className='-m-2 block p-2 font-medium text-gray-900'>
+                        <a href={`/bootcamp-tech-titans-2024_ecommerce${page.href}`} className='-m-2 block p-2 font-medium text-gray-900'>
                           {page.name}
                         </a>
                       </div>
@@ -212,11 +212,11 @@ export default function Navigation() {
 
                 {/* Logo */}
                 <div className='h-6 w-6 items-center md:h-10 md:w-10 ml-4 flex lg:ml-0 lg:block'>
-                  <a href='/'>
+                  <a href='/bootcamp-tech-titans-2024_ecommerce/'>
                     <span className='sr-only'>Sunflowers</span>
                     <img
                       className='h-8 w-auto'
-                      src='/assets/sunflower.svg'
+                      src='/bootcamp-tech-titans-2024_ecommerce/assets/sunflower.svg'
                       alt=''
                     />
                   </a>
@@ -267,7 +267,7 @@ export default function Navigation() {
                                             >
                                               {section.items.map((item) => (
                                                 <li key={item.name} className='flex'>
-                                                  <a href={item.href} className='hover:text-gray-800'>
+                                                  <a href={`/bootcamp-tech-titans-2024_ecommerce${item.href}`} className='hover:text-gray-800'>
                                                     {item.name}
                                                   </a>
                                                 </li>
@@ -289,7 +289,7 @@ export default function Navigation() {
                     {NavigationCategories.pages.map((page) => (
                       <a
                         key={page.name}
-                        href={page.href}
+                        href={`/bootcamp-tech-titans-2024_ecommerce${page.href}`}
                         className='flex items-center text-lg font-medium text-gray-700 hover:text-gray-800'
                       >
                         {page.name}
