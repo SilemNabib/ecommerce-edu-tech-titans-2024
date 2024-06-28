@@ -1,6 +1,6 @@
 import { CheckIcon, PlusIcon } from '@heroicons/react/24/solid';
 import PropTypes from 'prop-types';
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -13,7 +13,6 @@ import SelectSize from '../SelectSize';
 /**
  * Card component displays a product card with image, name, price, color selection, and size selection.
  *
- * @component
  * @param {Object} data - The data object containing information about the product.
  * @returns {JSX.Element} The rendered Card component.
  */
@@ -23,43 +22,51 @@ const Card = ({ data }) => {
   const { setProductToShow } = context;
   const [selectedSize, setSelectedSize] = useState('');
   const [selectedColor, setSelectedColor] = useState('');
+  const [isInCart, setIsInCart] = useState(false);
+
+  useEffect(() => {
+    const cart = JSON.parse(sessionStorage.getItem('cart')) || [];
+    const productInCart = cart.some(cartItem => cartItem.inventory.product.id === data.id);
+    setIsInCart(productInCart);
+  }, [data.id]);
 
   const showProduct = () => {
     setProductToShow(data);
   };
 
-  const [isInCart, setIsInCart] = useState(JSON.parse(sessionStorage.getItem("cart"))?.some(cartItem => cartItem.inventory.product.id === data.id));
-  
   const addToCart = async () => {
     try {
       if (!selectedColor || !selectedSize) {
         toast.error('Please select color and size', { toastId: 'selectError' });
         return;
       }
-  
-      setIsInCart(true);
-  
+
+      const inventory = data.inventories.find(inventory => inventory.color.name === selectedColor && inventory.size === selectedSize);
+      if (!inventory) {
+        toast.error('Selected combination is not available', { toastId: 'inventoryError' });
+        return;
+      }
+
       const response = await auth.authFetch(ApiConfig.cart.add, {
         method: 'POST',
         data: JSON.stringify({
-          inventoryId: data.inventories.find(inventory => inventory.color.name === selectedColor && inventory.size === selectedSize).id,
+          inventoryId: inventory.id,
           amount: 1,
         }),
       });
-  
+
       if (response.status === 200) {
         const items = response.data.data;
         sessionStorage.setItem('cart', JSON.stringify(items));
-        setIsInCart(JSON.parse(sessionStorage.getItem("cart"))?.some(cartItem => cartItem.inventory.product.id === data.id));
-        toast.success('Product added to cart', { toastId: 'successCart' });
+        setIsInCart(true);
       } else {
         setIsInCart(false);
         toast.error('Error adding product to cart', { toastId: 'apiError' });
       }
     } catch (error) {
-      console.log(error);
+      console.error('Error adding product to cart:', error);
       setIsInCart(false);
-      toast.error(`Error adding product to cart: ${error}`, { toastId: 'exceptionError' });
+      toast.error(`Error adding product to cart. Please log in to add products to cart.`, { toastId: 'authError' });
     }
   };
 
