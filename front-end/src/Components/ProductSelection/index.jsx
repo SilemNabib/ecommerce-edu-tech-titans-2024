@@ -53,7 +53,6 @@ const ProductSelection = ({ product }) => {
       }
 
     } catch (error) {
-      console.log(error);
       toast.error('Error adding product to cart:', error);
     }
   };
@@ -101,8 +100,9 @@ const ProductSelection = ({ product }) => {
               )
             }
           </div>
-          <button className="px-4 py-2 bg-black text-white rounded-lg mt-4 hover:bg-gray-800 transition"
+          <button className={`px-4 py-2 bg-black text-white rounded-lg mt-4 hover:bg-gray-800 transition duration-300 ${!selectedColor || !selectedSize || stockOf(product) === 'Out of stock' ? 'opacity-50 cursor-not-allowed' : ''} `}
           onClick={addToCart}
+          disabled={!selectedColor || !selectedSize || stockOf(product) === 'Out of stock'}
           >Add to cart</button>
         </div>
       </div>

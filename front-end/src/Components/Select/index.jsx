@@ -9,11 +9,14 @@ import { useState } from 'react';
  * @param {string} props.className - The additional CSS class name for the select.
  * @returns {JSX.Element} The rendered Select component.
  */
-const Select = ({ options, placeholder, className }) => {
-  const [selectedOption, setSelectedOption] = useState('');
+const Select = ({ options, placeholder, className, onChange, value }) => {
+  const [selectedOption, setSelectedOption] = useState(value);
 
   const handleChange = (event) => {
     setSelectedOption(event.target.value);
+    if (onChange) {
+      onChange(event.target.value);
+    }
   };
 
   return (

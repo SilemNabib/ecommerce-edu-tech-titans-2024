@@ -9,18 +9,24 @@ import ProgressBar from "../../../../Components/ProgressBar";
 import { ApiConfig } from '../../../../config/ApiConfig';
 import { useAuth } from '../../../../Context/AuthContext';
 import { ImageFormatValidator } from '../../../../utils/ImageFormatValidator';
+import { CircularProgress } from '@mui/material';
 
 const registerSteps = [
-  <a  href={"/admin/products/add"}>Product Details</a>,
-  <a  href={"/admin/products/add/images"}>Product Images</a>,
+  <a  href={"/bootcamp-tech-titans-2024_ecommerce/admin/products/add"}>Product Details</a>,
+  <a  href={"/bootcamp-tech-titans-2024_ecommerce/admin/products/add/images"}>Product Images</a>,
 ];
 
 const AddProductImage = () => {
-  const [images, setImages] = useState([]);
+
+  const { initImages } = JSON.parse(sessionStorage.getItem("newProductImages")) || [];
+
+  const [images, setImages] = useState(initImages || []);
+  const [loading, setLoading] = useState(false);
   const [selectedImage, setSelectedImage] = useState(null);
   const auth = useAuth();
 
   const handleUpload = async (event) => {
+    setLoading(true);
     const file = event.target.files[0];
     if (!file) return;
   
@@ -42,6 +48,7 @@ const AddProductImage = () => {
       if (response.status === 201) {
         const newImages = [...images, response.data];
         setImages(newImages);
+        sessionStorage.setItem("newProductImages", JSON.stringify({initImages: newImages}));
         setSelectedImage(response.data);
         toast.success("Product created successfully!");
       } else {
@@ -50,15 +57,51 @@ const AddProductImage = () => {
     } catch (error) {
       console.error("Error uploading images:", error);
       toast.error("An error occurred while uploading images.");
+    } finally {
+      setLoading(false);
     }
+
   };
 
   const handleConfirm = async () => {
+    setLoading(true);
     if (images.length === 0) {
       toast.error("Please upload at least one image.");
       return;
     }
+    
+    const imageIds = images.map((image) => image.id);
+    const { title, price, description, selectedCategories } = JSON.parse(sessionStorage.getItem("newProductDetails"));
+    const data = {
+      name: title,
+      price: price,
+      description: description,
+      categories: selectedCategories,
+      imageIds: imageIds,
+    };
 
+    console.log(data);
+    try {
+      const response = await auth.authFetch(ApiConfig.admin.create_product, {
+        method: "POST",
+        data: data,
+      });
+
+      if (response.status === 201) {
+        toast.success("Product created successfully!");
+      } else {
+        toast.error("Failed to create product.");
+      }
+    } catch (error) {
+      toast.error("An error occurred while creating product.");
+    } finally {
+      sessionStorage.removeItem("newProductDetails");
+      setLoading(false);
+      setTimeout(() => {
+        window.location.href = "/bootcamp-tech-titans-2024_ecommerce/admin/products";
+        setLoading(false);
+      }, 2000);
+    }
   };
 
   return (
@@ -73,16 +116,18 @@ const AddProductImage = () => {
         <label htmlFor="upload-image" className="flex items-center cursor-pointer p-3 bg-black text-white rounded-md hover:bg-gray-800 transition">
           <PlusCircleIcon className="h-6 w-6 mr-2" />
           <span>Add Image</span>
-          <input id="upload-image" type="file" className="hidden" onChange={handleUpload} />
+          <input id="upload-image" type="file" className="hidden" onChange={handleUpload} disabled={loading}/>
         </label>
         <button 
-          onClick={handleConfirm} 
+          onClick={handleConfirm}
+          disabled={loading}
           className="p-3 bg-black text-white rounded-md flex items-center hover:bg-gray-800 transition"
         >
           <SaveIcon className="mr-2" />
           <span>Create New Product</span>
         </button>
       </div>
+      <CircularProgress className="mt-4" style={{ display: loading ? "block" : "none" }} />
     </div>
   );
 };

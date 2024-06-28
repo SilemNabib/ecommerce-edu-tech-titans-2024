@@ -4,6 +4,7 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -18,7 +19,9 @@ import java.util.function.Function;
  */
 @Service
 public class JwtService {
-    private static final String SECRET_KEY = "218347589736298752039487602734981264523184751092651079456101123641";
+
+    @Value("${TOKEN_KEY}")
+    private String SECRET_KEY;
 
     /**
      * Generates a JWT token for the given user with a default expiration date of 24 hours.
@@ -27,7 +30,7 @@ public class JwtService {
      * @return the generated JWT token
      */
     public String generateToken(String username) {
-        return getToken(new HashMap<>(), username, Timestamp.from(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 24).toInstant()));
+        return getToken(new HashMap<>(), username, Timestamp.from(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 24 * 2).toInstant()));
     }
 
     /**
@@ -76,7 +79,7 @@ public class JwtService {
      * @return the username
      */
     public String extractUsername(String token) {
-        return getClaim(token, Claims::getSubject);
+        return getClaim(removeBearer(token.trim()), Claims::getSubject);
     }
 
     /**
@@ -138,5 +141,9 @@ public class JwtService {
     public boolean isTokenExpired(String token) {
         final Date expiration = getExpirationDateFromToken(token);
         return expiration.before(new Date());
+    }
+
+    private String removeBearer(String token){
+        return token.replace("Bearer ", "");
     }
 }

@@ -8,6 +8,11 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class GoogleCloudStorageConfig {
 
+    /**
+     * Creates a Google Cloud Storage bean.
+     *
+     * @return a Storage instance configured with the default options
+     */
     @Bean
     public Storage googleCloudStorage() {
         return StorageOptions.getDefaultInstance().getService();

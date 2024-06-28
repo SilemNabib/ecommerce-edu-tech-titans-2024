@@ -82,19 +82,11 @@ public class PasswordResetService {
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
 
         if (!prt.getOtp().toString().equals(request.getOtp())) {
-            return GeneralResponse.<Void>builder()
-                    .statusCode(HttpStatus.BAD_REQUEST.value())
-                    .message("Invalid OTP")
-                    .success(false)
-                    .build();
+            throw new IllegalArgumentException("Invalid OTP");
         }
 
         if (!AuthService.validatePassword(request.getPassword()) ) {
-            return GeneralResponse.<Void>builder()
-                    .statusCode(HttpStatus.BAD_REQUEST.value())
-                    .message("Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one number and one special character")
-                    .success(false)
-                    .build();
+            throw new IllegalArgumentException("Password must contain at least 8 characters, 1 uppercase letter, 1 lowercase letter, 1 number and 1 special character");
         }
 
         User user = userRepository.findById(prt.getId())

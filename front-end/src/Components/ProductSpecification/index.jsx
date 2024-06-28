@@ -13,25 +13,61 @@ import Select from "../../Components/Select";
  * @param {Function} props.onRemove - The function to call when the remove button is clicked.
  * @returns {JSX.Element} The product specification component.
  */
-const ProductSpecification = ({ index, sizes, colors, onRemove }) => {
-  const [stock, setStock] = useState('');
+const ProductSpecification = ({ index, sizes, colors, selectedColor, selectedSize, customSize, stock, onChange }) => {
+
+  const handleSizeChange = (value) => {
+    onChange('size', value);
+  };
+
+  const handleColorChange = (value) => {
+    onChange('color', value);
+  };
+
+  const handleStockChange = (value) => {
+    onChange('stock', value);
+  };
+
+  const handleCustomSizeChange = (value) => {
+    onChange('customSize', value);
+  }
 
   return (
     <div className="flex flex-col md:flex-row md:items-center space-y-4 md:space-y-0 md:space-x-4 bg-gray-100 p-4 rounded-md shadow-sm">
       <div className="text-lg font-medium">#{index}</div>
-      <Select options={sizes} placeholder="Select size" className="flex-1 md:flex-auto md:w-1/3" />
-      <Select options={colors} placeholder="Select color" className="flex-1 md:flex-auto md:w-1/3" />
+      <Select
+        options={[...sizes, "Custom"]}
+        value={selectedSize}
+        onChange={handleSizeChange}
+        placeholder="Select size"
+        className="flex md:flex-auto w-1/5"
+      />
+      {selectedSize === "Custom" && (
+        <InputText
+          value={customSize}
+          onChange={handleCustomSizeChange}
+          options={{
+            type: "text",
+            placeholder: "Custom size",
+          }}
+          className="flex-1 md:flex-auto w-1/5"
+        />
+      )}
+      <Select
+        options={colors.map((color) => color.name)}
+        value={selectedColor?.name}
+        onChange={handleColorChange}
+        placeholder="Select color"
+        className="flex md:w-1/"
+      />
       <InputText
         value={stock}
+        onChange={handleStockChange}
         options={{
           type: "number",
           placeholder: "Stock",
         }}
-        className="w-full md:w-24"
+        className="w-1/5"
       />
-      <button onClick={onRemove} className="text-red-600 hover:text-red-800">
-        <TrashIcon className="h-5 w-5" />
-      </button>
     </div>
   );
 };

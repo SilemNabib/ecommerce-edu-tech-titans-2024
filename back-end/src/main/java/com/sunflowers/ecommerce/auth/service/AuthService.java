@@ -13,6 +13,7 @@ import com.sunflowers.ecommerce.auth.request.LoginRequest;
 import com.sunflowers.ecommerce.auth.request.RegisterRequest;
 import com.sunflowers.ecommerce.email.EmailService;
 import com.sunflowers.ecommerce.email.MailBody;
+import com.sunflowers.ecommerce.utils.EntityMapping;
 import com.sunflowers.ecommerce.utils.FrontLinks;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,11 +62,12 @@ public class AuthService {
      */
     public AuthResponse login(LoginRequest loginRequest) {
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
-        UserDetails user = userRepository.findByEmail(loginRequest.getEmail())
+        User user = userRepository.findByEmail(loginRequest.getEmail())
                 .orElseThrow(() -> new RuntimeException("User not found"));
         String token = jwtService.generateToken(user.getUsername());
         return AuthResponse.builder()
                 .token(token)
+                .user(user)
                 .build();
     }
 
@@ -185,6 +187,7 @@ public class AuthService {
 
         return AuthResponse.builder()
                 .token(jwtService.generateToken(user.getEmail()))
+                .user(user)
                 .build();
     }
 
@@ -262,5 +265,13 @@ public class AuthService {
      */
     public static boolean validatePassword(String password) {
         return password.matches("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!(){}\\[\\]:;,.?/|<>\\-*])(?=\\S+$).{8,}$");
+    }
+
+    public boolean validatePhoneNumberPublic(String phone) {
+        return validatePhoneNumber(phone);
+    }
+
+    public boolean validatePasswordPublic(String password) {
+       return validatePassword(password);
     }
 }

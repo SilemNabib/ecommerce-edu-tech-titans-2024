@@ -17,6 +17,15 @@ export const isTokenExpired = (token) => {
   }
 };
 
+export const getUsernameFromToken = (token) => {
+  try {
+    const { sub } = jwt_decode.jwtDecode(token);
+    return sub;
+  } catch (e) {
+    return null;
+  }
+};
+
 export const isRegisterExpired = (token) => {
   try {
     const { exp } = jwt_decode.jwtDecode(token);
@@ -30,14 +39,23 @@ export const isRegisterExpired = (token) => {
 };
 
 
-if (token && !isTokenExpired(token)) {
-  axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-}else{
+if (!token || isTokenExpired(token) || !localStorage.getItem("user") || localStorage.getItem("user") === null) {
   sessionStorage.removeItem("cart");
+  localStorage.removeItem("authToken");
+  localStorage.removeItem("registerToken");
+  localStorage.removeItem("email-validated");
+  localStorage.removeItem("user");
+} else {
+  axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
 }
 
 export const isAuthenticated = () => {
   return axios.defaults.headers.common["Authorization"];
+};
+
+export const isAdmin = () => {
+  const user = JSON.parse(localStorage.getItem("user"));
+  return user && user.role === "ADMIN" && isAuthenticated() && getUsernameFromToken(axios.defaults.headers.common["Authorization"]) === user.email;
 };
 
 const AuthContext = createContext();
@@ -57,7 +75,7 @@ export const AuthProvider = ({ children }) => {
       requestLogout();
       axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
       
-      localStorage.setItem("user", response.data.user);
+      localStorage.setItem("user", JSON.stringify(response.data.user));
       localStorage.setItem("authToken", token);
       if(then){
         then(response);
@@ -106,7 +124,7 @@ export const AuthProvider = ({ children }) => {
         requestLogout();
 
         localStorage.setItem("authToken", response.data.token);
-        localStorage.setItem("user", response.data.user);
+        localStorage.setItem("user", JSON.stringify(response.data.user));
         axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
         if(then){
           then(response);
@@ -121,6 +139,9 @@ export const AuthProvider = ({ children }) => {
     localStorage.removeItem("registerToken");
     localStorage.removeItem("email-validated");
     localStorage.removeItem("user");
+    localStorage.removeItem("selectedAddress");
+    localStorage.removeItem("orderId");
+    sessionStorage.removeItem("cart");
     delete axios.defaults.headers.common["Authorization"];
   };
 
@@ -157,6 +178,7 @@ export const AuthProvider = ({ children }) => {
         authFetch,
         isTokenExpired,
         authFetchFile,
+        user,
       }}
     >
       {children}

@@ -4,7 +4,7 @@ import Cart from "../../Components/Cart";
 import Footer from '../../Components/Footer';
 import Navigation from '../../Components/Navigation';
 import { GlobalProvider } from '../../Context';
-import { isAuthenticated } from '../../Context/AuthContext';
+import { isAuthenticated, isAdmin } from '../../Context/AuthContext';
 import AdminDashboard from '../AdminDashboard';
 import ProductManagement from '../AdminDashboard/ProductManagement';
 import AddProductDetail from '../AdminDashboard/ProductManagement/AddProductDetail';
@@ -42,13 +42,12 @@ const AppRoutes = () => {
     { path: "/category/:category", element: <Categories /> },
     { path: "/category/:category/:section", element: <Categories /> },
     { path: "/category/:category/:section/:item", element: <Categories /> },
-    { path: '/login', element: isAuthenticated() ? <Navigate to='/profile' /> : <Login /> },
-    { path: '/profile', element: isAuthenticated() ? <NotFound /> : <Login /> },
-    { path: '/recover-password', element: <RecoverPassword /> },
-    { path: '/update-password', element: <UpdatePassword /> },
-    { path: '/register/email-verification', element: isAuthenticated() ? <Navigate to="/profile" /> : <EmailVerification /> },
-    { path: '/register/verification-code', element: isAuthenticated() ? <Navigate to="/profile" /> : <VerificationCode /> },
-    { path: '/register/complete', element: isAuthenticated() ? <Navigate to="/profile" /> : <Register /> },
+    { path: '/login', element: isAuthenticated() ? <Navigate to='/information/profile' /> : <Login /> },
+    { path: '/recover-password', element: isAuthenticated() ? <Navigate to="/information/profile"/> : <RecoverPassword /> },
+    { path: '/update-password', element: isAuthenticated() ? <Navigate to="/information/profile"/> : <UpdatePassword /> },
+    { path: '/register/email-verification', element: isAuthenticated() ? <Navigate to="/information/profile" /> : <EmailVerification /> },
+    { path: '/register/verification-code', element: isAuthenticated() ? <Navigate to="/information/profile" /> : <VerificationCode /> },
+    { path: '/register/complete', element: isAuthenticated() ? <Navigate to="/information/profile" /> : <Register /> },
     { path: '/product-detail/:id', element: <ProductDetail /> },
     
     { path: '/checkout/summary', element: (isAuthenticated() ?  <CheckoutCart /> : <Navigate to="/login" />) },
@@ -66,12 +65,12 @@ const AppRoutes = () => {
     { path: '/privacy', element: <Privacy /> },
     { path: '/terms', element: <Terms /> },
 
-    { path: '/admin/dashboard', element: isAuthenticated()? <AdminDashboard /> : <Navigate to="/login" />},
-    { path: '/admin/users', element: isAuthenticated()? <UsersManagement /> : <Navigate to="/login" />},
-    { path: '/admin/products', element: isAuthenticated()? <ProductManagement /> : <Navigate to="/login" />},
-    { path: '/admin/products/add', element: isAuthenticated()? <AddProductDetail /> : <Navigate to="/login" />},
-    { path: '/admin/products/add/images', element: isAuthenticated()? <AddProductImage /> : <Navigate to="/login" />},
-    { path: '/admin/products/add/inventory', element: isAuthenticated()? <AddProductInventory /> : <Navigate to="/login" />},
+    { path: '/admin/dashboard', element: isAdmin()? <AdminDashboard /> : <Navigate to="/login" />},
+    { path: '/admin/users', element: isAdmin()? <UsersManagement /> : <Navigate to="/login" />},
+    { path: '/admin/products', element: isAdmin()? <ProductManagement /> : <Navigate to="/login" />},
+    { path: '/admin/products/add', element: isAdmin()? <AddProductDetail /> : <Navigate to="/login" />},
+    { path: '/admin/products/add/images', element: isAdmin()? <AddProductImage /> : <Navigate to="/login" />},
+    { path: '/admin/product/:id/inventories', element: isAdmin()? <AddProductInventory /> : <Navigate to="/login" />},
     { path: '/search', element: <Categories /> },
 
   ]);
@@ -103,8 +102,8 @@ const FootRoutes = () => {
 const App = () => {
   return (
     <GlobalProvider>
-      <BrowserRouter>
-        <div className='flex flex-col min-h-screen justify-between'>
+      <BrowserRouter basename="/bootcamp-tech-titans-2024_ecommerce">
+        <div className="flex flex-col min-h-screen justify-between">
           <NavRoutes />
           <AppRoutes />
           <FootRoutes />

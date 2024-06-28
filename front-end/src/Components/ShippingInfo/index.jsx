@@ -30,7 +30,6 @@ const ShippingInfo = () => {
   const [countries, setCountries] = useState([]);
 
   useEffect(() => {
-    // Fetch countries from API or database
     const fetchCountries = async () => {
       try {
         fetch(ApiConfig.countries)

@@ -22,7 +22,7 @@ public class SimpleProductDTO {
     private Double rating;
 
     public SimpleProductDTO(Product product) {
-        this.id = product.getId().longValue(); // Convertir Integer a Long
+        this.id = product.getId().longValue();
         this.name = product.getName();
         this.description = product.getDescription();
         this.discount = product.getDiscount();

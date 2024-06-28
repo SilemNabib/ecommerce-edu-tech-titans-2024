@@ -6,7 +6,7 @@ import { ApiConfig } from '../../config/ApiConfig';
 /**
  * Component for displaying and managing saved addresses.
  */
-const AdresseeInfo = () => {
+const AdresseeInfo = ({setDissabledState}) => {
 
   const auth = useAuth();
   const [addresses, setAddresses] = useState(null);
@@ -31,6 +31,7 @@ const AdresseeInfo = () => {
       });
       setAddresses(items);
       localStorage.setItem('selectedAddress', localStorage.getItem('selectedAddress') || items[0].id || null);
+      setDissabledState(!localStorage.getItem('selectedAddress') || localStorage.getItem('selectedAddress') === null)
       setSelectedAddress(localStorage.getItem('selectedAddress'));
     }
   }

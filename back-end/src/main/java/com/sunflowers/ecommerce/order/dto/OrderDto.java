@@ -1,5 +1,6 @@
 package com.sunflowers.ecommerce.order.dto;
 
+import com.sunflowers.ecommerce.inventory.dto.InventoryDTO;
 import com.sunflowers.ecommerce.order.entity.OrderDetail;
 import com.sunflowers.ecommerce.order.entity.OrderStatus;
 import com.sunflowers.ecommerce.order.entity.PaymentMethod;
@@ -8,6 +9,7 @@ import lombok.Builder;
 import lombok.Data;
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.UUID;
 import java.sql.Timestamp;
 
@@ -22,4 +24,5 @@ public class OrderDto {
     private BigDecimal shippingPrice;
     private BigDecimal totalPrice;
     private OrderStatus orderStatus;
+    private List<InventoryDTO> inventory;
 }

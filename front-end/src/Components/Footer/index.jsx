@@ -32,9 +32,9 @@ const Footer = () => {
                 <Grid item xs={12} sm={8}>
                     <Typography className='pb-5' variant='h6'>© 2024 Sunflowers </Typography>
                     <ul className="flex justify-around list-none">
-                        <li><a href="/terms">Terms and Conditions</a></li>
-                        <li><a href="/cookies">Cookies</a></li>
-                        <li><a href="/privacy">Privacy Policy</a></li>
+                        <li><a href="/bootcamp-tech-titans-2024_ecommerce/terms">Terms and Conditions</a></li>
+                        <li><a href="/bootcamp-tech-titans-2024_ecommerce/cookies">Cookies</a></li>
+                        <li><a href="/bootcamp-tech-titans-2024_ecommerce/privacy">Privacy Policy</a></li>
                     </ul>
                 </Grid>
             </Grid>

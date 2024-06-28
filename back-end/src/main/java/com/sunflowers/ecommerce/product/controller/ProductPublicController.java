@@ -26,6 +26,13 @@ public class ProductPublicController {
     @Autowired
     private BannerImageService bannerService;
 
+    /**
+     * Retrieves a paginated list of products based on the specified request parameters.
+     *
+     * @param productRequest the request parameters for filtering products
+     * @param assembler the assembler to convert Page into PagedModel
+     * @return a ResponseEntity containing a PagedModel of Product entities
+     */
     @GetMapping("/")
     public ResponseEntity<PagedModel<EntityModel<Product>>> getProducts(@ModelAttribute ProductRequest productRequest,
                                                                         PagedResourcesAssembler<Product> assembler) {
@@ -33,6 +40,12 @@ public class ProductPublicController {
         return ResponseEntity.ok(assembler.toModel(products));
     }
 
+    /**
+     * Retrieves a product by its ID.
+     *
+     * @param id the ID of the product
+     * @return a ResponseEntity containing the Product entity or a 404 status if not found
+     */
     @GetMapping("/{id}")
     public ResponseEntity<Product> getProductById(@PathVariable(name = "id") Long id) {
         Product product = productService.getProductById(id);
@@ -43,11 +56,22 @@ public class ProductPublicController {
         }
     }
 
+    /**
+     * Retrieves a list of active banners.
+     *
+     * @return a ResponseEntity containing an Iterable of Banner entities
+     */
     @GetMapping("/banner")
     public ResponseEntity<Iterable<Banner>> getActiveBanners() {
         return ResponseEntity.ok(bannerService.getActive());
     }
 
+    /**
+     * Handles exceptions thrown by the controller.
+     *
+     * @param e the exception that was thrown
+     * @return a ResponseEntity containing the exception message and a 500 status code
+     */
     @ExceptionHandler
     public ResponseEntity<String> handleException(Exception e) {
         return ResponseEntity.status(500).body(e.getMessage());

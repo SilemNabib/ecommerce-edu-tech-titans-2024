@@ -3,6 +3,7 @@ package com.sunflowers.ecommerce.product.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sunflowers.ecommerce.auth.entity.User;
 import jakarta.persistence.*;
+import jakarta.validation.Constraint;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import lombok.AllArgsConstructor;
@@ -19,12 +20,14 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "review")
+@Table(name = "review", uniqueConstraints = {
+        @UniqueConstraint(columnNames = {"user_id", "product_id"})
+})
 public class Review {
 
     @Id
     @JsonIgnore
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
     @JsonIgnore

@@ -33,7 +33,7 @@ public class Inventory {
     @JoinColumn(name = "color_name", nullable = false)
     private Color color;
 
-    @Column(name = "size", nullable = false, length = 32)
+    @Column(name = "size", nullable = false, length = 5)
     private String size;
 
     @Column(name = "stock", nullable = false)

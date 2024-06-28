@@ -48,7 +48,11 @@ const Reviews = ({ product_id, average }) => {
         toast.error('Failed to submit review.');
       }
     } catch (error) {
-      toast.error('An error occurred while submitting the review.');
+      if (JSON.stringify(error.response.data).includes("unique constraint")){
+        toast.error("You have already submitted a review for this product.");
+      }else{
+        toast.error("An error occurred while submitting the review.");
+      }
     }
   };
 

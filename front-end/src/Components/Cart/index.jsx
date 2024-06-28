@@ -14,6 +14,14 @@ function Cart({editable = true}) {
   const auth = useAuth();
   const [carts, setCarts] = useState(null);
   const [total, setTotal] = useState(null);
+
+  const toTitleCase = (str) => {
+    return str.replace(/\w\S*/g, function(txt) {
+        return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+      }
+    );
+  }
+
   
   const setData = (response) => {
     if (response.status === 200) {
@@ -109,7 +117,8 @@ function Cart({editable = true}) {
                   <img className="h-24" src={cart.inventory.product.productImages[0].url} alt={cart.inventory.product.name} />
                 </div>
                 <div className="flex flex-col justify-between ml-4 flex-grow">
-                  <span className="font-bold text-sm">{cart.inventory.product.name}</span>
+                  <span className="font-bold text-sm">{toTitleCase(cart.inventory.product.name)}</span>
+                  <span className="font-light text-sm">{cart.inventory.size} - {cart.inventory.color.name}</span>
                   { editable &&
                     (
                       <div
@@ -154,9 +163,13 @@ function Cart({editable = true}) {
               </span>
             </div>
           ))}
+          <div className='w-full flex flex-row justify-end items-center px-4'>
+            <span>Total: </span>
+            <span className='font-bold text-2xl ml-2'>${total}</span>
+          </div>
           { editable &&
             (
-              <Link to="/checkout/address" className="flex font-semibold text-gray-900 text-sm mt-10">
+              <Link to="/checkout/address" className="flex font-semibold text-gray-900 text-sm mt-5">
                 <button className="w-full py-3 flex justify-center rounded-lg font-bold text-lg bg-black text-white">
                   Buy now
                 </button>

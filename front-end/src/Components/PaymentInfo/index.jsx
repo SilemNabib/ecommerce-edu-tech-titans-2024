@@ -111,7 +111,7 @@ const PaymentInfo = () => {
                 </label>
               </div>
             </div>
-            <button onClick={handleCheckout} className="bg-black hover:font-bold text-white py-2 px-4 rounded">
+            <button onClick={handleCheckout} className="bg-black hover:font-bold text-white py-2 px-4 rounded" disabled={loading}>
               Pay with PayPal
             </button>
           </div>

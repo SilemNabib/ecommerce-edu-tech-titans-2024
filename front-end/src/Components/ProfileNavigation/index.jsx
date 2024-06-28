@@ -30,7 +30,7 @@ const ProfileNavigation = ({ userInfo }) => {
     <nav className="w-65 p-4 mb-auto md:mb-0 mt-8 md:mr-8 shadow-lg bg-gray-200">
       <div className="relative w-60 h-40 overflow-hidden mb-4 mx-auto">
         <img
-          src="/assets/user_model.jpg"
+          src="/bootcamp-tech-titans-2024_ecommerce/assets/user_model.jpg"
           alt="Profile"
           className="w-full h-full object-cover"
         />

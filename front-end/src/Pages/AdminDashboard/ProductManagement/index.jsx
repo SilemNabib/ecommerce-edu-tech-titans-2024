@@ -9,13 +9,16 @@ import AddProductInventory from './AddProductInventory';
 
 const ProductsManagement = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [selectedProduct, setSelectedProduct] = useState(null);
 
-    const openModal = () => {
+    const openModal = (productId) => {
         setIsModalOpen(true);
+        setSelectedProduct(productId);
     };
 
     const closeModal = () => {
         setIsModalOpen(false);
+        setSelectedProduct(null);
     };
 
     return (
@@ -37,7 +40,7 @@ const ProductsManagement = () => {
             </div>
             {isModalOpen && (
                 <Modal closeModal={closeModal}>
-                    <AddProductInventory />
+                    <AddProductInventory id={selectedProduct} />
                 </Modal>
             )}
         </div>

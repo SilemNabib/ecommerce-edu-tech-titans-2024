@@ -12,6 +12,7 @@ import InputText from "../../Components/InputText";
 import TogglePassword from "../../Components/TogglePassword";
 import { GlobalContext } from "../../Context";
 import { useAuth } from "../../Context/AuthContext";
+import { isAdmin } from "../../Context/AuthContext";
 
 /**
  * Represents the Login page component.
@@ -37,7 +38,11 @@ const Login = () => {
         then: (response) => {
           if (response) {
             toast.success('Successfully logged in!');
-            navigate("/");
+            if(isAdmin()){
+              navigate("/admin/dashboard");
+            }else{
+              navigate("/");
+            }
           } else {
             toast.error('Incorrect email or password. Please try again.');
           }
@@ -77,7 +82,7 @@ const Login = () => {
               )}
 
               <div className="mt-4 mb-4 flex items-center justify-center">
-                <a href="/recover-password" className="text-gray-500 hover:underline">
+                <a href="/bootcamp-tech-titans-2024_ecommerce/recover-password" className="text-gray-500 hover:underline">
                   Have you forgotten your password?
                 </a>
               </div>
@@ -110,7 +115,7 @@ const Login = () => {
             </ul>
 
             <button
-              onClick={() => window.location.href="/register/email-verification"}
+              onClick={() => window.location.href="/bootcamp-tech-titans-2024_ecommerce/register/email-verification"}
               className="mb-6 bg-gray-300 text-black py-2 px-4 rounded-lg hover:font-bold"
             >
               Sign up

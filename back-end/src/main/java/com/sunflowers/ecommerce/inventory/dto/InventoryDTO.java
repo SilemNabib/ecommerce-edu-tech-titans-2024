@@ -16,6 +16,7 @@ public class InventoryDTO {
     private Color color;
     private String size;
     private Integer stock;
+    private Integer amount;
 
     public InventoryDTO(Inventory inventory) {
         this.id = inventory.getId();
@@ -23,5 +24,14 @@ public class InventoryDTO {
         this.size = inventory.getSize();
         this.stock = inventory.getStock();
         this.product = new SimpleProductDTO(inventory.getProduct());
+    }
+
+    public InventoryDTO(Inventory inventory, int amount) {
+        this.id = inventory.getId();
+        this.color = inventory.getColor();
+        this.size = inventory.getSize();
+        this.stock = inventory.getStock();
+        this.product = new SimpleProductDTO(inventory.getProduct());
+        this.amount = amount;
     }
 }

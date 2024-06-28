@@ -10,7 +10,8 @@ import lombok.*;
 @AllArgsConstructor
 public class CreateInventoryRequest {
     private Long productId;
-    private String colorName;
+    private String color;
     private String size;
     private Integer stock = 0;
+    private Long id = null;
 }

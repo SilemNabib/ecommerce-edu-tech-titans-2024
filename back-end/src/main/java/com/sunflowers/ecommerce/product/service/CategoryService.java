@@ -9,6 +9,9 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Service class for managing product categories.
+ */
 @Service
 public class CategoryService {
 
@@ -19,7 +22,7 @@ public class CategoryService {
      * Creates a list of categories.
      *
      * @param categories the list of categories to create
-     * @return an iterable collection of the created categories
+     * @return an Iterable collection of the created categories
      */
     public Iterable<Category> createCategories(List<CreateCategoryRequest> categories) {
         return categoryRepository.saveAll(categories.stream()
