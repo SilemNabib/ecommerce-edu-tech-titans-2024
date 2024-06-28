@@ -11,6 +11,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Select file
+        run: cd front-end
+    
       - name: Checkout repo
         uses: actions/checkout@v2
 
@@ -23,13 +26,13 @@ jobs:
         uses: bahmutov/npm-install@v1
 
       - name: Build project
-        run: cd front-end && npm run build && cd ..
+        run: npm run build
 
       - name: Upload production-ready build files
         uses: actions/upload-artifact@v2
         with:
           name: production-files
-          path: ./front-end/dist
+          path: ./dist
 
   deploy:
     name: Deploy
