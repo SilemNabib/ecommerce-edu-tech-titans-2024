@@ -1,9 +1,14 @@
-import '@testing-library/jest-dom'
+/**
+ * Test suite for the Categories component
+ */
+
+// Import necessary testing utilities and components
 import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import { MemoryRouter, Route, Routes } from 'react-router-dom'
 import { describe, expect, it, vi } from "vitest"
 import Categories from '../../../Pages/Categories'
 
+// Mock product response to simulate API
 const mockProductsResponse = {
   _embedded: {
     productList: [
@@ -16,6 +21,7 @@ const mockProductsResponse = {
   },
 }
 
+// Mock components to isolate Categories component testing
 vi.mock('../../Components/SortBy', () => ({
   default: () => <div data-testid="sort-by">Sort By Mock</div>,
 }));
@@ -30,6 +36,7 @@ vi.mock('../../../Components/Card', () => ({
 
 describe('Categories Component', () => {
 
+    // Test case: Verify that the component renders initial components correctly
     it('renders initial components correctly', () => {
         render(
             <MemoryRouter initialEntries={['/category/male/clothing/denim']}>
@@ -44,8 +51,8 @@ describe('Categories Component', () => {
         expect(screen.getByText('Sort By')).toBeInTheDocument();
     });
 
+    // Test case: Check if products render correctly after loading
     it('renders products correctly', async () => {
-        // Mock fetch for products
         global.fetch = vi.fn().mockResolvedValueOnce({
         json: async () => mockProductsResponse,
         })
@@ -58,7 +65,6 @@ describe('Categories Component', () => {
         </MemoryRouter>
         )
 
-        // Wait for products to load and render
         await waitFor(() => {
         const productCards = screen.getAllByTestId('product-card')
         expect(productCards).toHaveLength(2)
@@ -69,6 +75,7 @@ describe('Categories Component', () => {
         expect(global.fetch).toHaveBeenCalledTimes(2)
     })
 
+    // Test case: Verify pagination functionality
     it('handles pagination correctly', async () => {
         global.fetch = vi.fn().mockResolvedValue({
             json: async () => ({
