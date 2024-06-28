@@ -25,6 +25,10 @@ const CheckoutPayment = () => {
 
     const [orderStatus, setOrderStatus] = useState(null);
 
+    if(!localStorage.getItem('selectedAddress') || localStorage.getItem('selectedAddress') === null){
+      window.location.href = "/checkout/address";
+    }
+
     const checkOrderStatus = async (orderId) => {
       try {
         const response = await auth.authFetch(`${ApiConfig.checkout.status}?order=${orderId}`);

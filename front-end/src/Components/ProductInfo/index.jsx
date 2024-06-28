@@ -13,7 +13,7 @@ const ProductInfo = ({ product }) => {
         <p>Sold: {product.solds}</p>
       </div>
       <div className="ml-4">
-        <Link to={`/admin/products/update/${product.id}`}>
+        <Link to={`/admin/product/${product.id}/inventories`}>
           <Cog6ToothIcon className="h-6 w-6"/>
         </Link>
       </div>

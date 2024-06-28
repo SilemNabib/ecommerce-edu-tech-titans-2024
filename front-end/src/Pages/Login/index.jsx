@@ -12,6 +12,7 @@ import InputText from "../../Components/InputText";
 import TogglePassword from "../../Components/TogglePassword";
 import { GlobalContext } from "../../Context";
 import { useAuth } from "../../Context/AuthContext";
+import { isAdmin } from "../../Context/AuthContext";
 
 /**
  * Represents the Login page component.
@@ -37,7 +38,11 @@ const Login = () => {
         then: (response) => {
           if (response) {
             toast.success('Successfully logged in!');
-            navigate("/");
+            if(isAdmin()){
+              navigate("/admin/dashboard");
+            }else{
+              navigate("/");
+            }
           } else {
             toast.error('Incorrect email or password. Please try again.');
           }

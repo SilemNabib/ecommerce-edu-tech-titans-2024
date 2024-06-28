@@ -11,9 +11,11 @@ export const ApiConfig = {
   countries: uri + "/country/",
   all: uri + "/admin/user/",
   order: uri + "/user/order/",
+  admin_orders: uri + "/admin/order/",
   order_history: uri + "/order/history",
   products: uri + "/product/",
   inventory: uri + "/product/inventory/",
+  add_product_inventory: uri + "/admin/product/inventory/",
   reviews: uri + "/review/product/",
   addReview: uri + "/review/create/",
   banners: uri + "/product/banner",
@@ -34,6 +36,7 @@ export const ApiConfig = {
   },
   admin: {
     uploadimg: uri + "/admin/product/image/",
+    create_product: uri + "/admin/product/",
   },
 };
 

@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -30,7 +31,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Table(name = "users")
 @JsonIgnoreProperties({"addresses", "cart", "orders", "reviews"})
-@JsonFilter("UserFilter")
 public class User implements UserDetails {
 
     @Id
@@ -51,6 +51,7 @@ public class User implements UserDetails {
 
     @Column(name = "password", nullable = false)
     @NotBlank(message = "User Password is mandatory")
+    @JsonIgnore
     private String password;
 
     @Column(name = "phone", nullable = false)
@@ -68,6 +69,7 @@ public class User implements UserDetails {
     private Timestamp deleted;
 
     @OneToMany(mappedBy = "user")
+    @JsonIgnore
     private List<Address> addresses;
 
     /**

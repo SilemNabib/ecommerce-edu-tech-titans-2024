@@ -4,7 +4,7 @@ import Cart from "../../Components/Cart";
 import Footer from '../../Components/Footer';
 import Navigation from '../../Components/Navigation';
 import { GlobalProvider } from '../../Context';
-import { isAuthenticated } from '../../Context/AuthContext';
+import { isAuthenticated, isAdmin } from '../../Context/AuthContext';
 import AdminDashboard from '../AdminDashboard';
 import ProductManagement from '../AdminDashboard/ProductManagement';
 import AddProductDetail from '../AdminDashboard/ProductManagement/AddProductDetail';
@@ -65,12 +65,12 @@ const AppRoutes = () => {
     { path: '/privacy', element: <Privacy /> },
     { path: '/terms', element: <Terms /> },
 
-    { path: '/admin/dashboard', element: isAuthenticated()? <AdminDashboard /> : <Navigate to="/login" />},
-    { path: '/admin/users', element: isAuthenticated()? <UsersManagement /> : <Navigate to="/login" />},
-    { path: '/admin/products', element: isAuthenticated()? <ProductManagement /> : <Navigate to="/login" />},
-    { path: '/admin/products/add', element: isAuthenticated()? <AddProductDetail /> : <Navigate to="/login" />},
-    { path: '/admin/products/add/images', element: isAuthenticated()? <AddProductImage /> : <Navigate to="/login" />},
-    { path: '/admin/products/add/inventory', element: isAuthenticated()? <AddProductInventory /> : <Navigate to="/login" />},
+    { path: '/admin/dashboard', element: isAdmin()? <AdminDashboard /> : <Navigate to="/login" />},
+    { path: '/admin/users', element: isAdmin()? <UsersManagement /> : <Navigate to="/login" />},
+    { path: '/admin/products', element: isAdmin()? <ProductManagement /> : <Navigate to="/login" />},
+    { path: '/admin/products/add', element: isAdmin()? <AddProductDetail /> : <Navigate to="/login" />},
+    { path: '/admin/products/add/images', element: isAdmin()? <AddProductImage /> : <Navigate to="/login" />},
+    { path: '/admin/product/:id/inventories', element: isAdmin()? <AddProductInventory /> : <Navigate to="/login" />},
     { path: '/search', element: <Categories /> },
 
   ]);

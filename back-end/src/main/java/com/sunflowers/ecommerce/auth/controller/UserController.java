@@ -1,5 +1,6 @@
 package com.sunflowers.ecommerce.auth.controller;
 
+import com.sunflowers.ecommerce.auth.entity.User;
 import com.sunflowers.ecommerce.auth.request.ChangePasswordRequest;
 import com.sunflowers.ecommerce.auth.request.ChangePhoneRequest;
 import com.sunflowers.ecommerce.auth.request.CreateAddressRequest;
@@ -28,7 +29,7 @@ public class UserController {
     private AddressService addressService;
 
     @GetMapping("/profile")
-    public MappingJacksonValue getUserProfile(@RequestHeader(name = "Authorization") String authorizationHeader) {
+    public User getUserProfile(@RequestHeader(name = "Authorization") String authorizationHeader) {
         return userService.getUserProfile(authorizationHeader);
     }
 

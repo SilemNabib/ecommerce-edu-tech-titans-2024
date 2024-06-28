@@ -1,10 +1,18 @@
 import { CogIcon, HomeIcon, ShoppingCartIcon, UserIcon } from '@heroicons/react/24/outline';
 import { Logout } from '@mui/icons-material';
 import { Link } from 'react-router-dom';
+import { useAuth } from '../../../Context/AuthContext';
 import SidebarItem from '../SiderItem';
 
-const SidebarContent = ({ isOpen }) => (
-  <>
+const SidebarContent = ({ isOpen }) => {
+  const auth = useAuth();
+
+  const onLogout = () => {
+    auth.requestLogout();
+    window.location.href = "/login";
+  };
+
+  return (<>
     <div className="flex-1 mt-5 space-y-3">
       <ul className="space-y-1 text-sm">
         <Link to="/admin/dashboard"><SidebarItem isOpen={isOpen} Icon={HomeIcon} label="Orders" /></Link>
@@ -14,12 +22,12 @@ const SidebarContent = ({ isOpen }) => (
       </ul>
     </div>
     <div className="mt-auto p-2 space-x-4 flex items-center justify-self-end">
-      <Link to="/logout">
+      <button onClick={onLogout}>
         <Logout className="w-6 h-6 text-gray-100" />
         {isOpen && <span className="text-gray-100">Logout</span>}
-      </Link>
+      </button>
     </div>
   </>
-);
+)};
 
 export default SidebarContent;

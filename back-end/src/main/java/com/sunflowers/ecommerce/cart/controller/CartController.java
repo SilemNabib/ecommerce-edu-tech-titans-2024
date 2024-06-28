@@ -30,12 +30,12 @@ public class CartController {
     }
 
     @GetMapping("/contains/{inventoryId}")
-        public ResponseEntity<GeneralResponse<Boolean>> containsItem(@NonNull HttpServletRequest servletRequest, @PathVariable Long inventoryId) {
+        public ResponseEntity<GeneralResponse<Boolean>> containsItem(@NonNull HttpServletRequest servletRequest, @PathVariable(name = "inventoryId") Long inventoryId) {
         return cartService.containsItem(servletRequest, inventoryId);
     }
 
     @DeleteMapping("/remove/{inventoryId}")
-    public ResponseEntity<GeneralResponse<List<UserCartsDto>>> removeItemFromCart(@NonNull HttpServletRequest servletRequest, @PathVariable Long inventoryId, @RequestParam(required = false) Integer amount){
+    public ResponseEntity<GeneralResponse<List<UserCartsDto>>> removeItemFromCart(@NonNull HttpServletRequest servletRequest, @PathVariable(name = "inventoryId") Long inventoryId, @RequestParam(required = false, name = "amount") Integer amount){
         cartService.removeItemFromCart(servletRequest, inventoryId, amount);
         return cartService.getCart(servletRequest);
     }
@@ -45,5 +45,8 @@ public class CartController {
         return cartService.getCart(servletRequest);
     }
 
-    //TODO: Agregar exception handlers
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<String> handleException(Exception e) {
+        return ResponseEntity.badRequest().body(e.getMessage());
+    }
 }
