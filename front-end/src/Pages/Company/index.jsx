@@ -1,5 +1,10 @@
 import React from 'react';
 
+/**
+ * Represents the Company page.
+ * 
+ * @returns {JSX.Element} The Company page component.
+ */
 const Company = () => {
     return (
         <div className="container mx-auto p-8">

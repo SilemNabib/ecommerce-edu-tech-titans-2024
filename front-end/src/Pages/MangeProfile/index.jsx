@@ -5,6 +5,13 @@ import { ApiConfig } from '../../config/ApiConfig';
 import { toast, ToastContainer } from 'react-toastify';
 import { CircularProgress } from '@mui/material';
 
+/**
+ * Component for managing user profile information.
+ *
+ * return (
+ *   <ManageProfile />
+ * )
+ */
 const ManageProfile = () => {
   const [editingField, setEditingField] = useState(null);
   const [userInfo, setUserInfo] = useState({

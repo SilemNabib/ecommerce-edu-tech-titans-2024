@@ -40,7 +40,6 @@ function classNames(...classes) {
  * 
  * @returns {JSX.Element} The rendered Navigation component.
  */
-// Dentro de tu función Navigation
 export default function Navigation() {
   const navigate = useNavigate();
   const context = useContext(GlobalContext);

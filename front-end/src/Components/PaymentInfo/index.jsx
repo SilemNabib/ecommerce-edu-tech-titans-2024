@@ -1,10 +1,17 @@
-import { useEffect, useState } from 'react';
+import { CircularProgress } from '@mui/material';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
 import { useAuth } from '../../Context/AuthContext';
 import { ApiConfig } from '../../config/ApiConfig';
-import { CircularProgress } from '@mui/material';
-import { toast, ToastContainer } from 'react-toastify';
-import { useNavigate } from 'react-router-dom';
 
+/**
+ * PaymentInfo component displays the payment information form and handles the checkout process.
+ *
+ * return (
+ *   <PaymentInfo />
+ * )
+ */
 const PaymentInfo = () => {
   const auth = useAuth();
   const navigate = useNavigate();

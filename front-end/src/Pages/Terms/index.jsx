@@ -1,5 +1,12 @@
 import React from 'react';
 
+/**
+ * Renders the Terms and Conditions page.
+ *
+ * return (
+ *   <Terms />
+ * )
+ */
 const Terms = () => (
     <div className="max-w-4xl mx-auto py-8">
         <h1 className="text-3xl font-bold mb-6">Terms and Conditions</h1>

@@ -1,5 +1,13 @@
 import OrderStatusCard from '../OrderStatusCard';
 
+/**
+ * Renders a component that displays a list of orders with a specified title.
+ *
+ * @param {Object} props - The component props.
+ * @param {string} props.title - The title of the order type.
+ * @param {Array} props.orders - The list of orders to be displayed.
+ * @returns {JSX.Element} The rendered OrderType component.
+ */
 const OrderType = ({ title, orders }) => {
   return (
     <div className="border border-gray-200 rounded-lg p-4 w-full min-w-60 overflow-y-auto">

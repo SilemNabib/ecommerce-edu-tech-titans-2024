@@ -1,5 +1,10 @@
 import React from 'react';
 
+/**
+ * Renders the Cookies page.
+ *
+ * @returns {JSX.Element} The rendered Cookies page.
+ */
 const Cookies = () => (
     <div className="max-w-4xl mx-auto py-8">
         <h1 className="text-3xl font-bold mb-6">Cookies</h1>

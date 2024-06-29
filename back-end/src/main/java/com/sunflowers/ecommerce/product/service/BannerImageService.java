@@ -19,6 +19,13 @@ public class BannerImageService {
     @Autowired
     private ImageService imageService;
 
+    /**
+     * Uploads a banner image.
+     *
+     * @param file the image file to upload
+     * @return the saved Banner entity
+     * @throws IOException if an error occurs during file upload
+     */
     @Transactional
     public Banner uploadImage(MultipartFile file) throws IOException {
         Banner image = bannerImageRepository.save(Banner.builder()
@@ -30,6 +37,11 @@ public class BannerImageService {
         return bannerImageRepository.save(image);
     }
 
+    /**
+     * Retrieves active banners.
+     *
+     * @return an Iterable of active Banner entities
+     */
     public Iterable<Banner> getActive() {
         Specification<Banner> spec = (root, query, cb) -> cb.equal(root.get("deleted"), null);
         return bannerImageRepository.findAll();

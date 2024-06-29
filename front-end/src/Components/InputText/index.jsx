@@ -1,5 +1,3 @@
-import React from "react";
-
 /**
  * 
  * @param {Object} props - The component props.
@@ -11,12 +9,21 @@ const InputText = ({ options, SideDecoration, onChange, value }) => {
   return (
     <div className="relative">
       <div className="flex items-center border focus-within:border-black rounded-md mb-1">
-        <input
-          {...options}
-          value={value}
-          onChange={(e) => onChange(e.target.value)}
-          className="w-full p-2 rounded-md focus:outline-none font-light"
-        />
+        {onChange ? (
+          <input
+            {...options}
+            value={value}
+            onChange={(e) => onChange(e.target.value)}
+            className="w-full p-2 rounded-md focus:outline-none font-light"
+          />
+          ) : (
+          <input
+            {...options}
+            value={value}
+            className="w-full p-2 rounded-md focus:outline-none font-light"
+          />
+        )}
+
         {SideDecoration && <SideDecoration />}
       </div>
     </div>

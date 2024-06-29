@@ -2,6 +2,13 @@ import { CurrencyDollarIcon } from '@heroicons/react/24/solid';
 import { useEffect, useState } from 'react';
 import OrderData from '../../config/OrderData';
 
+/**
+ * Renders a card displaying the order status information.
+ *
+ * return (
+ *   <OrderStatusCard />
+ * )
+ */
 const OrderStatusCard = ({ order }) => {
 
   return (

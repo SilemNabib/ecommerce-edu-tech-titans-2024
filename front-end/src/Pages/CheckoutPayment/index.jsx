@@ -1,14 +1,14 @@
+import { CheckBadgeIcon, XCircleIcon } from "@heroicons/react/24/outline";
+import { LocalShipping, LockClockOutlined, MoneyOff } from "@mui/icons-material";
+import { CircularProgress } from "@mui/material";
+import { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
 import OrderSummary from "../../Components/OrderSummary";
 import PaymentInfo from "../../Components/PaymentInfo";
 import ProgressBar from "../../Components/ProgressBar";
-import { useEffect, useState } from "react";
-import { ApiConfig } from "../../config/ApiConfig";
 import { useAuth } from "../../Context/AuthContext";
-import { toast, ToastContainer } from "react-toastify";
-import { useLocation } from "react-router-dom";
-import { CircularProgress } from "@mui/material";
-import { CheckBadgeIcon, XCircleIcon } from "@heroicons/react/24/outline";
-import { LocalShipping, LockClockOutlined, MoneyOff } from "@mui/icons-material";
+import { ApiConfig } from "../../config/ApiConfig";
 
 const registerSteps = [
   "Select destination",
@@ -17,6 +17,14 @@ const registerSteps = [
   "Payment",
 ];
 
+/**
+ * CheckoutPayment component.
+ * Renders the payment page for the checkout process.
+ *
+ * return (
+ *   <CheckoutPayment />
+ * )
+ */
 const CheckoutPayment = () => {
     const auth = useAuth();
     const location = useLocation();
@@ -25,7 +33,7 @@ const CheckoutPayment = () => {
 
     const [orderStatus, setOrderStatus] = useState(null);
 
-    if(!localStorage.getItem('selectedAddress') || localStorage.getItem('selectedAddress') === null){
+    if((!localStorage.getItem('selectedAddress') || localStorage.getItem('selectedAddress') === null) && !order){
       window.location.href = "/bootcamp-tech-titans-2024_ecommerce/checkout/address";
     }
 

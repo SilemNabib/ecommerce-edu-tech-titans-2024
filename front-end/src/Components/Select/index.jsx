@@ -1,5 +1,14 @@
 import { useState } from 'react';
 
+/**
+ * A custom select component.
+ *
+ * @param {Object} props - The component props.
+ * @param {Array} props.options - The array of options for the select.
+ * @param {string} props.placeholder - The placeholder text for the select.
+ * @param {string} props.className - The additional CSS class name for the select.
+ * @returns {JSX.Element} The rendered Select component.
+ */
 const Select = ({ options, placeholder, className, onChange, value }) => {
   const [selectedOption, setSelectedOption] = useState(value);
 

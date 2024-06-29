@@ -1,16 +1,21 @@
-import React, { useContext, useState } from 'react';
+import { ArrowBack } from '@mui/icons-material';
+import { CircularProgress } from '@mui/material';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import ProgressBar from '../../Components/ProgressBar';
-import { ArrowBack } from '@mui/icons-material';
 import InputText from '../../Components/InputText';
+import ProgressBar from '../../Components/ProgressBar';
 import { useAuth } from '../../Context/AuthContext';
-import { CircularProgress } from '@mui/material';
 
 export const registerSteps = ["Email", "Verify", "Create"];
 
+/**
+ * Component for sending a verification email.
+ *
+ * @returns {JSX.Element} The SendVerificationEmail component.
+ */
 const SendVerificationEmail = () => {
   // Initialize page methods
   localStorage.removeItem("registerToken");

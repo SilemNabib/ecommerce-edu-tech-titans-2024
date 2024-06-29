@@ -1,6 +1,11 @@
 import React from "react";
 import { NavLink } from 'react-router-dom';
 
+/**
+ * Renders the NotFound page component.
+ * 
+ * @returns {JSX.Element} The rendered NotFound page component.
+ */
 const NotFound = () => {
     return (
         <div className="flex flex-col items-center justify-center lg:flex-row py-10 px-4 sm:px-6 lg:px-8 gap-8 lg:gap-16 min-h-screen">

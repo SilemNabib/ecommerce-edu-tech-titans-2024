@@ -1,5 +1,10 @@
 import React from 'react';
 
+/**
+ * Renders the Privacy Policy page.
+ *
+ * @returns {JSX.Element} The Privacy Policy page component.
+ */
 const Privacy = () => (
     <div className="max-w-4xl mx-auto py-8">
         <h1 className="text-3xl font-bold mb-6">Privacy Policy</h1>
